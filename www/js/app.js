@@ -29,11 +29,23 @@ angular.module('yadl', ['ionic', 'ui.router', 'LocalStorageModule'])
       templateUrl: 'js/stream/views/stream.tmpl.html',
       controller: 'StreamController'
     })
+    .state('thankyou', {
+      url: '/thankyou',
+      templateUrl: 'js/stream/views/thankyou.tmpl.html',
+    })
     
   $urlRouterProvider.otherwise('/auth');
 })
 
-.controller('StreamController', ['$scope', function($scope){
+.controller('StreamController', ['$scope', '$state', function($scope, $state){
   $scope.index = 0;
   $scope.streamItems = ['https://media.giphy.com/media/hyg2C8bS7IBuo/giphy.gif','https://media.giphy.com/media/zzT0RjyxQGDaE/giphy.gif','https://media.giphy.com/media/10xOn1VHkwievm/giphy.gif']
+
+  $scope.nextItem = function( ){
+    if($scope.index < $scope.streamItems.length - 1){
+      $scope.index = $scope.index + 1;
+    }else{
+      $state.go('thankyou')
+    }
+  }
 }])
