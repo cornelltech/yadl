@@ -27,7 +27,13 @@ angular.module('yadl', ['ionic', 'ui.router', 'LocalStorageModule'])
     .state('stream', {
       url: '/stream',
       templateUrl: 'js/stream/views/stream.tmpl.html',
+      controller: 'StreamController'
     })
     
   $urlRouterProvider.otherwise('/auth');
 })
+
+.controller('StreamController', ['$scope', function($scope){
+  $scope.index = 0;
+  $scope.streamItems = ['https://media.giphy.com/media/hyg2C8bS7IBuo/giphy.gif','https://media.giphy.com/media/zzT0RjyxQGDaE/giphy.gif','https://media.giphy.com/media/10xOn1VHkwievm/giphy.gif']
+}])
