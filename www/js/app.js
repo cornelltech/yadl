@@ -13,19 +13,20 @@ angular.module('yadl', ['ionic', 'ui.router', 'LocalStorageModule'])
   });
 })
 
-.config( $function(stateProvider, $urlRouterProvider ) {
+.config( function( $stateProvider, $urlRouterProvider ) {
+  
   $stateProvider
     .state('auth', {
       url: '/auth',
-      templateUrl: 'scripts/accounts/views/auth.tmpl.html',
+      templateUrl: 'js/accounts/views/auth.tmpl.html',
     })
     .state('config', {
       url: '/config',
-      templateUrl: 'scripts/config/views/config.tmpl.html',
+      templateUrl: 'js/config/views/config.tmpl.html',
     })
     .state('stream', {
       url: '/stream',
-      templateUrl: 'scripts/stream/views/stream.tmpl.html',
+      templateUrl: 'js/stream/views/stream.tmpl.html',
     })
     
   $urlRouterProvider.otherwise('/auth');

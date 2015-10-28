@@ -14,6 +14,8 @@
 
     <!-- ionic/angularjs js -->
     <script src="lib/ionic/js/ionic.bundle.js"></script>
+    <script src="lib/angular-local-storage/dist/angular-local-storage.js"></script>
+    <script src="lib/angular-ui-router/release/angular-ui-router.js"></script>
 
     <!-- cordova script (this will be a 404 during development) -->
     <script src="cordova.js"></script>
@@ -24,11 +26,7 @@
   <body ng-app="yadl">
 
     <ion-pane>
-      <ion-header-bar class="bar-stable">
-        <h1 class="title">Ionic Blank Starter</h1>
-      </ion-header-bar>
-      <ion-content>
-      </ion-content>
+      <ui-view></ui-view>
     </ion-pane>
   </body>
 </html>
