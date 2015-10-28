@@ -1,4 +1,4 @@
-<ion-content scroll="false">
+<ion-content scroll="false" ng-init="step=1">
 
 <div style="height:60vh; background-color: #1e8cf4; text-align:center;">
   <h1 style="color:white; padding-top:25vh;">YADL</h1>
@@ -11,15 +11,39 @@
     </div>
   </div>
 
-  <div class="row">
+  <div class="row" ng-show="step==1">
     <div class="col">
-      <button class="button button-outline button-block button-positive" style="width:100px; height:100px; border-radius:50px; margin: 0 auto;">
+      <button ng-click="step=2" class="button button-outline button-block button-positive" style="width:80px; height:80px; border-radius:40px; margin: 0 auto;">
         Male
       </button>
     </div>
     <div class="col">
-      <button class="button button-outline button-block button-positive" style="width:100px; height:100px; border-radius:50px; margin: 0 auto;">
+      <button ng-click="step=2" class="button button-outline button-block button-positive" style="width:80px; height:80px; border-radius:40px; margin: 0 auto;">
         Female
+      </button>
+    </div>
+
+  </div>
+
+  <div class="row" ng-show="step==2">
+    <div class="col">
+      <button ui-sref="stream" class="button button-outline button-block button-positive" style="width:80px; height:80px; border-radius:40px; margin: 0 auto;">
+        < 34
+      </button>
+    </div>
+    <div class="col">
+      <button ui-sref="stream" class="button button-outline button-block button-positive" style="width:80px; height:80px; border-radius:40px; margin: 0 auto;">
+        35 - 49
+      </button>
+    </div>
+    <div class="col">
+      <button ui-sref="stream" class="button button-outline button-block button-positive" style="width:80px; height:80px; border-radius:40px; margin: 0 auto;">
+        50 - 64
+      </button>
+    </div>
+    <div class="col">
+      <button ui-sref="stream" class="button button-outline button-block button-positive" style="width:80px; height:80px; border-radius:40px; margin: 0 auto;">
+        65 >
       </button>
     </div>
   </div>
