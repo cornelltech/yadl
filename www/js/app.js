@@ -4,16 +4,18 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
 .constant('YADL_SECRET', 'fW5hpgbBKcjYvV3yULJQekxpB2FBZscANfHxwy58VLUHq45mt6AC92ruR5ZMugmusAWSke2xUJW84Y7j2DQvMYxNnyPxpmsun')
 .constant('YADL_IMAGES_URL', 'http://yadl.image.bucket.s3-website-us-east-1.amazonaws.com')
 
-.run( function( $rootScope, $state, $ionicPlatform ) {
+.run( function( $rootScope, $state, $ionicPlatform, $cordovaStatusbar ) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
     if(window.cordova && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
     }
-    if(window.StatusBar) {
-      StatusBar.styleDefault();
-    }
+    $ionicPlatform.ready(function() {
+      if($cordovaStatusbar) {
+        $cordovaStatusbar.style(1);
+      }
+    });
   });
 })
 
@@ -63,6 +65,7 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
     }
 
     return{
+      setToken: setToken,
       checkAuth: checkAuth
     };
 }])
@@ -122,27 +125,24 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
     };
 }])
 
-.controller('AuthController', ['$rootScope', '$window', 
+.controller('AuthController', ['$rootScope', '$window', '$state',
   '$ionicPlatform', '$cordovaInAppBrowser', 'AuthFactory', 'YADL', 
-  function($rootScope, $window, $ionicPlatform, 
+  function($rootScope, $window, $state, $ionicPlatform, 
     $cordovaInAppBrowser, AuthFactory, YADL){
   
     var vm = this;
 
     var ohmageStrategy = function( ){
-      // var ohmageUrl = 'https://ohmage-omh.smalldata.io/dsu/oauth/authorize?client_id=' + YADL + '&response_type=token';
-      $state.go('stream');      
-
-      // $ionicPlatform.ready(function() {
-        
-      //   $cordovaInAppBrowser.open(ohmageUrl, '_blank', { 
-      //                                                   location: 'yes',
-      //                                                   clearcache: 'no',
-      //                                                   clearsessioncache: 'no',
-      //                                                   toolbar: 'no',
-      //                                                   toolbarposition: 'bottom'
-      //                                                  });
-      // });
+      var ohmageUrl = 'https://ohmage-omh.smalldata.io/dsu/oauth/authorize?client_id=' + YADL + '&response_type=token';
+      $ionicPlatform.ready(function() {
+        $cordovaInAppBrowser.open(ohmageUrl, '_blank', { 
+                                                        location: 'yes',
+                                                        clearcache: 'no',
+                                                        clearsessioncache: 'no',
+                                                        toolbar: 'no',
+                                                        toolbarposition: 'bottom'
+                                                       });
+      });
     };
     vm.ohmageStrategy = ohmageStrategy;
 
@@ -153,16 +153,18 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
     // Listen to in-app browser events to monitor URL for 
     // succesfull oauth completion
     $rootScope.$on('$cordovaInAppBrowser:loadstop', function(e, event){
-
       var url = event.url.split('#')
       if( url.length > 1 ){
-        alert('ok it didnt crash')
-        var params = url.substr(1).split('&')
+        var params = url[1].substr(1).split('&')
         var accessToken = params[0].split('=')[1];
-        console.log(accessToken);
+        AuthFactory.setToken( accessToken );
         $cordovaInAppBrowser.close();
       }
 
+    });
+
+    $rootScope.$on('$cordovaInAppBrowser:exit', function(e, event){
+      $state.go('stream');
     });
 }])
 
@@ -194,7 +196,6 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
       StreamFactory.getStream( )
         .then(function(list){
           vm.list = list;
-          console.log(list)
         })
     } init( );
 
