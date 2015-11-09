@@ -38,7 +38,6 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
     .state('thankyou', {
       url: '/thankyou',
       templateUrl: 'js/stream/views/thankyou.tmpl.html',
-      controller: 'ThankYouController'
     });
   
   $urlRouterProvider.otherwise('/auth');
@@ -167,18 +166,26 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
     });
 }])
 
-.controller('StreamController', ['StreamFactory', 
-  function(StreamFactory){
+.controller('StreamController', ['$state', 'StreamFactory', 
+  function($state, StreamFactory){
     var vm = this;
     vm.list = [];
     vm.indx = 0;
 
+    function submitResponses( ){
+      // submit responses
+    }
+
     var makeResponse = function( response ){
+
+      vm.list[vm.indx]['activity_intensity'] = response;
+      vm.list[vm.indx]['activity_image_index'] = vm.indx;
       
       if( vm.indx < vm.list.length - 1 ){
         vm.indx += 1;   
       }else{
-        vm.indx = 0; 
+        submitResponses( );
+        $state.go('thankyou');
       }
     };
     vm.makeResponse = makeResponse;
