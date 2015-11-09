@@ -1,12 +1,14 @@
+<ion-pane>
 <ion-content scroll="false">
 
-<div style="height:55vh; background-color: #1e8cf4; text-align:center; background-image: url({{ streamItems[index] }}); background-repeat: no-repeat; background-position: 50% 50%; background-size: cover;"></div>
+<div class="animated fadeIn" style="height:55vh; background-color: #1e8cf4; text-align:center; background-image: url({{ stream.list[stream.indx]['activity_image'] }}); background-repeat: no-repeat; background-position: 50% 50%; background-size: cover;"></div>
+
 <div style="height:40vh;">
   
   <div class="row">
     <div class="col" style="text-align: center;">
       <h4>How difficult is this activity for you?</h4>
-      <small>{{ index + 1 }} of {{ streamItems.length }}</small>
+      <small>{{ stream.indx + 1 }} of {{ stream.list.length }}</small>
     </div>
   </div>
 
@@ -17,17 +19,17 @@
   </div>
 
   <div class="row">
-    <div class="col" ng-click="nextItem()">
+    <div class="col" ng-click="stream.makeResponse('EASY')">
       <button class="button button-outline button-block button-balanced" style="width:96px; height:96px; border-radius:48px; margin: 0 auto;">
         Easy
       </button>
     </div>
-    <div class="col" ng-click="nextItem()">
+    <div class="col" ng-click="stream.makeResponse('MODERATE')">
       <button class="button button-outline button-block button-energized" style="width:96px; height:96px; border-radius:48px; margin: 0 auto;">
         Moderate
       </button>
     </div>
-    <div class="col" ng-click="nextItem()">
+    <div class="col" ng-click="stream.makeResponse('HARD')">
       <button class="button button-outline button-block button-assertive" style="width:96px; height:96px; border-radius:48px; margin: 0 auto;">
         Hard
       </button>
@@ -54,3 +56,4 @@
 </div>
 
 </ion-content>
+</ion-pane>

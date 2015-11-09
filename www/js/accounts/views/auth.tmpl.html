@@ -6,25 +6,9 @@
 <div style="height:40vh;">
   
   <div class="row">
-    <div class="col" style="text-align: center;">
-      <h4>Enter your email to continue</h4>
-    </div>
-  </div>
-
-  <div class="row">
     <div class="col">
-      <hr style="border-top:0px;"/>
-    </div>
-    <div class="col col-10" style="text-align:center;"><p>OR</p></div>
-    <div class="col">
-      <hr style="border-top:0px;"/>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col">
-      <button class="button button-outline button-block button-positive" ui-sref="config">
-        Sign in with Gmail
+      <button ng-click="auth.ohmageStrategy()" class="button button-outline button-block button-positive">
+        Sign in
       </button>
     </div>
   </div>
