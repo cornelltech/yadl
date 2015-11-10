@@ -3,7 +3,7 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
 .constant('YADL', 'yadl-client')
 .constant('YADL_SECRET', 'fW5hpgbBKcjYvV3yULJQekxpB2FBZscANfHxwy58VLUHq45mt6AC92ruR5ZMugmusAWSke2xUJW84Y7j2DQvMYxNnyPxpmsun')
 .constant('YADL_IMAGES_URL', 'http://yadl.image.bucket.s3-website-us-east-1.amazonaws.com')
-.constant('OHMAGE_DATA_URL', 'https://lifestreams.smalldata.io/dsu/dataPoints')
+.constant('OHMAGE_DATA_URL', 'https://ohmage-omh.smalldata.io')
 
 .run( function( $rootScope, $state, $ionicPlatform, $cordovaStatusbar ) {
   $ionicPlatform.ready(function() {
@@ -74,10 +74,21 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
     };
 }])
 
-.factory('ActivitiesFactory', ['$q', '$http', 'YADL_IMAGES_URL', 'OHMAGE_DATA_URL',
-  function($q, $http, YADL_IMAGES_URL, OHMAGE_DATA_URL){
+.factory('ActivitiesFactory', ['$q', '$http', 'AuthFactory', 
+  'YADL_IMAGES_URL', 'OHMAGE_DATA_URL',
+  function($q, $http, AuthFactory, YADL_IMAGES_URL, OHMAGE_DATA_URL){
 
     var streamList = [];
+
+    function guid() {
+      function s4() {
+        return Math.floor((1 + Math.random()) * 0x10000)
+          .toString(16)
+          .substring(1);
+      }
+      return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+        s4() + '-' + s4() + s4() + s4();
+    }
 
     function updateStreamList( data ){
       data.fileNames.forEach(function(obj){
@@ -112,7 +123,7 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
 
     function getActivities( ){
       var deferred = $q.defer();
-      
+      streamList = []
       getMetaFile()
         .then(function(){
           deferred.resolve(streamList);
@@ -128,24 +139,26 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
       var deferred = $q.defer();
       var ohmagePackage = {
                             "header": {
-                             "schema_id": {
-                               "namespace": "omh",
-                               "name": "yadl-daily-survey",
-                               "version": "1.0"
-                             },
-                             "acquisition_provenance": {
-                               "source_name": "YADL",
-                               "modality": "self-reported"
-                             }
+                              "id": guid(),
+                              "creation_date_time": Date.now(),
+                              "schema_id": {
+                                "namespace": "omh",
+                                "name": "yadl-daily-survey",
+                                "version": "1.0"
+                              },
+                              "acquisition_provenance": {
+                                "source_name": "YADL",
+                                "modality": "self-reported"
+                              }
                             },
                             "body": {
                               "activities": activities
                             }
                           };
-      console.log(ohmagePackage);
-      $http({ url: OHMAGE_DATA_URL,
+      $http({ url: OHMAGE_DATA_URL + '/dsu/dataPoints',
             method: 'POST',
             contentType: 'application/json',
+            headers: { 'Authorization': 'Bearer ' + AuthFactory.checkAuth( ) },
             data: ohmagePackage
           })
         .then(function( res ){
@@ -166,14 +179,15 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
 }])
 
 .controller('AuthController', ['$rootScope', '$window', '$state',
-  '$ionicPlatform', '$cordovaInAppBrowser', 'AuthFactory', 'YADL', 
+  '$ionicPlatform', '$cordovaInAppBrowser', 'AuthFactory', 'YADL',
+  'OHMAGE_DATA_URL',
   function($rootScope, $window, $state, $ionicPlatform, 
-    $cordovaInAppBrowser, AuthFactory, YADL){
+    $cordovaInAppBrowser, AuthFactory, YADL, OHMAGE_DATA_URL){
   
     var vm = this;
 
     var ohmageStrategy = function( ){
-      var ohmageUrl = 'https://ohmage-omh.smalldata.io/dsu/oauth/authorize?client_id=' + YADL + '&response_type=token';
+      var ohmageUrl = OHMAGE_DATA_URL + '/dsu/oauth/authorize?client_id=' + YADL + '&response_type=token';
       $ionicPlatform.ready(function() {
         $cordovaInAppBrowser.open(ohmageUrl, '_blank', { 
                                                         location: 'yes',
@@ -218,7 +232,13 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
 
     function submitResponses( ){
       // submit responses
-      ActivitiesFactory.postActivities( vm.list );
+      ActivitiesFactory.postActivities( vm.list )
+        .then(function( res ){
+          $state.go('thankyou');    
+        })
+        .catch(function( err ){
+          alert("There was an error!");
+        });
     }
 
     var makeResponse = function( response ){
@@ -230,12 +250,6 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
         vm.indx += 1;   
       }else{
         submitResponses( )
-          .then(function( res ){
-            $state.go('thankyou');    
-          })
-          .catch(function( err ){
-            alert("There was an error!");
-          });
       }
     };
     vm.makeResponse = makeResponse;
