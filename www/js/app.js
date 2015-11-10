@@ -249,6 +249,15 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
         });
     }
 
+    var skip = function( ){
+      if( vm.indx < vm.list.length - 1 ){
+        vm.indx += 1;   
+      }else{
+        submitResponses( )
+      }
+    };
+    vm.skip = skip;
+
     var makeResponse = function( response ){
 
       vm.list[vm.indx]['activity_intensity'] = response;
