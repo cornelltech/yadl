@@ -3,6 +3,7 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
 .constant('YADL', 'yadl-client')
 .constant('YADL_SECRET', 'fW5hpgbBKcjYvV3yULJQekxpB2FBZscANfHxwy58VLUHq45mt6AC92ruR5ZMugmusAWSke2xUJW84Y7j2DQvMYxNnyPxpmsun')
 .constant('YADL_IMAGES_URL', 'http://yadl.image.bucket.s3-website-us-east-1.amazonaws.com')
+.constant('OHMAGE_DATA_URL', 'https://lifestreams.smalldata.io/dsu/dataPoints')
 
 .run( function( $rootScope, $state, $ionicPlatform, $cordovaStatusbar ) {
   $ionicPlatform.ready(function() {
@@ -73,8 +74,8 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
     };
 }])
 
-.factory('ActivitiesFactory', ['$q', '$http', 'YADL_IMAGES_URL',
-  function($q, $http, YADL_IMAGES_URL){
+.factory('ActivitiesFactory', ['$q', '$http', 'YADL_IMAGES_URL', 'OHMAGE_DATA_URL',
+  function($q, $http, YADL_IMAGES_URL, OHMAGE_DATA_URL){
 
     var streamList = [];
 
@@ -124,6 +125,7 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
     }
 
     function postActivities( activities ){
+      var deferred = $q.defer();
       var ohmagePackage = {
                             "header": {
                              "schema_id": {
@@ -141,7 +143,19 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
                             }
                           };
       console.log(ohmagePackage);
+      $http({ url: OHMAGE_DATA_URL,
+            method: 'POST',
+            contentType: 'application/json',
+            data: ohmagePackage
+          })
+        .then(function( res ){
+          deferred.resolve( res.data );
+        })
+        .catch(function( err ){
+          deferred.reject( err );
+        });
 
+      return deferred.promise;
 
     }
 
@@ -215,8 +229,13 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
       if( vm.indx < vm.list.length - 1 ){
         vm.indx += 1;   
       }else{
-        submitResponses( );
-        $state.go('thankyou');
+        submitResponses( )
+          .then(function( res ){
+            $state.go('thankyou');    
+          })
+          .catch(function( err ){
+            alert("There was an error!");
+          });
       }
     };
     vm.makeResponse = makeResponse;
@@ -229,5 +248,4 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
           vm.list = list;
         })
     } init( );
-
 }])
