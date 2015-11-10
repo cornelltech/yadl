@@ -63,7 +63,7 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
       if( getToken( ) ){
         return getToken( );
       }else{
-        $state.go('auth')
+        $state.go('auth');
       }
     }
 
@@ -173,7 +173,9 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
     vm.ohmageStrategy = ohmageStrategy;
 
     function init( ){
-
+      if( AuthFactory.checkAuth( )){
+        $state.go( 'activities' );
+      }
     } init( );
 
     // Listen to in-app browser events to monitor URL for 
