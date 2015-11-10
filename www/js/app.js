@@ -165,6 +165,12 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
           deferred.resolve( res.data );
         })
         .catch(function( err ){
+          console.log("THERE WAS AN ERROR")
+          console.log("THERE WAS AN ERROR")
+          console.log("THERE WAS AN ERROR")
+          console.log("THERE WAS AN ERROR")
+          console.log("THERE WAS AN ERROR")
+          console.log( err )
           deferred.reject( err );
         });
 
@@ -214,12 +220,14 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
         var params = url[1].substr(1).split('&')
         var accessToken = params[0].split('=')[1];
         AuthFactory.setToken( accessToken );
+        alert('got the access token');
         $cordovaInAppBrowser.close();
       }
 
     });
 
     $rootScope.$on('$cordovaInAppBrowser:exit', function(e, event){
+      alert('browser closed');
       $state.go('activities');
     });
 }])
