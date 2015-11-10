@@ -11,11 +11,10 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
     if(window.cordova && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
     }
-    $ionicPlatform.ready(function() {
-      if($cordovaStatusbar) {
-        $cordovaStatusbar.style(1);
-      }
-    });
+    if(window.StatusBar) {
+      // make the status bar white
+      $cordovaStatusbar.style(1);
+    }
   });
 })
 
@@ -31,22 +30,22 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
       url: '/config',
       templateUrl: 'js/config/views/config.tmpl.html',
     })
-    .state('stream', {
-      url: '/stream',
-      templateUrl: 'js/stream/views/stream.tmpl.html',
-      controller: 'StreamController',
-      controllerAs: 'stream'
+    .state('activities', {
+      url: '/activities',
+      templateUrl: 'js/activities/views/activities.tmpl.html',
+      controller: 'ActivitiesController',
+      controllerAs: 'activities'
     })
     .state('thankyou', {
       url: '/thankyou',
-      templateUrl: 'js/stream/views/thankyou.tmpl.html',
+      templateUrl: 'js/activities/views/thankyou.tmpl.html',
     });
   
   $urlRouterProvider.otherwise('/auth');
 })
 
-.factory('AuthFactory', ['localStorageService', 
-  function(localStorageService){
+.factory('AuthFactory', ['$state', 'localStorageService', 
+  function($state, localStorageService){
   
     function setToken( token ){
       return localStorageService.set( 'ohmage_token', token );
@@ -61,7 +60,11 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
     }
 
     function checkAuth( ){
-      return getToken( );
+      if( getToken( ) ){
+        return getToken( );
+      }else{
+        $state.go('auth')
+      }
     }
 
     return{
@@ -70,7 +73,7 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
     };
 }])
 
-.factory('StreamFactory', ['$q', '$http', 'YADL_IMAGES_URL',
+.factory('ActivitiesFactory', ['$q', '$http', 'YADL_IMAGES_URL',
   function($q, $http, YADL_IMAGES_URL){
 
     var streamList = [];
@@ -106,7 +109,7 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
       return deferred.promise;
     }
 
-    function getStream( ){
+    function getActivities( ){
       var deferred = $q.defer();
       
       getMetaFile()
@@ -120,8 +123,31 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
       return deferred.promise;
     }
 
+    function postActivities( activities ){
+      var ohmagePackage = {
+                            "header": {
+                             "schema_id": {
+                               "namespace": "omh",
+                               "name": "yadl-daily-survey",
+                               "version": "1.0"
+                             },
+                             "acquisition_provenance": {
+                               "source_name": "YADL",
+                               "modality": "self-reported"
+                             }
+                            },
+                            "body": {
+                              "activities": activities
+                            }
+                          };
+      console.log(ohmagePackage);
+
+
+    }
+
     return{
-      getStream: getStream
+      getActivities: getActivities,
+      postActivities: postActivities
     };
 }])
 
@@ -164,18 +190,19 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
     });
 
     $rootScope.$on('$cordovaInAppBrowser:exit', function(e, event){
-      $state.go('stream');
+      $state.go('activities');
     });
 }])
 
-.controller('StreamController', ['$state', 'StreamFactory', 
-  function($state, StreamFactory){
+.controller('ActivitiesController', ['$state', 'AuthFactory', 'ActivitiesFactory', 
+  function($state, AuthFactory, ActivitiesFactory){
     var vm = this;
     vm.list = [];
     vm.indx = 0;
 
     function submitResponses( ){
       // submit responses
+      ActivitiesFactory.postActivities( vm.list );
     }
 
     var makeResponse = function( response ){
@@ -193,7 +220,9 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
     vm.makeResponse = makeResponse;
 
     function init( ){
-      StreamFactory.getStream( )
+      AuthFactory.checkAuth( )
+
+      ActivitiesFactory.getActivities( )
         .then(function(list){
           vm.list = list;
         })
