@@ -233,8 +233,28 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
   function($state, AuthFactory, ActivitiesFactory){
     var vm = this;
     vm.list = [];
+    var selectedActivities = [];
 
-    console.log('config')
+    var isActivitySelected = function(activity){
+      for(var i=0; i<selectedActivities.length; i++){
+        if(activity.activity_name == selectedActivities[i].activity_name){
+          return true;
+        }
+      }
+      return false;
+    };
+    vm.isActivitySelected = isActivitySelected;
+
+    var selectActivity = function(activity){
+      if( isActivitySelected(activity) ){
+        selectedActivities.splice( selectedActivities.indexOf(activity), 1 );
+      }else{
+        selectedActivities.push(activity);  
+      }
+      console.log(selectedActivities)
+    };
+    vm.selectActivity = selectActivity;
+    
     function init( ){
       AuthFactory.checkAuth( )
 

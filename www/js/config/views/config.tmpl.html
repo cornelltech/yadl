@@ -13,13 +13,13 @@
     <div class="row" ng-repeat="pic in config.list" ng-if="$index % 3 === 0">
       
       <div ng-click="config.selectActivity(config.list[$index])" class="col col-33" ng-if="$index < config.list.length">
-        <img ng-src="{{ config.list[$index].activity_image }}" style="width:100%;" />
+        <img ng-src="{{ config.list[$index].activity_image }}" ng-class="{'selectedActivity': config.isActivitySelected(config.list[$index])}" style="width:100%;" />
       </div>
       <div ng-click="config.selectActivity(config.list[$index + 1])" class="col col-33" ng-if="$index + 1 < config.list.length">
-        <img ng-src="{{ config.list[$index + 1].activity_image }}" style="width:100%;" />
+        <img ng-src="{{ config.list[$index + 1].activity_image }}" ng-class="{'selectedActivity': config.isActivitySelected(config.list[$index + 1])}" style="width:100%;" />
       </div>
       <div ng-click="config.selectActivity(config.list[$index + 2])" class="col col-33" ng-if="$index + 2 < config.list.length">
-        <img ng-src="{{ config.list[$index + 2].activity_image }}" style="width:100%;" />
+        <img ng-src="{{ config.list[$index + 2].activity_image }}" ng-class="{'selectedActivity': config.isActivitySelected(config.list[$index + 2])}" style="width:100%;" />
       </div>
       
     </div>
