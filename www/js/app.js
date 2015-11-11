@@ -173,13 +173,21 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
       return deferred.promise;
     }
 
-    function pickActivities( ){
+    function pickActivities( activities ){
+      return localStorageService.set( 'activities', activities );
+    }
 
+    function getCachedActivities( ){
+      var deferred = $q.defer();
+      deferred.resolve( localStorageService.get( 'activities' ) );
+      return deferred.promise;
     }
 
     return{
       getActivities: getActivities,
-      postActivities: postActivities
+      postActivities: postActivities,
+      pickActivities: pickActivities,
+      getCachedActivities: getCachedActivities
     };
 }])
 
@@ -251,9 +259,15 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
       }else{
         selectedActivities.push(activity);  
       }
-      console.log(selectedActivities)
     };
     vm.selectActivity = selectActivity;
+
+    var submitSelection = function( ){
+      if( selectedActivities.length > 0 ){
+        ActivitiesFactory.pickActivities( selectedActivities );  
+      }
+    };
+    vm.submitSelection = submitSelection;
     
     function init( ){
       AuthFactory.checkAuth( )
@@ -308,7 +322,7 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
     function init( ){
       AuthFactory.checkAuth( )
 
-      ActivitiesFactory.getActivities( )
+      ActivitiesFactory.getCachedActivities( )
         .then(function(list){
           vm.list = list;
         })
