@@ -5,7 +5,12 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
 .constant('YADL_IMAGES_URL', 'http://yadl.image.bucket.s3-website-us-east-1.amazonaws.com')
 .constant('OHMAGE_DATA_URL', 'https://ohmage-omh.smalldata.io')
 
-.run( function( $rootScope, $state, $ionicPlatform, $cordovaStatusbar, $cordovaLocalNotification ) {
+.run( function( $rootScope, $state, $stateParams, $ionicPlatform, $cordovaStatusbar, $cordovaLocalNotification ) {
+
+  // // SRC: https://github.com/angular-ui/ui-router/wiki/Quick-Reference#note-about-using-state-within-a-template
+  // $rootScope.$state = $state;
+  // $rootScope.$stateParams = $stateParams;
+
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -36,28 +41,24 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
   $stateProvider
     .state('auth', {
       url: '/auth',
-      cache: false,
       templateUrl: 'js/accounts/views/auth.tmpl.html',
       controller: 'AuthController',
       controllerAs: 'auth'
     })
     .state('config', {
       url: '/config',
-      cache: false,
       templateUrl: 'js/config/views/config.tmpl.html',
       controller: 'ConfigController',
       controllerAs: 'config'
     })
     .state('activities', {
       url: '/activities',
-      cache: false,
       templateUrl: 'js/activities/views/activities.tmpl.html',
       controller: 'ActivitiesController',
       controllerAs: 'activities'
     })
     .state('thankyou', {
       url: '/thankyou',
-      cache: false,
       templateUrl: 'js/activities/views/thankyou.tmpl.html',
     });
   
@@ -268,6 +269,8 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
     vm.list = [];
     vm.selectedActivities = [];
 
+    vm.confirmSelection = false;
+
     var isActivitySelected = function(activity){
       for(var i=0; i<vm.selectedActivities.length; i++){
         if(activity.activity_name == vm.selectedActivities[i].activity_name){
@@ -295,13 +298,9 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
 
     var submitSelection = function( ){
       if( vm.selectedActivities.length > 0 ){
-      try{
-        ActivitiesFactory.pickActivities( vm.selectedActivities );  
-        $state.go('activities');
-      }catch( err ){
-        console.log(err)
-      }
-        
+        ActivitiesFactory.pickActivities( vm.selectedActivities );
+        // $state.go('activities');
+        vm.confirmSelection = true;
       }else{
         alert("Please select at least one activity");
       }
@@ -309,7 +308,8 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
     vm.submitSelection = submitSelection;
     
     function init( ){
-      AuthFactory.checkAuth( )
+
+      AuthFactory.checkAuth( );
 
       ActivitiesFactory.getCachedActivities( )
         .then(function(list){
@@ -368,7 +368,7 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
     vm.makeResponse = makeResponse;
 
     function init( ){
-      // AuthFactory.checkAuth( )
+      AuthFactory.checkAuth( )
 
       ActivitiesFactory.getCachedActivities( )
         .then(function(list){
