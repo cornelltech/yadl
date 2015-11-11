@@ -36,28 +36,32 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
   $stateProvider
     .state('auth', {
       url: '/auth',
+      cache: false,
       templateUrl: 'js/accounts/views/auth.tmpl.html',
       controller: 'AuthController',
       controllerAs: 'auth'
     })
     .state('config', {
       url: '/config',
+      cache: false,
       templateUrl: 'js/config/views/config.tmpl.html',
       controller: 'ConfigController',
       controllerAs: 'config'
     })
     .state('activities', {
       url: '/activities',
+      cache: false,
       templateUrl: 'js/activities/views/activities.tmpl.html',
       controller: 'ActivitiesController',
       controllerAs: 'activities'
     })
     .state('thankyou', {
       url: '/thankyou',
+      cache: false,
       templateUrl: 'js/activities/views/thankyou.tmpl.html',
     });
   
-  $urlRouterProvider.otherwise('/auth');
+  $urlRouterProvider.otherwise('auth');
 })
 
 .factory('AuthFactory', ['$state', 'localStorageService', 
@@ -192,15 +196,20 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
 
     function getCachedActivities( ){
       var deferred = $q.defer();
-      deferred.resolve( localStorageService.get( 'activities' ) );
+      deferred.resolve( localStorageService.get('activities') );
       return deferred.promise;
+    }
+
+    function removeCachedActivities( ){
+      return localStorageService.remove('activities')
     }
 
     return{
       getActivities: getActivities,
       postActivities: postActivities,
       pickActivities: pickActivities,
-      getCachedActivities: getCachedActivities
+      getCachedActivities: getCachedActivities,
+      removeCachedActivities: removeCachedActivities
     };
 }])
 
@@ -227,6 +236,9 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
     vm.ohmageStrategy = ohmageStrategy;
 
     function init( ){
+      // on fresh auth clean the cache
+      ActivitiesFactory.removeCachedActivities();
+
       if( AuthFactory.checkAuth( )){
         $state.go( 'config' );
       }
@@ -254,11 +266,11 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
   function($state, AuthFactory, ActivitiesFactory){
     var vm = this;
     vm.list = [];
-    var selectedActivities = [];
+    vm.selectedActivities = [];
 
     var isActivitySelected = function(activity){
-      for(var i=0; i<selectedActivities.length; i++){
-        if(activity.activity_name == selectedActivities[i].activity_name){
+      for(var i=0; i<vm.selectedActivities.length; i++){
+        if(activity.activity_name == vm.selectedActivities[i].activity_name){
           return true;
         }
       }
@@ -267,25 +279,29 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
     vm.isActivitySelected = isActivitySelected;
 
     var selectActivity = function(activity){
-      if( selectedActivities == [] || isActivitySelected(activity) ){
+      if( isActivitySelected(activity) ){
         var indx = -1;
-        for(var i=0; i<selectedActivities.length; i++){
-          if(activity.activity_name == selectedActivities[i].activity_name){
+        for(var i=0; i<vm.selectedActivities.length; i++){
+          if(activity.activity_name == vm.selectedActivities[i].activity_name){
             indx = i;
           }
         }
-        selectedActivities.splice( indx, 1 );
+        vm.selectedActivities.splice( indx, 1 );
       }else{
-        selectedActivities.push(activity);  
+        vm.selectedActivities.push(activity);  
       }
     };
     vm.selectActivity = selectActivity;
 
     var submitSelection = function( ){
-      console.log(selectedActivities)
-      if( selectedActivities.length > 0 ){
-        ActivitiesFactory.pickActivities( selectedActivities );  
+      if( vm.selectedActivities.length > 0 ){
+      try{
+        ActivitiesFactory.pickActivities( vm.selectedActivities );  
         $state.go('activities');
+      }catch( err ){
+        console.log(err)
+      }
+        
       }else{
         alert("Please select at least one activity");
       }
@@ -297,7 +313,7 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
 
       ActivitiesFactory.getCachedActivities( )
         .then(function(list){
-          selectedActivities = list || [];
+          vm.selectedActivities = list || [];
         });
 
       ActivitiesFactory.getActivities( )
@@ -352,7 +368,7 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
     vm.makeResponse = makeResponse;
 
     function init( ){
-      AuthFactory.checkAuth( )
+      // AuthFactory.checkAuth( )
 
       ActivitiesFactory.getCachedActivities( )
         .then(function(list){
