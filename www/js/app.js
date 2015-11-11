@@ -255,7 +255,13 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
 
     var selectActivity = function(activity){
       if( isActivitySelected(activity) ){
-        selectedActivities.splice( selectedActivities.indexOf(activity), 1 );
+        var indx = -1;
+        for(var i=0; i<selectedActivities.length; i++){
+          if(activity.activity_name == selectedActivities[i].activity_name){
+            indx = i;
+          }
+        }
+        selectedActivities.splice( indx, 1 );
       }else{
         selectedActivities.push(activity);  
       }
