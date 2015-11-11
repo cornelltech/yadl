@@ -1,55 +1,20 @@
 <ion-pane>
-<ion-content scroll="false" ng-init="step=1">
-
-<div style="height:55vh; background-color: #1e8cf4; text-align:center;">
-  <h1 style="color:white; padding-top:25vh;">YADL</h1>
-</div>
-<div style="height:40vh;">
+  <ion-content>
   
-  <div class="row">
-    <div class="col" style="text-align: center;">
-      <h4>Gender</h4>
-    </div>
-  </div>
+    <!-- SRC: https://blog.nraboy.com/2015/03/make-a-gallery-like-image-grid-using-ionic-framework/ -->
 
-  <div class="row" ng-show="step==1">
-    <div class="col">
-      <button ng-click="step=2" class="button button-outline button-block button-positive" style="width:80px; height:80px; border-radius:40px; margin: 0 auto;">
-        Male
-      </button>
+    <div class="row" ng-repeat="pic in config.list" ng-if="$index % 3 === 0">
+      
+      <div class="col col-33" ng-if="$index < config.list.length">
+        <img ng-src="{{ config.list[$index].activity_image }}" style="width:100%;" />
+      </div>
+      <div class="col col-33" ng-if="$index + 1 < config.list.length">
+        <img ng-src="{{ config.list[$index + 1].activity_image }}" style="width:100%;" />
+      </div>
+      <div class="col col-33" ng-if="$index + 2 < config.list.length">
+        <img ng-src="{{ config.list[$index + 2].activity_image }}" style="width:100%;" />
+      </div>
+      
     </div>
-    <div class="col">
-      <button ng-click="step=2" class="button button-outline button-block button-positive" style="width:80px; height:80px; border-radius:40px; margin: 0 auto;">
-        Female
-      </button>
-    </div>
-
-  </div>
-
-  <div class="row" ng-show="step==2">
-    <div class="col">
-      <button ui-sref="stream" class="button button-outline button-block button-positive" style="width:80px; height:80px; border-radius:40px; margin: 0 auto;">
-        < 34
-      </button>
-    </div>
-    <div class="col">
-      <button ui-sref="stream" class="button button-outline button-block button-positive" style="width:80px; height:80px; border-radius:40px; margin: 0 auto;">
-        35 - 49
-      </button>
-    </div>
-    <div class="col">
-      <button ui-sref="stream" class="button button-outline button-block button-positive" style="width:80px; height:80px; border-radius:40px; margin: 0 auto;">
-        50 - 64
-      </button>
-    </div>
-    <div class="col">
-      <button ui-sref="stream" class="button button-outline button-block button-positive" style="width:80px; height:80px; border-radius:40px; margin: 0 auto;">
-        65 >
-      </button>
-    </div>
-  </div>
-
-</div>
-
-</ion-content>
+  </ion-content>
 </ion-pane>

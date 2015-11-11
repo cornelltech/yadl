@@ -30,6 +30,8 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
     .state('config', {
       url: '/config',
       templateUrl: 'js/config/views/config.tmpl.html',
+      controller: 'ConfigController',
+      controllerAs: 'config'
     })
     .state('activities', {
       url: '/activities',
@@ -74,9 +76,9 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
     };
 }])
 
-.factory('ActivitiesFactory', ['$q', '$http', 'AuthFactory', 
+.factory('ActivitiesFactory', ['$q', '$http', 'localStorageService', 'AuthFactory', 
   'YADL_IMAGES_URL', 'OHMAGE_DATA_URL',
-  function($q, $http, AuthFactory, YADL_IMAGES_URL, OHMAGE_DATA_URL){
+  function($q, $http, localStorageService, AuthFactory, YADL_IMAGES_URL, OHMAGE_DATA_URL){
 
     var streamList = [];
 
@@ -169,6 +171,9 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
         });
 
       return deferred.promise;
+    }
+
+    function pickActivities( ){
 
     }
 
@@ -222,6 +227,23 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
     $rootScope.$on('$cordovaInAppBrowser:exit', function(e, event){
       $state.go('activities');
     });
+}])
+
+.controller('ConfigController', ['$state', 'AuthFactory', 'ActivitiesFactory', 
+  function($state, AuthFactory, ActivitiesFactory){
+    var vm = this;
+    vm.list = [];
+
+    console.log('config')
+    function init( ){
+      AuthFactory.checkAuth( )
+
+      ActivitiesFactory.getActivities( )
+        .then(function(list){
+          vm.list = list;
+          console.log(list)
+        })
+    } init( );
 }])
 
 .controller('ActivitiesController', ['$state', 'AuthFactory', 'ActivitiesFactory', 
