@@ -5,7 +5,7 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
 .constant('YADL_IMAGES_URL', 'http://yadl.image.bucket.s3-website-us-east-1.amazonaws.com')
 .constant('OHMAGE_DATA_URL', 'https://ohmage-omh.smalldata.io')
 
-.run( function( $rootScope, $state, $ionicPlatform, $cordovaStatusbar ) {
+.run( function( $rootScope, $state, $ionicPlatform, $cordovaStatusbar, $cordovaLocalNotification ) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -16,6 +16,14 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
       // make the status bar white
       $cordovaStatusbar.style(1);
     }
+
+    // schedule notification 
+    if( window.cordova && window.cordova.plugins.notification ){
+      $cordovaLocalNotification.schedule({
+        text: "YO",
+        every: "minute"
+      });
+    } 
   });
 })
 
