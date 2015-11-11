@@ -27,6 +27,11 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
   });
 })
 
+.config(function (localStorageServiceProvider) {
+  localStorageServiceProvider
+    .setPrefix('yadl');
+})
+
 .config( function( $stateProvider, $urlRouterProvider ) {
   $stateProvider
     .state('auth', {
@@ -209,12 +214,6 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
 
     var ohmageStrategy = function( ){
       var ohmageUrl = OHMAGE_DATA_URL + '/dsu/oauth/authorize?client_id=' + YADL + '&response_type=token';
-      console.log(YADL)
-
-      console.log('******************')
-      console.log(ohmageUrl)
-      console.log('******************')
-
       $ionicPlatform.ready(function() {
         $cordovaInAppBrowser.open(ohmageUrl, '_blank', { 
                                                         location: 'yes',
@@ -268,7 +267,7 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
     vm.isActivitySelected = isActivitySelected;
 
     var selectActivity = function(activity){
-      if( isActivitySelected(activity) ){
+      if( selectedActivities == [] || isActivitySelected(activity) ){
         var indx = -1;
         for(var i=0; i<selectedActivities.length; i++){
           if(activity.activity_name == selectedActivities[i].activity_name){
@@ -283,9 +282,12 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
     vm.selectActivity = selectActivity;
 
     var submitSelection = function( ){
+      console.log(selectedActivities)
       if( selectedActivities.length > 0 ){
         ActivitiesFactory.pickActivities( selectedActivities );  
         $state.go('activities');
+      }else{
+        alert("Please select at least one activity");
       }
     };
     vm.submitSelection = submitSelection;
