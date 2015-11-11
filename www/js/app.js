@@ -203,12 +203,18 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
   '$ionicPlatform', '$cordovaInAppBrowser', 'AuthFactory', 'ActivitiesFactory', 'YADL',
   'OHMAGE_DATA_URL',
   function($rootScope, $window, $state, $ionicPlatform, 
-    $cordovaInAppBrowser, AuthFactory, YADL, ActivitiesFactory, OHMAGE_DATA_URL){
+    $cordovaInAppBrowser, AuthFactory, ActivitiesFactory, YADL, OHMAGE_DATA_URL){
   
     var vm = this;
 
     var ohmageStrategy = function( ){
       var ohmageUrl = OHMAGE_DATA_URL + '/dsu/oauth/authorize?client_id=' + YADL + '&response_type=token';
+      console.log(YADL)
+
+      console.log('******************')
+      console.log(ohmageUrl)
+      console.log('******************')
+
       $ionicPlatform.ready(function() {
         $cordovaInAppBrowser.open(ohmageUrl, '_blank', { 
                                                         location: 'yes',
