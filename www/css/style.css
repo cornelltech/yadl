@@ -1,4 +1,3 @@
-.gallery {
-    -webkit-flex-wrap: wrap;
-    flex-wrap: wrap;
+.selectedActivity{
+  border: 5px solid #4b8aee;
 }
