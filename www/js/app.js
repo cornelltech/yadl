@@ -192,10 +192,10 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
 }])
 
 .controller('AuthController', ['$rootScope', '$window', '$state',
-  '$ionicPlatform', '$cordovaInAppBrowser', 'AuthFactory', 'YADL',
+  '$ionicPlatform', '$cordovaInAppBrowser', 'AuthFactory', 'ActivitiesFactory', 'YADL',
   'OHMAGE_DATA_URL',
   function($rootScope, $window, $state, $ionicPlatform, 
-    $cordovaInAppBrowser, AuthFactory, YADL, OHMAGE_DATA_URL){
+    $cordovaInAppBrowser, AuthFactory, YADL, ActivitiesFactory, OHMAGE_DATA_URL){
   
     var vm = this;
 
@@ -215,7 +215,7 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
 
     function init( ){
       if( AuthFactory.checkAuth( )){
-        $state.go( 'activities' );
+        $state.go( 'config' );
       }
     } init( );
 
@@ -233,7 +233,7 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
     });
 
     $rootScope.$on('$cordovaInAppBrowser:exit', function(e, event){
-      $state.go('activities');
+      $state.go('config');
     });
 }])
 
@@ -265,6 +265,7 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
     var submitSelection = function( ){
       if( selectedActivities.length > 0 ){
         ActivitiesFactory.pickActivities( selectedActivities );  
+        $state.go('activities');
       }
     };
     vm.submitSelection = submitSelection;
