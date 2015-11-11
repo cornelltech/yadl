@@ -273,10 +273,14 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
     function init( ){
       AuthFactory.checkAuth( )
 
+      ActivitiesFactory.getCachedActivities( )
+        .then(function(list){
+          selectedActivities = list || [];
+        });
+
       ActivitiesFactory.getActivities( )
         .then(function(list){
           vm.list = list;
-          console.log(list)
         })
     } init( );
 }])
@@ -306,6 +310,11 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
       }
     };
     vm.skip = skip;
+
+    var addMore = function( ){
+      $state.go('config');
+    };
+    vm.addMore = addMore;
 
     var makeResponse = function( response ){
 
