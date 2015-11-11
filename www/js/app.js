@@ -1,3 +1,11 @@
+// When building for IOS
+// http://stackoverflow.com/questions/10714600/cdvplugin-h-file-not-found-in-cordova-as-component-cleaver
+// http://forum.ionicframework.com/t/cordova-cdvviewcontroller-h-file-not-found-in-xcode-7-1-beta/32232/3
+// Aslo remember to set device to iOS and require full screen
+
+
+
+
 angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule'])
 
 .constant('YADL', 'yadl-client')
