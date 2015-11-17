@@ -186,7 +186,7 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
       // we cache the HARD activities for the daily surveys
       var hardActivities = [];
       for(var i =0; i<activities.length; i++){
-        if( activities[i].activity_intensity == "HARD" ){
+        if( activities[i].activity_intensity == "HARD" || activities[i].activity_intensity == "MEDIUM" ){
           hardActivities.push(activities[i]);
         }
       }
