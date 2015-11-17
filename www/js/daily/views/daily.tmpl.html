@@ -6,7 +6,7 @@
 
   <ion-content>
     <!-- Spacing so header doesnt cover up a photo -->
-    <span style="display:block; width:100%; height:40px;"></span>
+    <span style="display:block; width:100%; height:50px;"></span>
     <div class="row">
       <div class="col">
         <button ui-sref="activities" class="button button-outline button-block button-positive">
@@ -38,13 +38,8 @@
 
   </ion-content>
 
-  <div ng-show="!daily.confirmSelection" class="bar bar-footer bar-positive" ng-click="daily.submitSelection()">
+  <div class="bar bar-footer bar-positive" ng-click="daily.submitSelection()">
     <div class="title">Submit ( {{ daily.selectedActivities.length }} )</div>
-  </div>
-  <!-- The reason this is being used is that there is some issue with
-  $state.go() when nested inside the ng-click event. ui-sref transition works fine though -->
-  <div ng-show="daily.confirmSelection" class="bar bar-footer bar-positive" style="padding:0px;">
-    <a class="button button-block button-positive" ui-sref="activities" style="width:100%; height:100%; margin:0px;">Confirm Selection</a>
   </div>
 
 </ion-pane>

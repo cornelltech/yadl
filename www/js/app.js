@@ -298,9 +298,6 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
     vm.ohmageStrategy = ohmageStrategy;
 
     function init( ){
-      // on fresh auth clean the cache
-      ActivitiesFactory.removeCachedActivities();
-
       if( AuthFactory.checkAuth( )){
         $state.go( 'daily' );
       }
@@ -314,6 +311,9 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
         var params = url[1].substr(1).split('&')
         var accessToken = params[0].split('=')[1];
         AuthFactory.setToken( accessToken );
+        
+        // on fresh auth clean the cache
+        ActivitiesFactory.removeCachedActivities();
         $cordovaInAppBrowser.close();
       }
 
@@ -388,8 +388,6 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
     vm.list = [];
     vm.selectedActivities = [];
 
-    vm.confirmSelection = false;
-
     var isActivitySelected = function(activity){
       for(var i=0; i<vm.selectedActivities.length; i++){
         if(activity.activity_name == vm.selectedActivities[i].activity_name){
@@ -422,9 +420,8 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
             $state.go( 'thankyou' );
           })
           .catch(function(err){
-            console.log('Sorry, there was an error.');
+            alert('Sorry, there was an error.');
           });
-        vm.confirmSelection = true;
       }else{
         alert("Please select at least one activity");
       }
