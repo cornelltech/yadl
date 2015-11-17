@@ -131,6 +131,7 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
     }
 
     function removeCachedActivities( ){
+      console.log("CALLIBNG REMOVE")
       return localStorageService.remove('activities')
     }
 
@@ -295,9 +296,6 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
     vm.ohmageStrategy = ohmageStrategy;
 
     function init( ){
-      // on fresh auth clean the cache
-      ActivitiesFactory.removeCachedActivities();
-
       if( AuthFactory.checkAuth( )){
         $state.go( 'daily' );
       }
@@ -311,6 +309,8 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
         var params = url[1].substr(1).split('&')
         var accessToken = params[0].split('=')[1];
         AuthFactory.setToken( accessToken );
+        // on fresh auth clean the cache
+        ActivitiesFactory.removeCachedActivities();
         $cordovaInAppBrowser.close();
       }
 
@@ -378,8 +378,8 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
     } init( );
 }])
 
-.controller('DailyController', ['$state', 'AuthFactory', 'ActivitiesFactory', 
-  function($state, AuthFactory, ActivitiesFactory){
+.controller('DailyController', ['$log', '$state', 'AuthFactory', 'ActivitiesFactory', 
+  function($log, $state, AuthFactory, ActivitiesFactory){
     var vm = this;
     vm.list = [];
     vm.selectedActivities = [];
@@ -433,10 +433,15 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
 
       ActivitiesFactory.getCachedActivities( )
         .then(function(list){
+          console.log("-----------------------")
+          console.log(list);
+          console.log(list.length);
+          console.log("22222")
           vm.list = list; 
         })
         .catch(function(err){
           alert("Sorry, there was an error.");
+          $log.error(err);
         });
 
     } init( );
