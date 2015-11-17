@@ -266,10 +266,10 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
     }
     
     return{
+      cacheActivities: cacheActivities,
       getActivities: getActivities,
       postMonthlyActivities: postMonthlyActivities,
       postDailyActivities: postDailyActivities,
-      pickActivities: cacheActivities,
       getCachedActivities: getCachedActivities,
       removeCachedActivities: removeCachedActivities
     };
@@ -438,6 +438,9 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
       ActivitiesFactory.getCachedActivities( )
         .then(function(list){
           vm.list = list; 
+        })
+        .catch(function(err){
+          alert("Sorry, there was an error.");
         });
 
     } init( );
@@ -447,13 +450,58 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
   function($state, AuthFactory, ActivitiesFactory){
     var vm = this;
     vm.list = [];
+    vm.selectedActivities = [];
+    vm.confirmSelection = false;
+    
+    var isActivitySelected = function(activity){
+      for(var i=0; i<vm.selectedActivities.length; i++){
+        if(activity.activity_name == vm.selectedActivities[i].activity_name){
+          return true;
+        }
+      }
+      return false;
+    };
+    vm.isActivitySelected = isActivitySelected;
 
+    var selectActivity = function(activity){
+      if( isActivitySelected(activity) ){
+        var indx = -1;
+        for(var i=0; i<vm.selectedActivities.length; i++){
+          if(activity.activity_name == vm.selectedActivities[i].activity_name){
+            indx = i;
+          }
+        }
+        vm.selectedActivities.splice( indx, 1 );
+      }else{
+        vm.selectedActivities.push(activity);  
+      }
+    };
+    vm.selectActivity = selectActivity;
+
+    var submitSelection = function( ){
+      if( vm.selectedActivities.length > 0 ){
+        ActivitiesFactory.cacheActivities( vm.selectedActivities );
+        $state.go( 'daily' );
+      }else{
+        alert("Please select at least one activity");
+      }
+    };
+    vm.submitSelection = submitSelection;
+    
     function init( ){
       AuthFactory.checkAuth( );
 
       ActivitiesFactory.getActivities( )
         .then(function(list){
           vm.list = list;
+        })
+        .catch(function(err){
+          alert("Sorry, there was an error.");
+        });
+
+      ActivitiesFactory.getCachedActivities( )
+        .then(function(list){
+          vm.selectedActivities = list; 
         })
         .catch(function(err){
           alert("Sorry, there was an error.");
