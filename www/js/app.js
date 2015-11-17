@@ -190,9 +190,6 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
         }
       }
       cacheActivities( hardActivities );
-      console.log("HARD ACTIVITIES")
-      console.log(hardActivities)
-      
       // we post the monthly results to ohmage service      
       var ohmagePackage = {
                             "header": {
@@ -298,6 +295,9 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
     vm.ohmageStrategy = ohmageStrategy;
 
     function init( ){
+      // on fresh auth clean the cache
+      ActivitiesFactory.removeCachedActivities();
+
       if( AuthFactory.checkAuth( )){
         $state.go( 'daily' );
       }
@@ -311,9 +311,6 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
         var params = url[1].substr(1).split('&')
         var accessToken = params[0].split('=')[1];
         AuthFactory.setToken( accessToken );
-        
-        // on fresh auth clean the cache
-        ActivitiesFactory.removeCachedActivities();
         $cordovaInAppBrowser.close();
       }
 
@@ -373,7 +370,6 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
 
       ActivitiesFactory.getActivities( )
         .then(function(list){
-          console.log(list)
           vm.list = list;
         })
         .catch(function(err){
@@ -387,6 +383,8 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
     var vm = this;
     vm.list = [];
     vm.selectedActivities = [];
+
+    vm.confirmSelection = false;
 
     var isActivitySelected = function(activity){
       for(var i=0; i<vm.selectedActivities.length; i++){
@@ -422,6 +420,7 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
           .catch(function(err){
             alert('Sorry, there was an error.');
           });
+        vm.confirmSelection = true;
       }else{
         alert("Please select at least one activity");
       }
@@ -477,8 +476,8 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
 
     var submitSelection = function( ){
       if( vm.selectedActivities.length > 0 ){
-        ActivitiesFactory.cacheActivities( vm.selectedActivities );
-        $state.go( 'daily' );
+        ActivitiesFactory.cacheActivities( vm.selectedActivities )
+        $state.go('daily');
       }else{
         alert("Please select at least one activity");
       }
