@@ -1,0 +1,73 @@
+<ion-pane>
+  <ion-content scroll="false">
+
+    <!--Image Container-->
+    <div class="animated fadeIn" 
+      style="height:55vh; background-color: #1e8cf4; 
+             text-align:center; background-image: url({{ monthly.list[monthly.indx]['activity_image'] }}); 
+             background-repeat: no-repeat; background-position: 50% 50%; background-size: cover;">
+   </div>
+   <!--/Image Container-->
+   
+   <!--Controls Container-->
+    <div style="height:45vh;">  
+      
+      <!--Progress Bar Container-->
+      <div class="row" style="height: 10vh;">
+        <div class="col" style="text-align: center;">
+          <h4>How difficult is this activity for you?</h4>
+          <small>{{ monthly.indx + 1 }} of {{ monthly.list.length }}</small>
+        </div>
+      </div>
+      <!--/Progress Bar Container-->
+      
+      <!--Line-->
+      <div class="row">
+        <div class="col">
+          <hr style="border-top:0px;"/>
+        </div>
+      </div>
+      <!--/Line-->
+      
+      <!--Buttons Container-->
+      <div class="row" style="height: 20vh;">
+        <div class="col" ng-click="monthly.makeResponse('EASY')">
+          <button class="button button-outline button-block button-balanced" style="width:96px; height:96px; border-radius:48px; margin: 0 auto;">
+            Easy
+          </button>
+        </div>
+        <div class="col" ng-click="monthly.makeResponse('MODERATE')">
+          <button class="button button-outline button-block button-energized" style="width:96px; height:96px; border-radius:48px; margin: 0 auto;">
+            Moderate
+          </button>
+        </div>
+        <div class="col" ng-click="monthly.makeResponse('HARD')">
+          <button class="button button-outline button-block button-assertive" style="width:96px; height:96px; border-radius:48px; margin: 0 auto;">
+            Hard
+          </button>
+        </div>
+      </div>
+      <!--/Buttons Container-->
+      
+      <!--Line-->
+      <div class="row" style="height: 5vh;">
+        <div class="col">
+          <hr style="border-top:0px;"/>
+        </div>
+      </div>
+      <!--/Line-->
+
+      <!--Footer-->
+      <div class="row">
+        <div class="col">
+          <button ng-click="monthly.skip()" class="button button-small button-outline button-positive pull-right">
+            Skip Activity
+          </button>
+        </div>
+      </div>
+      <!--/Footer-->
+
+    </div>
+    <!--/Controls Container-->
+  </ion-content>
+</ion-pane>

@@ -15,10 +15,6 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
 
 .run( function( $rootScope, $state, $stateParams, $ionicPlatform, $cordovaStatusbar, $cordovaLocalNotification ) {
 
-  // // SRC: https://github.com/angular-ui/ui-router/wiki/Quick-Reference#note-about-using-state-within-a-template
-  // $rootScope.$state = $state;
-  // $rootScope.$stateParams = $stateParams;
-
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -53,24 +49,30 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
       controller: 'AuthController',
       controllerAs: 'auth'
     })
-    .state('config', {
-      url: '/config',
-      templateUrl: 'js/config/views/config.tmpl.html',
-      controller: 'ConfigController',
-      controllerAs: 'config'
+    .state('daily', {
+      url: '/daily',
+      templateUrl: 'js/daily/views/daily.tmpl.html',
+      controller: 'DailyController',
+      controllerAs: 'daily'
     })
-    .state('activities', {
+    .state('monthly', {
+      url: '/monthly',
+      templateUrl: 'js/monthly/views/monthly.tmpl.html',
+      controller: 'MonthlyController',
+      controllerAs: 'monthly'
+    })
+    .state('activities',{
       url: '/activities',
       templateUrl: 'js/activities/views/activities.tmpl.html',
       controller: 'ActivitiesController',
       controllerAs: 'activities'
     })
     .state('thankyou', {
-      url: '/thankyou',
-      templateUrl: 'js/activities/views/thankyou.tmpl.html',
+      url: 'thankyou',
+      templateUrl: 'js/thankyou.tmpl.html',
     });
   
-  $urlRouterProvider.otherwise('auth');
+  $urlRouterProvider.otherwise('/auth');
 })
 
 .factory('AuthFactory', ['$state', 'localStorageService', 
@@ -249,7 +251,7 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
       ActivitiesFactory.removeCachedActivities();
 
       if( AuthFactory.checkAuth( )){
-        $state.go( 'config' );
+        $state.go( 'daily' );
       }
     } init( );
 
@@ -267,11 +269,11 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
     });
 
     $rootScope.$on('$cordovaInAppBrowser:exit', function(e, event){
-      $state.go('config');
+      $state.go('monthly');
     });
 }])
 
-.controller('ConfigController', ['$state', 'AuthFactory', 'ActivitiesFactory', 
+.controller('DailyController', ['$state', 'AuthFactory', 'ActivitiesFactory', 
   function($state, AuthFactory, ActivitiesFactory){
     var vm = this;
     vm.list = [];
@@ -331,7 +333,7 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
     } init( );
 }])
 
-.controller('ActivitiesController', ['$state', 'AuthFactory', 'ActivitiesFactory', 
+.controller('MonthlyController', ['$state', 'AuthFactory', 'ActivitiesFactory', 
   function($state, AuthFactory, ActivitiesFactory){
     var vm = this;
     vm.list = [];
@@ -358,7 +360,7 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
     vm.skip = skip;
 
     var addMore = function( ){
-      $state.go('config');
+      $state.go('monthl');
     };
     vm.addMore = addMore;
 
@@ -378,9 +380,17 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
     function init( ){
       AuthFactory.checkAuth( )
 
-      ActivitiesFactory.getCachedActivities( )
+      // ActivitiesFactory.getCachedActivities( )
+      //   .then(function(list){
+      //     vm.list = list;
+      //   })
+      ActivitiesFactory.getActivities( )
         .then(function(list){
+          console.log(list)
           vm.list = list;
         })
+        .catch(function(err){
+          alert("Sorry, there was an error.");
+        });
     } init( );
 }])
