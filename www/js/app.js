@@ -6,7 +6,7 @@
 
 
 
-angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule'])
+angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule', 'ngProgress'])
 
 .constant('YADL', 'yadl-client')
 .constant('YADL_SECRET', 'fW5hpgbBKcjYvV3yULJQekxpB2FBZscANfHxwy58VLUHq45mt6AC92ruR5ZMugmusAWSke2xUJW84Y7j2DQvMYxNnyPxpmsun')
@@ -321,11 +321,13 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
     });
 }])
 
-.controller('MonthlyController', ['$state', 'AuthFactory', 'ActivitiesFactory', 
-  function($state, AuthFactory, ActivitiesFactory){
+.controller('MonthlyController', ['$state', 'AuthFactory', 'ActivitiesFactory', 'ngProgressFactory',
+  function($state, AuthFactory, ActivitiesFactory, ngProgressFactory){
     var vm = this;
     vm.list = [];
     vm.indx = 0;
+    var progressbar = ngProgressFactory.createInstance();
+    progressbar.setColor('royalblue');
 
     function submitResponses( ){
       // submit responses
@@ -340,7 +342,8 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
 
     var skip = function( ){
       if( vm.indx < vm.list.length - 1 ){
-        vm.indx += 1;   
+        vm.indx += 1;
+        progressbar.set(vm.indx/ vm.list.length * 100);
       }else{
         submitResponses( )
       }
@@ -358,7 +361,8 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
       vm.list[vm.indx]['activity_image_index'] = vm.indx;
       
       if( vm.indx < vm.list.length - 1 ){
-        vm.indx += 1;   
+        vm.indx += 1;
+        progressbar.set(vm.indx/ vm.list.length * 100);
       }else{
         submitResponses( )
       }
