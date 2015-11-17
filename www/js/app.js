@@ -68,7 +68,7 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
       controllerAs: 'activities'
     })
     .state('thankyou', {
-      url: 'thankyou',
+      url: '/thankyou',
       templateUrl: 'js/thankyou.tmpl.html',
     });
   
@@ -230,7 +230,6 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
     
     function postDailyActivities( activities ){
       var deferred = $q.defer();
-      
       // we post the daily results to ohmage service      
       var ohmagePackage = {
                             "header": {
@@ -321,64 +320,8 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
     });
 
     $rootScope.$on('$cordovaInAppBrowser:exit', function(e, event){
-      $state.go('monthly');
+      $state.go( 'monthly' );
     });
-}])
-
-.controller('DailyController', ['$state', 'AuthFactory', 'ActivitiesFactory', 
-  function($state, AuthFactory, ActivitiesFactory){
-    var vm = this;
-    vm.list = [];
-    vm.selectedActivities = [];
-
-    vm.confirmSelection = false;
-
-    var isActivitySelected = function(activity){
-      for(var i=0; i<vm.selectedActivities.length; i++){
-        if(activity.activity_name == vm.selectedActivities[i].activity_name){
-          return true;
-        }
-      }
-      return false;
-    };
-    vm.isActivitySelected = isActivitySelected;
-
-    var selectActivity = function(activity){
-      if( isActivitySelected(activity) ){
-        var indx = -1;
-        for(var i=0; i<vm.selectedActivities.length; i++){
-          if(activity.activity_name == vm.selectedActivities[i].activity_name){
-            indx = i;
-          }
-        }
-        vm.selectedActivities.splice( indx, 1 );
-      }else{
-        vm.selectedActivities.push(activity);  
-      }
-    };
-    vm.selectActivity = selectActivity;
-
-    var submitSelection = function( ){
-      if( vm.selectedActivities.length > 0 ){
-        ActivitiesFactory.pickActivities( vm.selectedActivities );
-        // $state.go('activities');
-        vm.confirmSelection = true;
-      }else{
-        alert("Please select at least one activity");
-      }
-    };
-    vm.submitSelection = submitSelection;
-    
-    function init( ){
-
-      AuthFactory.checkAuth( );
-
-      ActivitiesFactory.getCachedActivities( )
-        .then(function(list){
-          vm.selectedActivities = list || [];
-        });
-
-    } init( );
 }])
 
 .controller('MonthlyController', ['$state', 'AuthFactory', 'ActivitiesFactory', 
@@ -426,15 +369,90 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
     vm.makeResponse = makeResponse;
 
     function init( ){
-      AuthFactory.checkAuth( )
+      AuthFactory.checkAuth( );
 
-      // ActivitiesFactory.getCachedActivities( )
-      //   .then(function(list){
-      //     vm.list = list;
-      //   })
       ActivitiesFactory.getActivities( )
         .then(function(list){
           console.log(list)
+          vm.list = list;
+        })
+        .catch(function(err){
+          alert("Sorry, there was an error.");
+        });
+    } init( );
+}])
+
+.controller('DailyController', ['$state', 'AuthFactory', 'ActivitiesFactory', 
+  function($state, AuthFactory, ActivitiesFactory){
+    var vm = this;
+    vm.list = [];
+    vm.selectedActivities = [];
+
+    vm.confirmSelection = false;
+
+    var isActivitySelected = function(activity){
+      for(var i=0; i<vm.selectedActivities.length; i++){
+        if(activity.activity_name == vm.selectedActivities[i].activity_name){
+          return true;
+        }
+      }
+      return false;
+    };
+    vm.isActivitySelected = isActivitySelected;
+
+    var selectActivity = function(activity){
+      if( isActivitySelected(activity) ){
+        var indx = -1;
+        for(var i=0; i<vm.selectedActivities.length; i++){
+          if(activity.activity_name == vm.selectedActivities[i].activity_name){
+            indx = i;
+          }
+        }
+        vm.selectedActivities.splice( indx, 1 );
+      }else{
+        vm.selectedActivities.push(activity);  
+      }
+    };
+    vm.selectActivity = selectActivity;
+
+    var submitSelection = function( ){
+      if( vm.selectedActivities.length > 0 ){
+        ActivitiesFactory.postDailyActivities( vm.selectedActivities )
+          .then(function(res){
+            $state.go( 'thankyou' );
+          })
+          .catch(function(err){
+            console.log('Sorry, there was an error.');
+          });
+        vm.confirmSelection = true;
+      }else{
+        alert("Please select at least one activity");
+      }
+    };
+    vm.submitSelection = submitSelection;
+    
+    function init( ){
+
+      AuthFactory.checkAuth( );
+
+      ActivitiesFactory.getCachedActivities( )
+        .then(function(list){
+          vm.list = list; 
+        });
+
+    } init( );
+}])
+
+.controller('ActivitiesController', ['$state', 'AuthFactory', 'ActivitiesFactory', 
+  function($state, AuthFactory, ActivitiesFactory){
+    var vm = this;
+    vm.list = [];
+
+    function init( ){
+      AuthFactory.checkAuth( );
+
+      ActivitiesFactory.getActivities( )
+        .then(function(list){
           vm.list = list;
         })
         .catch(function(err){
