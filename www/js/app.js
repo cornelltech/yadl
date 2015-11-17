@@ -119,6 +119,20 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
       return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
         s4() + '-' + s4() + s4() + s4();
     }
+    
+    function cacheActivities( activities ){
+      return localStorageService.set( 'activities', activities );
+    }
+    
+    function getCachedActivities( ){
+      var deferred = $q.defer();
+      deferred.resolve( localStorageService.get('activities') );
+      return deferred.promise;
+    }
+
+    function removeCachedActivities( ){
+      return localStorageService.remove('activities')
+    }
 
     function updateStreamList( data ){
       data.fileNames.forEach(function(obj){
@@ -165,8 +179,59 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
       return deferred.promise;
     }
 
-    function postActivities( activities ){
+    function postMonthlyActivities( activities ){
       var deferred = $q.defer();
+      
+      // we cache the HARD activities for the daily surveys
+      var hardActivities = [];
+      for(var i =0; i<activities.length; i++){
+        if( activities[i].activity_intensity == "HARD" ){
+          hardActivities.push(activities[i]);
+        }
+      }
+      cacheActivities( hardActivities );
+      console.log("HARD ACTIVITIES")
+      console.log(hardActivities)
+      
+      // we post the monthly results to ohmage service      
+      var ohmagePackage = {
+                            "header": {
+                              "id": guid(),
+                              "creation_date_time": Date.now(),
+                              "schema_id": {
+                                "namespace": "omh",
+                                "name": "yadl-monthly-survey",
+                                "version": "1.0"
+                              },
+                              "acquisition_provenance": {
+                                "source_name": "YADL",
+                                "modality": "self-reported"
+                              }
+                            },
+                            "body": {
+                              "activities": activities
+                            }
+                          };
+      $http({ url: OHMAGE_DATA_URL + '/dsu/dataPoints',
+            method: 'POST',
+            contentType: 'application/json',
+            headers: { 'Authorization': 'Bearer ' + AuthFactory.checkAuth( ) },
+            data: ohmagePackage
+          })
+        .then(function( res ){
+          deferred.resolve( res.data );
+        })
+        .catch(function( err ){
+          deferred.reject( err );
+        });
+
+      return deferred.promise;
+    }
+    
+    function postDailyActivities( activities ){
+      var deferred = $q.defer();
+      
+      // we post the daily results to ohmage service      
       var ohmagePackage = {
                             "header": {
                               "id": guid(),
@@ -200,25 +265,12 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
 
       return deferred.promise;
     }
-
-    function pickActivities( activities ){
-      return localStorageService.set( 'activities', activities );
-    }
-
-    function getCachedActivities( ){
-      var deferred = $q.defer();
-      deferred.resolve( localStorageService.get('activities') );
-      return deferred.promise;
-    }
-
-    function removeCachedActivities( ){
-      return localStorageService.remove('activities')
-    }
-
+    
     return{
       getActivities: getActivities,
-      postActivities: postActivities,
-      pickActivities: pickActivities,
+      postMonthlyActivities: postMonthlyActivities,
+      postDailyActivities: postDailyActivities,
+      pickActivities: cacheActivities,
       getCachedActivities: getCachedActivities,
       removeCachedActivities: removeCachedActivities
     };
@@ -326,10 +378,6 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
           vm.selectedActivities = list || [];
         });
 
-      ActivitiesFactory.getActivities( )
-        .then(function(list){
-          vm.list = list;
-        })
     } init( );
 }])
 
@@ -341,9 +389,9 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule']
 
     function submitResponses( ){
       // submit responses
-      ActivitiesFactory.postActivities( vm.list )
+      ActivitiesFactory.postMonthlyActivities( vm.list )
         .then(function( res ){
-          $state.go('thankyou');    
+          $state.go('daily');    
         })
         .catch(function( err ){
           alert("There was an error!");
