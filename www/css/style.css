@@ -1,3 +1,7 @@
 .selectedActivity{
   border: 5px solid #4b8aee;
 }
+
+#progress-status {
+	position: relative;
+}

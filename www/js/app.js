@@ -327,7 +327,10 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule',
     vm.list = [];
     vm.indx = 0;
     var progressbar = ngProgressFactory.createInstance();
+    progressbar.setParent(document.getElementById('progress-status'));
     progressbar.setColor('royalblue');
+    progressbar.setHeight('5px');
+    progressbar.setAbsolute();
 
     function submitResponses( ){
       // submit responses
