@@ -183,10 +183,10 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule',
     function postMonthlyActivities( activities ){
       var deferred = $q.defer();
       
-      // we cache the HARD || MEDIUM activities for the daily surveys
+      // we cache the HARD || MODERATE activities for the daily surveys
       var hardActivities = [];
       for(var i =0; i<activities.length; i++){
-        if( activities[i].activity_intensity == "HARD" || activities[i].activity_intensity == "MEDIUM" ){
+        if( activities[i].activity_intensity == "HARD" || activities[i].activity_intensity == "MODERATE" ){
           hardActivities.push(activities[i]);
         }
       }
