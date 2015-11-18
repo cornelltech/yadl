@@ -100,6 +100,7 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule',
 
     return{
       setToken: setToken,
+      removeToken: removeToken,
       checkAuth: checkAuth
     };
 }])
@@ -131,7 +132,6 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule',
     }
 
     function removeCachedActivities( ){
-      console.log("CALLIBNG REMOVE")
       return localStorageService.remove('activities')
     }
 
@@ -425,7 +425,7 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule',
             $state.go( 'thankyou' );
           })
           .catch(function(err){
-            alert('Sorry, there was an error.');
+            alert('Sorry, there was an error please log out and log in.');
           });
         vm.confirmSelection = true;
       }else{
@@ -440,10 +440,6 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule',
 
       ActivitiesFactory.getCachedActivities( )
         .then(function(list){
-          console.log("-----------------------")
-          console.log(list);
-          console.log(list.length);
-          console.log("22222")
           vm.list = list; 
         })
         .catch(function(err){
@@ -496,6 +492,12 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule',
     };
     vm.submitSelection = submitSelection;
     
+    var logout = function( ){
+      AuthFactory.removeToken();
+      $state.go('auth');
+    };
+    vm.logout = logout;
+    
     function init( ){
       AuthFactory.checkAuth( );
 
@@ -504,7 +506,7 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule',
           vm.list = list;
         })
         .catch(function(err){
-          alert("Sorry, there was an error.");
+          alert("Sorry, there was an error");
         });
 
       ActivitiesFactory.getCachedActivities( )
