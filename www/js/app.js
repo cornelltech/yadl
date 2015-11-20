@@ -401,6 +401,7 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule',
     vm.isActivitySelected = isActivitySelected;
 
     var selectActivity = function(activity){
+      activity.selected = !activity.selected;
       if( isActivitySelected(activity) ){
         var indx = -1;
         for(var i=0; i<vm.selectedActivities.length; i++){
@@ -417,7 +418,7 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule',
 
     var submitSelection = function( ){
       if( vm.selectedActivities.length > 0 ){
-        ActivitiesFactory.postDailyActivities( vm.selectedActivities )
+        ActivitiesFactory.postDailyActivities( vm.list )
           .then(function(res){
             $state.go( 'thankyou' );
           })
@@ -437,6 +438,9 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule',
 
       ActivitiesFactory.getCachedActivities( )
         .then(function(list){
+          for(var i =0; i<list.length; i++){
+            list[i].selected = false;
+          }
           vm.list = list; 
         })
         .catch(function(err){
