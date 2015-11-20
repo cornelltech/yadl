@@ -425,18 +425,16 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule',
     vm.selectActivity = selectActivity;
 
     var submitSelection = function( ){
-      if( vm.selectedActivities.length > 0 ){
-        ActivitiesFactory.postDailyActivities( vm.list )
-          .then(function(res){
-            $state.go( 'thankyou' );
-          })
-          .catch(function(err){
-            alert('Sorry, there was an error please log out and log in.');
-          });
-        vm.confirmSelection = true;
-      }else{
-        alert("Please select at least one activity");
-      }
+      
+      ActivitiesFactory.postDailyActivities( vm.list )
+        .then(function(res){
+          $state.go( 'thankyou' );
+        })
+        .catch(function(err){
+          alert('Sorry, there was an error please log out and log in.');
+        });
+      vm.confirmSelection = true;
+      
     };
     vm.submitSelection = submitSelection;
     
