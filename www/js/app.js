@@ -210,7 +210,6 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule',
                               "activities": activities
                             }
                           };
-      console.log(ohmagePackage)
       $http({ url: OHMAGE_DATA_URL + '/dsu/dataPoints',
             method: 'POST',
             contentType: 'application/json',
@@ -248,7 +247,6 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule',
                               "activities": activities
                             }
                           };
-      console.log(ohmagePackage)
       $http({ url: OHMAGE_DATA_URL + '/dsu/dataPoints',
             method: 'POST',
             contentType: 'application/json',
