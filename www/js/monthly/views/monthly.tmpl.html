@@ -13,7 +13,7 @@
     <div style="height:45vh;">  
       
       <!--Progress Bar Container-->
-      <div id="progress-status" class="row" style="height: 10vh;">
+      <div id="progress-status" class="row">
         <div class="col" style="text-align: center;">
           <h4>How hard is this activity for you on a difficult day?</h4>
           <small>{{ monthly.indx + 1 }} of {{ monthly.list.length }}</small>
@@ -30,7 +30,7 @@
       <!--/Line-->
       
       <!--Buttons Container-->
-      <div class="row" style="height: 20vh;">
+      <div class="row">
         <div class="col" ng-click="monthly.makeResponse('EASY')">
           <button class="button button-outline button-block button-balanced" style="width:96px; height:96px; border-radius:48px; margin: 0 auto;">
             Easy
@@ -50,16 +50,16 @@
       <!--/Buttons Container-->
       
       <!--Line-->
-      <div class="row" style="height: 5vh;">
-        <div class="col">
+      <div class="row" style="margin:0px; padding:0px;">
+        <div class="col" style="margin:0px; padding:0px;">
           <hr style="border-top:0px;"/>
         </div>
       </div>
       <!--/Line-->
 
       <!--Footer-->
-      <div class="row">
-        <div class="col">
+      <div class="row" style="margin:0px; padding:0px;">
+        <div class="col" style="margin:0px; padding:0px; padding-left:15px;">
           <button ng-click="monthly.skip()" class="button button-small button-outline button-positive pull-right">
             Skip Activity
           </button>
