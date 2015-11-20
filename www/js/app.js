@@ -136,11 +136,11 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule',
     }
 
     function updateStreamList( data ){
-      data.fileNames.forEach(function(obj){
+      data.forEach(function(obj){
         streamList.push( 
           {
-            'activity_image': YADL_IMAGES_URL + '/' + obj + '.' + data.fileType,
-            'activity_name': obj,
+            'activity_image': YADL_IMAGES_URL + '/' + obj.file,
+            'activity_name': obj.title,
             'activity_intensity': null,
             'activity_image_index': -1
           }
