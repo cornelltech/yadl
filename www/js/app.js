@@ -382,6 +382,7 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule',
       ActivitiesFactory.getActivities( )
         .then(function(list){
           vm.list = list;
+          console.log(list)
         })
         .catch(function(err){
           alert("Sorry, there was an error.");
