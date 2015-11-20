@@ -183,12 +183,21 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule',
     function postMonthlyActivities( activities ){
       var deferred = $q.defer();
       
-      // we cache the HARD || MODERATE activities for the daily surveys
+      // we cache the HARD
       var hardActivities = [];
       for(var i =0; i<activities.length; i++){
-        if( activities[i].activity_intensity == "HARD" || activities[i].activity_intensity == "MODERATE" ){
+        if( activities[i].activity_intensity == "HARD" ){
           hardActivities.push(activities[i]);
         }
+      }
+      
+      // if no HARD activities we cache the MODERATE
+      if(hardActivities.length == 0){
+        for(var i =0; i<activities.length; i++){
+          if( activities[i].activity_intensity == "MODERATE" ){
+            hardActivities.push(activities[i]);
+          }
+        } 
       }
       cacheActivities( hardActivities );
       // we post the monthly results to ohmage service      
