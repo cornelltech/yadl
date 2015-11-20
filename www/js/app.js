@@ -195,7 +195,7 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule',
       var ohmagePackage = {
                             "header": {
                               "id": guid(),
-                              "creation_date_time": Date.now(),
+                              "creation_date_time": new Date(),
                               "schema_id": {
                                 "namespace": "omh",
                                 "name": "yadl-monthly-survey",
@@ -210,6 +210,7 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule',
                               "activities": activities
                             }
                           };
+      console.log(ohmagePackage)
       $http({ url: OHMAGE_DATA_URL + '/dsu/dataPoints',
             method: 'POST',
             contentType: 'application/json',
@@ -232,7 +233,7 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule',
       var ohmagePackage = {
                             "header": {
                               "id": guid(),
-                              "creation_date_time": Date.now(),
+                              "creation_date_time": new Date(),
                               "schema_id": {
                                 "namespace": "omh",
                                 "name": "yadl-daily-survey",
@@ -247,6 +248,7 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule',
                               "activities": activities
                             }
                           };
+      console.log(ohmagePackage)
       $http({ url: OHMAGE_DATA_URL + '/dsu/dataPoints',
             method: 'POST',
             contentType: 'application/json',
