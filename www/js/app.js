@@ -338,7 +338,7 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule',
       // submit responses
       ActivitiesFactory.postMonthlyActivities( vm.list )
         .then(function( res ){
-          $state.go('daily');    
+          $state.go('thankyou');    
         })
         .catch(function( err ){
           alert("There was an error!");
@@ -354,11 +354,6 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule',
       }
     };
     vm.skip = skip;
-
-    var addMore = function( ){
-      $state.go('monthl');
-    };
-    vm.addMore = addMore;
 
     var makeResponse = function( response ){
 
