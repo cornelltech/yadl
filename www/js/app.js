@@ -29,7 +29,7 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule',
     // schedule notification 
     if( window.cordova && window.cordova.plugins.notification ){
       $cordovaLocalNotification.schedule({
-        text: "Hey you! Time to do your YADL survey.",
+        text: "Time to do your YADL survey.",
         every: "day"
       });
     } 
@@ -105,9 +105,9 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule',
     };
 }])
 
-.factory('ActivitiesFactory', ['$q', '$http', 'localStorageService', 'AuthFactory', 
+.factory('ActivitiesFactory', ['$q', '$http', '$state', 'localStorageService', 'AuthFactory', 
   'YADL_IMAGES_URL', 'OHMAGE_DATA_URL',
-  function($q, $http, localStorageService, AuthFactory, YADL_IMAGES_URL, OHMAGE_DATA_URL){
+  function($q, $http, $state, localStorageService, AuthFactory, YADL_IMAGES_URL, OHMAGE_DATA_URL){
 
     var streamList = [];
 
@@ -229,7 +229,8 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule',
           deferred.resolve( res.data );
         })
         .catch(function( err ){
-          deferred.reject( err );
+          AuthFactory.removeToken();
+          $state.go('auth');
         });
 
       return deferred.promise;
@@ -266,7 +267,8 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule',
           deferred.resolve( res.data );
         })
         .catch(function( err ){
-          deferred.reject( err );
+          AuthFactory.removeToken();
+          $state.go('auth');
         });
 
       return deferred.promise;
