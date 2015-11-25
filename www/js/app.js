@@ -8,6 +8,7 @@
 
 angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule', 'ngProgress', 'imageSpinner'])
 
+.constant('VERSION', '1.7.0')
 .constant('YADL', 'yadl-client')
 .constant('YADL_SECRET', 'fW5hpgbBKcjYvV3yULJQekxpB2FBZscANfHxwy58VLUHq45mt6AC92ruR5ZMugmusAWSke2xUJW84Y7j2DQvMYxNnyPxpmsun')
 .constant('YADL_IMAGES_URL', 'http://yadl.image.bucket.s3-website-us-east-1.amazonaws.com')
@@ -468,12 +469,14 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule',
     } init( );
 }])
 
-.controller('ActivitiesController', ['$state', 'AuthFactory', 'ActivitiesFactory', 
-  function($state, AuthFactory, ActivitiesFactory){
+.controller('ActivitiesController', ['$scope', '$state', '$ionicModal', 'AuthFactory', 'ActivitiesFactory', 'VERSION', 
+  function($scope, $state, $ionicModal, AuthFactory, ActivitiesFactory, VERSION){
     var vm = this;
     vm.list = [];
     vm.selectedActivities = [];
     vm.confirmSelection = false;
+    
+    $scope.version = VERSION;
     
     var isActivitySelected = function(activity){
       for(var i=0; i<vm.selectedActivities.length; i++){
@@ -501,21 +504,32 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule',
     vm.selectActivity = selectActivity;
 
     var submitSelection = function( ){
-      if( vm.selectedActivities.length > 0 ){
-        ActivitiesFactory.cacheActivities( vm.selectedActivities )
-        $state.go('daily');
-      }else{
-        alert("Please select at least one activity");
-      }
+      ActivitiesFactory.cacheActivities( vm.selectedActivities )
+      $state.go('daily');
     };
     vm.submitSelection = submitSelection;
     
     var logout = function( ){
+      $scope.closeModal();
       AuthFactory.removeToken();
       $state.go('auth');
     };
-    vm.logout = logout;
+    $scope.logout = logout;
+   
     
+    $ionicModal.fromTemplateUrl('js/accounts/views/settings.modal.tmpl.html', {
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function(modal) {
+      $scope.modal = modal;
+    });
+    $scope.openModal = function() {
+      $scope.modal.show();
+    };
+    $scope.closeModal = function() {
+      $scope.modal.hide();
+    };
+
     function init( ){
       AuthFactory.checkAuth( );
 
