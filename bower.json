@@ -8,6 +8,7 @@
     "ngCordova": "~0.1.20-alpha",
     "animate.css": "~3.4.0",
     "PACE": "pace#~1.0.2",
-    "ngprogress": "~1.1.2"
+    "ngprogress": "~1.1.2",
+    "angular-image-spinner": "*"
   }
 }

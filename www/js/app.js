@@ -6,7 +6,7 @@
 
 
 
-angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule', 'ngProgress'])
+angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule', 'ngProgress', 'imageSpinner'])
 
 .constant('YADL', 'yadl-client')
 .constant('YADL_SECRET', 'fW5hpgbBKcjYvV3yULJQekxpB2FBZscANfHxwy58VLUHq45mt6AC92ruR5ZMugmusAWSke2xUJW84Y7j2DQvMYxNnyPxpmsun')

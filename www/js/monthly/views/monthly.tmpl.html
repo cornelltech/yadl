@@ -15,7 +15,7 @@
    <!--/Image Container-->
    
    <!--Controls Container-->
-    <div style="height:45vh;">  
+    <div>  
       
       <!--Progress Bar Container-->
       <div id="progress-status" class="row">
@@ -65,7 +65,10 @@
       <!--Footer-->
       <div class="row" style="margin:0px; padding:0px;">
         <div class="col" style="margin:0px; padding:0px; padding-left:15px;">
-          <button ng-click="monthly.skip()" class="button button-small button-outline button-positive pull-right">
+          <button ng-click="monthly.skip()" class="button button-small button-outline button-positive">
+            Back
+          </button>
+          <button ng-click="monthly.skip()" class="button button-small button-outline button-positive" style="float:right; margin-right:15px;">
             Skip Activity
           </button>
         </div>
