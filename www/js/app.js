@@ -335,6 +335,7 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule',
     var vm = this;
     vm.list = [];
     vm.indx = 0;
+    
     var progressbar = ngProgressFactory.createInstance();
     progressbar.setParent(document.getElementById('progress-status'));
     progressbar.setColor('royalblue');
@@ -355,12 +356,20 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule',
     var skip = function( ){
       if( vm.indx < vm.list.length - 1 ){
         vm.indx += 1;
-        progressbar.set(vm.indx/ vm.list.length * 100);
+        progressbar.set(vm.indx / vm.list.length * 100);
       }else{
         submitResponses( )
       }
     };
     vm.skip = skip;
+    
+    var back = function( ){
+      if( vm.indx > 0 ){
+        vm.indx -= 1;
+        progressbar.set(vm.indx / vm.list.length * 100);
+      }
+    };
+    vm.back = back;
 
     var makeResponse = function( response ){
 
