@@ -8,8 +8,8 @@ var handleOpenURL = function(url) {
   // external load flag
   setTimeout(function() {
     alert("received url: " + url);
+    window.localStorage.setItem("yadl.externalLoad", url);
   }, 0);
-  window.localStorage.setItem("yadl.externalLoad", url);
 };
 
 
