@@ -17,7 +17,6 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule',
 
 .constant('VERSION', '1.7.0')
 .constant('YADL', 'yadl-client')
-.constant('YADL_SECRET', 'fW5hpgbBKcjYvV3yULJQekxpB2FBZscANfHxwy58VLUHq45mt6AC92ruR5ZMugmusAWSke2xUJW84Y7j2DQvMYxNnyPxpmsun')
 .constant('YADL_IMAGES_URL', 'http://yadl.image.bucket.s3-website-us-east-1.amazonaws.com')
 .constant('OHMAGE_DATA_URL', 'https://ohmage-omh.smalldata.io')
 
