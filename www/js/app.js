@@ -4,6 +4,13 @@
 // Aslo remember to set device to iOS and require full screen
 
 
+var handleOpenURL = function(url) {
+  // external load flag
+  setTimeout(function() {
+    alert("received url: " + url);
+  }, 0);
+  window.localStorage.setItem("yadl.externalLoad", url);
+};
 
 
 angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule', 'ngProgress', 'imageSpinner'])
@@ -26,6 +33,17 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule',
       // make the status bar white
       $cordovaStatusbar.style(1);
     }
+    
+    // check if app was launched from a deep link
+    var exernalLoad = window.localStorage.getItem("yadl.externalLoad");
+    window.localStorage.removeItem("yadl.externalLoad");
+    alert('IONIC HEY ' + exernalLoad)
+    if( exernalLoad ){
+      $state.go( exernalLoad.split('://')[1] );
+    }
+    
+    
+    
 
     // schedule notification 
     if( window.cordova && window.cordova.plugins.notification ){
