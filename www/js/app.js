@@ -33,7 +33,7 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule',
         text: "Time to do your YADL survey.",
         every: "day"
       });
-    } 
+    }
   });
 })
 
@@ -389,7 +389,7 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule',
     vm.makeResponse = makeResponse;
 
     function init( ){
-      AuthFactory.checkAuth( );
+      // AuthFactory.checkAuth( );
 
       ActivitiesFactory.getActivities( )
         .then(function(list){
@@ -452,7 +452,7 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule',
     
     function init( ){
 
-      AuthFactory.checkAuth( );
+      // AuthFactory.checkAuth( );
 
       ActivitiesFactory.getCachedActivities( )
         .then(function(list){
