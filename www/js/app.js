@@ -3,13 +3,17 @@
 // http://forum.ionicframework.com/t/cordova-cdvviewcontroller-h-file-not-found-in-xcode-7-1-beta/32232/3
 // Aslo remember to set device to iOS and require full screen
 
+// handle the deep link
+// src: https://medium.com/angularjs-articles/deep-linking-in-ionic-mobile-applications-44d8b4685bb3#.1mcs22njc
+if ('cordova' in window) {
+  // Create a sticky event for handling the app being opened via a custom URL
+  console.log("[global] Added a sticky event handler");
+  cordova.addStickyDocumentEventHandler('handleopenurl');
+}
 
-var handleOpenURL = function(url) {
-  // external load flag
-  setTimeout(function() {
-    alert("received url: " + url);
-    window.localStorage.setItem("yadl.externalLoad", url);
-  }, 0);
+function handleOpenURL (url) {
+  console.log("[global] Handle Open URL is called: " + url)
+  cordova.fireDocumentEvent('handleopenurl', { url: url });
 };
 
 
@@ -20,7 +24,13 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule',
 .constant('YADL_IMAGES_URL', 'http://yadl.image.bucket.s3-website-us-east-1.amazonaws.com')
 .constant('OHMAGE_DATA_URL', 'https://ohmage-omh.smalldata.io')
 
-.run( function( $rootScope, $state, $stateParams, $ionicPlatform, $cordovaStatusbar, $cordovaLocalNotification ) {
+.run( function( $rootScope, $state, $stateParams, $ionicPlatform, $cordovaStatusbar, $cordovaLocalNotification, OpenUrlService ) {
+  console.log("[run] In the .run()")
+  if (OpenUrlService) {
+    console.log("[run] OpenURL Service!");
+    document.addEventListener('handleopenurl', OpenUrlService.handleOpenUrl, false);
+    document.addEventListener('resume', OpenUrlService.onResume, false);
+  }
 
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -32,17 +42,6 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule',
       // make the status bar white
       $cordovaStatusbar.style(1);
     }
-    
-    // check if app was launched from a deep link
-    var exernalLoad = window.localStorage.getItem("yadl.externalLoad");
-    window.localStorage.removeItem("yadl.externalLoad");
-    alert('IONIC HEY ' + exernalLoad)
-    if( exernalLoad ){
-      $state.go( exernalLoad.split('://')[1] );
-    }
-    
-    
-    
 
     // schedule notification 
     if( window.cordova && window.cordova.plugins.notification ){
@@ -92,6 +91,48 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule',
   
   $urlRouterProvider.otherwise('/auth');
 })
+
+.factory('OpenUrlService', ['$log', '$location', '$rootScope', '$ionicHistory', '$state', 
+  function ($log, $location, $rootScope, $ionicHistory, $state) {
+
+    var openUrl = function (url) {
+
+      console.log('[OpenUrlService]: Handling open URL ' + url);
+
+      // Stop it from caching the first view as one to return when the app opens
+      $ionicHistory.nextViewOptions({
+        historyRoot: true,
+        disableBack: true,
+        disableAnimation: true
+      });
+
+      if (url) {
+        console.log('[OpenUrlService]: In the If')
+        window.location.hash = url.substr(5);
+        $rootScope.$broadcast('handleopenurl', url);
+
+        window.cordova.removeDocumentEventHandler('handleopenurl');
+        window.cordova.addStickyDocumentEventHandler('handleopenurl');
+        document.removeEventListener('handleopenurl', handleOpenUrl);
+        
+        $state.go(url = url.split('://')[1]);
+      }
+    };
+
+    var handleOpenUrl = function (e) {
+      openUrl(e.url);
+    };
+    
+    var onResume = function () {
+      document.addEventListener('handleopenurl', handleOpenUrl, false);
+    };
+
+    return {
+      handleOpenUrl: handleOpenUrl,
+      onResume: onResume
+    };
+
+}])
 
 .factory('AuthFactory', ['$state', 'localStorageService', 
   function($state, localStorageService){
