@@ -1,5 +1,5 @@
 <ion-pane>
-  <ion-content scroll="false">
+  <ion-content scroll="false" class="has-footer">
 
     <!--Image Container-->
     <div class="animated fadeIn" 
@@ -63,7 +63,7 @@
       <!--/Line-->
 
       <!--Footer-->
-      <div class="row" style="margin:0px; padding:0px;">
+      <!--<div class="row" style="margin:0px; padding:0px;">
         <div class="col" style="margin:0px; padding:0px; padding-left:15px;">
           <button ng-click="monthly.back()" ng-show="monthly.indx >0"class="button button-small button-outline button-positive">
             Back
@@ -72,10 +72,19 @@
             Skip Activity
           </button>
         </div>
-      </div>
+      </div>-->
       <!--/Footer-->
 
     </div>
     <!--/Controls Container-->
   </ion-content>
+  <div class="bar bar-footer bar-light" ng-click="daily.submitSelection()">
+    <button ng-click="monthly.back()" ng-show="monthly.indx >0"class="button button-small button-outline button-positive">
+      Back
+    </button>
+    <div class="title"></div>
+    <button ng-click="monthly.skip()" class="button button-small button-outline button-positive">
+      Skip Activity
+    </button>
+  </div>
 </ion-pane>
