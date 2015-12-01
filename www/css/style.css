@@ -5,3 +5,10 @@
 #progress-status {
 	position: relative;
 }
+
+.circle-button{
+    width: 96px; 
+    height: 96px; 
+    border-radius:48px; 
+    margin: 0 auto;
+}
