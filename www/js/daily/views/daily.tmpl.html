@@ -6,13 +6,7 @@
 
   <ion-content class="has-header has-footer">
     
-    <div class="row">
-      <div class="col">
-        <button ui-sref="activities" class="button button-outline button-block button-positive">
-          Add hard activity
-        </button>
-      </div>
-    </div>
+    
 
     <!-- SRC: https://blog.nraboy.com/2015/03/make-a-gallery-like-image-grid-using-ionic-framework/ -->
     <div>
@@ -28,6 +22,14 @@
           <img ng-src="{{ daily.list[$index + 2].activity_image }}" ng-class="{'selectedActivity': daily.isActivitySelected(daily.list[$index + 2])}" style="width:100%;" />
         </div>
         
+      </div>
+    </div>
+    
+    <div class="row">
+      <div class="col">
+        <button ui-sref="activities" class="button button-outline button-block button-positive">
+          Add hard activity
+        </button>
       </div>
     </div>
 
