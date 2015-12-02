@@ -46,8 +46,19 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule',
     // schedule notification 
     if( window.cordova && window.cordova.plugins.notification ){
       $cordovaLocalNotification.schedule({
-        text: "Time to do your YADL survey.",
-        every: "day"
+        text: "Time to do your YADL daily.",
+        every: "day",
+        data: { state:"daily" }
+      });
+      
+      $cordovaLocalNotification.schedule({
+        text: "Time to do your YADL monthly.",
+        every: "month",
+        data: { state:"monthly" }
+      });
+      
+      cordova.plugins.notification.local.on("click", function (notification) {
+          $state.go(notification.data.state);
       });
     }
   });
