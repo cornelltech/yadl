@@ -19,7 +19,7 @@ function handleOpenURL (url) {
 
 angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule', 'ngProgress', 'imageSpinner'])
 
-.constant('VERSION', '1.9.0')
+.constant('VERSION', '2.0.0')
 .constant('YADL', 'yadl-client')
 .constant('YADL_IMAGES_URL', 'http://yadl.image.bucket.s3-website-us-east-1.amazonaws.com')
 .constant('OHMAGE_DATA_URL', 'https://ohmage-omh.smalldata.io')
