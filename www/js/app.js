@@ -48,6 +48,7 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule',
       $cordovaLocalNotification.schedule({
         text: "Time to do your YADL daily.",
         every: "day",
+        // firstAt: tomorrow_at_8_pm,
         data: { state:"daily" }
       });
       
