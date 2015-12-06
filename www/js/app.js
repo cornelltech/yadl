@@ -45,22 +45,35 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule',
 
     // schedule notification 
     if( window.cordova && window.cordova.plugins.notification ){
+      
+      $cordovaLocalNotification.cancelAll();
+      
       $cordovaLocalNotification.schedule({
-        text: "Time to do your YADL daily.",
-        every: "day",
-        // firstAt: tomorrow_at_8_pm,
-        data: { state:"daily" }
+        id: 1,
+        text: "Time to do your monthly YADL survey.",
+        every: "month"
       });
       
       $cordovaLocalNotification.schedule({
-        text: "Time to do your YADL monthly.",
-        every: "month",
-        data: { state:"monthly" }
+        id: 2,
+        text: "Time to do your daily YADL survey.",
+        every: "day"
       });
       
-      cordova.plugins.notification.local.on("click", function (notification) {
-          $state.go(notification.data.state);
+      // cordova.plugins.notification.local.on("trigger", function(notification) {
+      //   // var args = JSON.parse(arguments);
+      //   alert(notification.id)
+      //   // $state.go(args.data.state);
+      // });
+      
+      cordova.plugins.notification.local.on("click", function(notification) {
+        if(notification.id == 1){
+          $state.go('monthly');
+        }else{
+          $state.go('daily');
+        }
       });
+      
     }
   });
 })
