@@ -7,8 +7,8 @@
              text-align:center; background-image: url({{ monthly.list[monthly.indx]['activity_image'] }}); 
              background-repeat: no-repeat; background-position: 50% 50%; background-size: cover;">
       
-      <div style="position:absolute; background-color: #1e8cf4; z-index:1000; height: 50px; width:100%; bottom:0px;">
-        <h1 style="color:white;">{{ monthly.list[monthly.indx]['activity_name'] }}</h1>
+      <div style="position:absolute; background-color: #1e8cf4; z-index:1000; height: 35px; width:100%; bottom:0px;">
+        <h3 style="color:white;">{{ monthly.list[monthly.indx]['activity_name'] }}</h3>
       </div>
       
    </div>
@@ -36,18 +36,18 @@
       
       <!--Buttons Container-->
       <div class="row">
-        <div class="col" ng-click="monthly.makeResponse('EASY')">
-          <button class="button button-outline button-block button-balanced" style="width:80px; height:80px; border-radius:40px; font-size:89%; margin: 0 auto;">
+        <div class="col col-center" ng-click="monthly.makeResponse('EASY')">
+          <button class="button button-outline button-block button-balanced" style="margin: 0 auto; padding-left:6px; padding-right:6px;">
             Easy
           </button>
         </div>
-        <div class="col" ng-click="monthly.makeResponse('MODERATE')">
-          <button class="button button-outline button-block button-energized" style="width:80px; height:80px; border-radius:40px; font-size:89%; margin: 0 auto;">
+        <div class="col col-center" ng-click="monthly.makeResponse('MODERATE')">
+          <button class="button button-outline button-block button-energized" style="margin: 0 auto; padding-left:6px; padding-right:6px;">
             Moderate
           </button>
         </div>
-        <div class="col" ng-click="monthly.makeResponse('HARD')">
-          <button class="button button-outline button-block button-assertive" style="width:80px; height:80px; border-radius:40px; font-size:89%; margin: 0 auto;">
+        <div class="col col-center" ng-click="monthly.makeResponse('HARD')">
+          <button class="button button-outline button-block button-assertive" style="margin: 0 auto; padding-left:6px; padding-right:6px;">
             Hard
           </button>
         </div>
