@@ -1,0 +1,94 @@
+[
+	{
+		"title": "Lifting light objects",
+		"file":"I1.jpg"
+  },
+  {
+      "title":"Lifting heavy objects",
+      "file":"I2.jpg"
+  },
+  {
+      "title":"Tying shoe",
+      "file":"I3.jpg"
+  },
+  {
+      "title":"Doing laundry",
+      "file":"I4.jpg"
+  },
+  {
+      "title":"Putting on socks",
+      "file":"I5.jpg"
+  },
+  {
+      "title":"Washing face",
+      "file":"I6.jpg"
+  },
+  {
+      "title":"Sitting",
+      "file":"I7.jpg"
+  },
+  {
+      "title":"Sitting 10 minutes",
+      "file":"I8.jpg"
+  },
+  {
+      "title":"Sitting in favorite chair ",
+      "file":"I9.jpg"
+  },
+  {
+      "title":"Sleeping",
+      "file":"I10.jpg"
+  },
+  {
+      "title":"Socializing",
+      "file":"I11.jpg"
+  },
+  {
+      "title":"Standing 1 hour",
+      "file":"I12.jpg"
+  },
+  {
+      "title":"Standing 10 minutes",
+      "file":"I13.jpg"
+  },
+  {
+      "title":"Driving a car",
+      "file":"I14.jpg"
+  },
+  {
+      "title":"Traveling by bus",
+      "file":"I15.jpg"
+  },
+  {
+      "title":"Traveling by taxi",
+      "file":"I16.jpg"
+  },
+  {
+      "title":"Traveling on bike",
+      "file":"I17.jpg"
+  },
+  {
+      "title":"Downstairs holding rail",
+      "file":"I18.jpg"
+  },
+  {
+      "title":"Upstairs holding rail",
+      "file":"I19.jpg"
+  },
+  {
+    "title":"Walking a mile",
+    "file": "I20.jpg"
+  },
+  {
+    "title":"Walking downstairs",
+    "file": "I21.jpg"
+  },
+  {
+    "title":"Walking upstairs",
+    "file": "I22.jpg"
+  },
+  {
+    "title":"Walking with cane",
+    "file": "I23.jpg"
+  }
+]
