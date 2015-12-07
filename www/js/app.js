@@ -589,12 +589,6 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule',
     };
     vm.submitSelection = submitSelection;
     
-    var logout = function( ){
-      $scope.closeModal();
-      AuthFactory.removeToken();
-      $state.go('auth');
-    };
-    $scope.logout = logout;
    
     function init( ){
       AuthFactory.checkAuth( );
@@ -617,8 +611,8 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule',
     } init( );
 }])
 
-.controller('SettingsController', ['$state', '$window', 'VERSION', 
-  function($state, $window, VERSION){
+.controller('SettingsController', ['$state', '$window', 'AuthFactory', 'VERSION', 
+  function($state, $window, AuthFactory, VERSION){
     var vm = this;
     vm.version = VERSION;
     
@@ -628,5 +622,11 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule',
        $window.history.back();
     };
     vm.goBack = goBack;
+    
+    var signout = function( ){
+      AuthFactory.removeToken();
+      $state.go('auth');
+    };
+    vm.signout = signout;
   
 }])
