@@ -109,6 +109,12 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule',
       controller: 'ActivitiesController',
       controllerAs: 'activities'
     })
+    .state('settings',{
+      url: '/settings',
+      templateUrl: 'js/accounts/views/settings.tmpl.html',
+      controller: 'SettingsController',
+      controllerAs: 'settings'
+    })
     .state('thankyou', {
       url: '/thankyou',
       templateUrl: 'js/thankyou.tmpl.html',
@@ -422,12 +428,6 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule',
     vm.list = [];
     vm.indx = 0;
     
-    var progressbar = ngProgressFactory.createInstance();
-    progressbar.setParent(document.getElementById('progress-status'));
-    progressbar.setColor('royalblue');
-    progressbar.setHeight('5px');
-    progressbar.setAbsolute();
-
     function submitResponses( ){
       // submit responses
       ActivitiesFactory.postMonthlyActivities( vm.list )
@@ -442,7 +442,6 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule',
     var skip = function( ){
       if( vm.indx < vm.list.length - 1 ){
         vm.indx += 1;
-        progressbar.set(vm.indx / vm.list.length * 100);
       }else{
         submitResponses( )
       }
@@ -452,7 +451,6 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule',
     var back = function( ){
       if( vm.indx > 0 ){
         vm.indx -= 1;
-        progressbar.set(vm.indx / vm.list.length * 100);
       }
     };
     vm.back = back;
@@ -464,7 +462,6 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule',
       
       if( vm.indx < vm.list.length - 1 ){
         vm.indx += 1;
-        progressbar.set(vm.indx/ vm.list.length * 100);
       }else{
         submitResponses( )
       }
@@ -599,20 +596,6 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule',
     };
     $scope.logout = logout;
    
-    
-    $ionicModal.fromTemplateUrl('js/accounts/views/settings.modal.tmpl.html', {
-      scope: $scope,
-      animation: 'slide-in-up'
-    }).then(function(modal) {
-      $scope.modal = modal;
-    });
-    $scope.openModal = function() {
-      $scope.modal.show();
-    };
-    $scope.closeModal = function() {
-      $scope.modal.hide();
-    };
-
     function init( ){
       AuthFactory.checkAuth( );
 
@@ -632,4 +615,18 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule',
           alert("Sorry, there was an error.");
         });
     } init( );
+}])
+
+.controller('SettingsController', ['$state', '$window', 'VERSION', 
+  function($state, $window, VERSION){
+    var vm = this;
+    vm.version = VERSION;
+    
+    vm.notificationConfig = { evening: true }
+  
+    var goBack = function(){
+       $window.history.back();
+    };
+    vm.goBack = goBack;
+  
 }])

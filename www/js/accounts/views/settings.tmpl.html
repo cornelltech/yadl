@@ -1,0 +1,35 @@
+<ion-pane>
+    <div class="bar bar-header bar-positive">
+        <h1 class="title">Settings</h1>
+        <button class="button button-clear" ng-click="settings.goBack()">Close</button>
+    </div>
+    
+    <ion-content class="has-header padding" scroll="false">
+    
+        <ul class="list">
+
+            <li class="item item-toggle">
+                Evening Notifications
+                <label class="toggle toggle-positive">
+                <input type="checkbox" ng-model="settings.notificationConfig.evening">
+                <div class="track">
+                    <div class="handle"></div>
+                </div>
+                </label>
+            </li>
+            
+        </ul>
+    
+    
+        <button class="button button-block">
+            Sign out
+        </button>
+        
+        <hr/>
+        
+        <div style="width:100%;">
+            <p style="text-align: center;"><strong>Version: {{ settings.version }}</strong></p>
+        </div>
+    
+    </ion-content>
+</ion-pane>
