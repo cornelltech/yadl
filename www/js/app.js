@@ -630,4 +630,4 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule',
     };
     vm.signout = signout;
   
-}])
+}]);
