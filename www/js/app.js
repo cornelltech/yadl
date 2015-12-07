@@ -229,7 +229,7 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule',
       data.forEach(function(obj){
         streamList.push( 
           {
-            'activity_image': YADL_IMAGES_URL + '/' + obj.file,
+            'activity_image': 'data/' + obj.file,
             'activity_name': obj.title,
             'activity_intensity': null,
             'activity_image_index': -1
@@ -241,10 +241,11 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule',
     function getMetaFile( ){
       var deferred = $q.defer();
 
-      $http({ url: YADL_IMAGES_URL + '/meta.json',
-            method: 'GET',
-            contentType: 'application/json'
-          })
+      // $http({ url: YADL_IMAGES_URL + '/meta.json',
+      //       method: 'GET',
+      //       contentType: 'application/json'
+      //     })
+      $http.get('data/config.json')
       .then(function( res ){
         updateStreamList( res.data );
         deferred.resolve( );
