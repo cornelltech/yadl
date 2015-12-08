@@ -417,7 +417,7 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule',
     // succesfull oauth completion
     $rootScope.$on('$cordovaInAppBrowser:loadstop', function(e, event){
       var url = event.url.split('#')
-      if( url.length > 1 && url[0].indexOf('lumbr.cornelltech.io') > -1){
+      if( url.length > 1 && url[0].indexOf('ohmage-omh.smalldata.io') > -1){
         var params = url[1].substr(1).split('&')
         var accessToken = params[0].split('=')[1];
         AuthFactory.setToken( accessToken );
