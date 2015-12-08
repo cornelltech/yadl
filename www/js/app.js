@@ -19,7 +19,7 @@ function handleOpenURL (url) {
 
 angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule', 'ngProgress', 'imageSpinner'])
 
-.constant('VERSION', '2.3.0')
+.constant('VERSION', '2.5.0')
 .constant('YADL', 'yadl-client')
 .constant('YADL_IMAGES_URL', 'http://yadl.image.bucket.s3-website-us-east-1.amazonaws.com')
 .constant('OHMAGE_DATA_URL', 'https://ohmage-omh.smalldata.io')
@@ -425,7 +425,6 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule',
         ActivitiesFactory.removeCachedActivities();
         $cordovaInAppBrowser.close();
       }
-
     });
 
     $rootScope.$on('$cordovaInAppBrowser:exit', function(e, event){
@@ -485,7 +484,6 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule',
       ActivitiesFactory.getActivities( )
         .then(function(list){
           vm.list = list;
-          console.log(list)
         })
         .catch(function(err){
           alert("Sorry, there was an error.");
@@ -653,15 +651,31 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule',
 
       if( window.cordova && window.cordova.plugins.notification ){
         $cordovaLocalNotification.cancelAll();
+
+        var hours = vm.notificationConfig.time.getHours();
+        var mins = vm.notificationConfig.time.getMinutes();
+
+        // console.log("HOURS ARE ")
+        // console.log(hours)
+        // console.log("MINS ARE")
+        // console.log(mins)
         
-        var now = new Date();
-        
-        var _1_month_from_now = now;
-        if( now.getMonth() >= 11){
-          _1_month_from_now.setMonth(0);
-        }else{
-          _1_month_from_now = new Date(now.getMonth() + 1);
-        }
+        var now = new Date()
+        // console.log("Now is")
+        // console.log(now.toISOString());
+
+        var _1_month_from_now = new Date();
+        Date.prototype.addMonths = function(months){
+            var dat = new Date(this.valueOf());
+            dat.setMonth(dat.getMonth() + months);
+            return dat;
+        };
+        _1_month_from_now = _1_month_from_now.addMonths(1);
+        _1_month_from_now = new Date(_1_month_from_now.setHours(hours));
+        _1_month_from_now = new Date(_1_month_from_now.setMinutes(mins));
+
+        // console.log("Scheduling monthly for ")
+        // console.log(_1_month_from_now.toISOString())
 
         $cordovaLocalNotification.schedule({
           id: 1,
@@ -671,18 +685,19 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule',
         });
 
 
-        var _1_day_from_now = now;
-        if( daysInMonth(now.getMonth(), now.getYear()) > now.getDate() ){
-          _1_day_from_now = new Date(now.getDate() + 1);  
-        }else{
-          _1_day_from_now = _1_day_from_now.setDate(0);
-          if(_1_day_from_now.getMonth()<11){
-            _1_day_from_now = new Date(_1_day_from_now.getMonth() + 1);
-          }else{
-            _1_day_from_now.setMonth(0);
-          }
-        }
+        var _1_day_from_now = new Date();
+        Date.prototype.addDays = function(days){
+            var dat = new Date(this.valueOf());
+            dat.setDate(dat.getDate() + days);
+            return dat;
+        };
+        _1_day_from_now = _1_day_from_now.addDays(1);
+        _1_day_from_now = new Date(_1_day_from_now.setHours(hours));
+        _1_day_from_now = new Date(_1_day_from_now.setMinutes(mins));
         
+        // console.log("Scheduling dialy for ")
+        // console.log(_1_day_from_now.toISOString())
+
         $cordovaLocalNotification.schedule({
           id: 2,
           text: "Time to do your daily YADL survey.",
