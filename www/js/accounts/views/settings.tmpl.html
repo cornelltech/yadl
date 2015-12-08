@@ -6,20 +6,16 @@
     
     <ion-content class="has-header padding" scroll="false">
     
-        <ul class="list">
+        <div class="list">
+          <label class="item item-input item-stacked-label">
+            <span class="input-label">Notification Time</span>
+            <input type="time" ng-model="settings.notificationConfig.time">
+          </label>
+        </div>
 
-            <li class="item item-toggle">
-                Notifications (Placeholder)
-                <label class="toggle toggle-positive">
-                <input type="checkbox" ng-model="settings.notificationConfig.evening">
-                <div class="track">
-                    <div class="handle"></div>
-                </div>
-                </label>
-            </li>
-            
-        </ul>
-    
+        <button class="button button-block" ng-click="settings.schedule()">
+            Set Reminder
+        </button>
     
         <button class="button button-block" ng-click="settings.signout()">
             Sign out

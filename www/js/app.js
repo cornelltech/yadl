@@ -46,25 +46,25 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule',
     // schedule notification 
     if( window.cordova && window.cordova.plugins.notification ){
       
-      $cordovaLocalNotification.cancelAll();
+      // $cordovaLocalNotification.cancelAll();
       
-      $cordovaLocalNotification.schedule({
-        id: 1,
-        text: "Time to do your monthly YADL survey.",
-        every: "month"
-      });
-      
-      $cordovaLocalNotification.schedule({
-        id: 2,
-        text: "Time to do your daily YADL survey.",
-        every: "day"
-      });
-      
-      // cordova.plugins.notification.local.on("trigger", function(notification) {
-      //   // var args = JSON.parse(arguments);
-      //   alert(notification.id)
-      //   // $state.go(args.data.state);
+      // $cordovaLocalNotification.schedule({
+      //   id: 1,
+      //   text: "Time to do your monthly YADL survey.",
+      //   every: "month"
       // });
+      
+      // $cordovaLocalNotification.schedule({
+      //   id: 2,
+      //   text: "Time to do your daily YADL survey.",
+      //   every: "day"
+      // });
+      
+      // // cordova.plugins.notification.local.on("trigger", function(notification) {
+      // //   // var args = JSON.parse(arguments);
+      // //   alert(notification.id)
+      // //   // $state.go(args.data.state);
+      // // });
       
       cordova.plugins.notification.local.on("click", function(notification) {
         if(notification.id == 1){
@@ -180,6 +180,14 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule',
       return localStorageService.remove( 'ohmage_token' );
     }
 
+    function setReminderTime( time ){
+      return localStorageService.set( 'reminder', time );
+    }
+
+    function getReminderTime( ){
+      return localStorageService.get( 'reminder' ); 
+    }
+
     function checkAuth( ){
       if( getToken( ) ){
         return getToken( );
@@ -191,7 +199,9 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule',
     return{
       setToken: setToken,
       removeToken: removeToken,
-      checkAuth: checkAuth
+      checkAuth: checkAuth,
+      setReminderTime: setReminderTime,
+      getReminderTime: getReminderTime
     };
 }])
 
@@ -612,12 +622,13 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule',
     } init( );
 }])
 
-.controller('SettingsController', ['$state', '$window', 'AuthFactory', 'VERSION', 
-  function($state, $window, AuthFactory, VERSION){
+.controller('SettingsController', ['$state', '$window', '$cordovaLocalNotification', 'AuthFactory', 'VERSION', 
+  function($state, $window, $cordovaLocalNotification, AuthFactory, VERSION){
     var vm = this;
     vm.version = VERSION;
     
-    vm.notificationConfig = { evening: true }
+    vm.notificationConfig = { };
+    vm.notificationConfig.time = new Date(AuthFactory.getReminderTime()) || new Date();
   
     var goBack = function(){
        $window.history.back();
@@ -629,5 +640,57 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule',
       $state.go('auth');
     };
     vm.signout = signout;
-  
+
+    function daysInMonth(month,year) {
+      return new Date(year, month, 0).getDate();
+    }
+
+
+    // schedule notification 
+    var schedule = function(){
+
+      AuthFactory.setReminderTime( vm.notificationConfig.time );
+
+      if( window.cordova && window.cordova.plugins.notification ){
+        $cordovaLocalNotification.cancelAll();
+        
+        var now = new Date();
+        
+        var _1_month_from_now = now;
+        if( now.getMonth() >= 11){
+          _1_month_from_now.setMonth(0);
+        }else{
+          _1_month_from_now = new Date(now.getMonth() + 1);
+        }
+
+        $cordovaLocalNotification.schedule({
+          id: 1,
+          text: "Time to do your monthly YADL survey.",
+          every: "month",
+          at: _1_month_from_now
+        });
+
+
+        var _1_day_from_now = now;
+        if( daysInMonth(now.getMonth(), now.getYear()) > now.getDate() ){
+          _1_day_from_now = new Date(now.getDate() + 1);  
+        }else{
+          _1_day_from_now = _1_day_from_now.setDate(0);
+          if(_1_day_from_now.getMonth()<11){
+            _1_day_from_now = new Date(_1_day_from_now.getMonth() + 1);
+          }else{
+            _1_day_from_now.setMonth(0);
+          }
+        }
+        
+        $cordovaLocalNotification.schedule({
+          id: 2,
+          text: "Time to do your daily YADL survey.",
+          every: "day",
+          at: _1_day_from_now
+        });
+      }
+    };
+    vm.schedule = schedule;
+
 }]);
