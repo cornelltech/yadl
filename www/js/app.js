@@ -643,7 +643,6 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule',
       return new Date(year, month, 0).getDate();
     }
 
-
     // schedule notification 
     var schedule = function(){
 
