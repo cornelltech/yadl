@@ -33,6 +33,9 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule',
   }
 
   $ionicPlatform.ready(function() {
+
+    console.log("PLATFORM IS READY")
+
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
     if(window.cordova && window.cordova.plugins.Keyboard) {
@@ -416,14 +419,22 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule',
     // Listen to in-app browser events to monitor URL for 
     // succesfull oauth completion
     $rootScope.$on('$cordovaInAppBrowser:loadstop', function(e, event){
+
       var url = event.url.split('#')
+      
       if( url.length > 1 && url[0].indexOf('ohmage-omh.smalldata.io') > -1){
+
         var params = url[1].substr(1).split('&')
         var accessToken = params[0].split('=')[1];
-        AuthFactory.setToken( accessToken );
-        // on fresh auth clean the cache
-        ActivitiesFactory.removeCachedActivities();
-        $cordovaInAppBrowser.close();
+
+        if(accessToken){
+
+          AuthFactory.setToken( accessToken );
+          // on fresh auth clean the cache
+          ActivitiesFactory.removeCachedActivities();
+          $cordovaInAppBrowser.close();  
+        }
+        
       }
     });
 
