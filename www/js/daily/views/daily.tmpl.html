@@ -8,7 +8,12 @@
 
   <ion-content class="has-header has-footer" style="top:60px;">
     
-    
+    <div ng-if="!daily.list" class="row">
+      <div class="col">
+        <p style="text-align:center">No activities selected</p>
+      </div>
+    </div>
+
 
     <!-- SRC: https://blog.nraboy.com/2015/03/make-a-gallery-like-image-grid-using-ionic-framework/ -->
     <div>

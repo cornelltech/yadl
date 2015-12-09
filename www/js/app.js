@@ -19,7 +19,7 @@ function handleOpenURL (url) {
 
 angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule', 'ngProgress', 'imageSpinner'])
 
-.constant('VERSION', '2.6.4')
+.constant('VERSION', '2.6.5')
 .constant('YADL', 'yadl-client')
 .constant('YADL_IMAGES_URL', 'http://yadl.image.bucket.s3-website-us-east-1.amazonaws.com')
 .constant('OHMAGE_DATA_URL', 'https://ohmage-omh.smalldata.io')
@@ -545,8 +545,10 @@ angular.module('yadl', ['ionic', 'ui.router', 'ngCordova', 'LocalStorageModule',
 
       ActivitiesFactory.getCachedActivities( )
         .then(function(list){
-          for(var i =0; i<list.length; i++){
-            list[i].selected = false;
+          if(list){
+            for(var i =0; i<list.length; i++){
+              list[i].selected = false;
+            }  
           }
           vm.list = list; 
         })
