@@ -6,9 +6,6 @@
     <title></title>
 
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
-    <link href="lib/animate.css/animate.css" rel="stylesheet">
-    <link href="lib/PACE/themes/blue/pace-theme-barber-shop.css" rel="stylesheet" />
-    <link href='lib/ngprogress/ngprogress.css' type='text/css' media='all' />
     <link href="css/style.css" rel="stylesheet">
 
     <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
@@ -19,20 +16,24 @@
     <script src="lib/ionic/js/ionic.bundle.js"></script>
     <script src="lib/ngCordova/dist/ng-cordova.js"></script>
     <script src="lib/angular-local-storage/dist/angular-local-storage.js"></script>
-    <script src="lib/angular-ui-router/release/angular-ui-router.js"></script>
-    <script src='lib/ngprogress/build/ngprogress.min.js'></script>
-    <script src="lib/spin.js/spin.js"></script>
-    <script src="lib/angular-image-spinner/dist/angular-image-spinner.js"></script>    
 
     <!-- cordova script (this will be a 404 during development) -->
     <script src="cordova.js"></script>
 
+
     <!-- your app's js -->
     <script src="js/app.js"></script>
-    
-    
+    <script src="js/accounts/yadl.auth.services.js"></script>
+    <script src="js/accounts/yadl.auth.controllers.js"></script>
+    <script src="js/surveys/yadl.surveys.services.js"></script>
+    <script src="js/surveys/yadl.surveys.controllers.js"></script>
+    <script src="js/utilities/yadl.utilities.services.js"></script>
+    <script src="js/utilities/yadl.utilities.controllers.js"></script>
   </head>
   <body ng-app="yadl">
-    <ui-view></ui-view>
+
+    <ion-pane>
+      <ui-view></ui-view>
+    </ion-pane>
   </body>
 </html>
