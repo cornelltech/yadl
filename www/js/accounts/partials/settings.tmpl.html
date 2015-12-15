@@ -1,12 +1,16 @@
 <div class="bar bar-header bar-positive">
-	<button class="button button-icon icon ion-ios-arrow-back"></button>
+	<button class="button button-icon icon ion-ios-arrow-back" ng-click="settings.goBack()"></button>
 	<h1 class="title">YADL Settings</h1>
 	<button class="button button-clear">Save</button>
 </div>
-<ion-content class="has-header">
+<ion-content class="has-header padding">
 	
-	<ion-list>
-		
-	</ion-list>
+	<button class="button button-block button-outline button-positive" ui-sref="daily">
+	  Go to Daily
+	</button>
+
+	<button class="button button-block button-outline button-positive" ui-sref="monthly({'objID': 0})">
+	  Go to Monthly
+	</button>
 
 </ion-content>
