@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 angular.module('yadl', ['ionic', 'ngCordova', 'LocalStorageModule'])
 
-.constant('VERSION', '1.0.0')
+.constant('VERSION', '3.0.0')
 .constant('DEFAULTS', {
   "yadlClientName": "yadl-client",
   "yadlOhmageOMHLocation": "https://ohmage-omh.smalldata.io",
