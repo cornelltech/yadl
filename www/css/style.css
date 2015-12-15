@@ -1,1 +1,31 @@
-/* Empty. Add your own CSS if you like */
+.white-icon{
+	color: white;
+}
+.white-icon:active { 
+  color:white 
+}
+
+.upper-right{
+	position: absolute;
+	top: 12px;
+	right: 12px;
+}
+.bottom-left{
+	position: absolute;
+	bottom: 10px;
+	left: 10px;
+}
+
+.long-header-text{
+  text-align: center;
+  font-size:17px; 
+  font-weight: 500; 
+  line-height: 20px;
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.selectedActivity{
+  border: 5px solid #4b8aee;
+}

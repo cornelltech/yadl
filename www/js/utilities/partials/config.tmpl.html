@@ -1,0 +1,31 @@
+<div class="bar bar-header bar-positive">
+	<button class="button button-icon icon ion-ios-arrow-back" ui-sref="auth"></button>
+	<h1 class="title">Configure YADL</h1>
+	<button class="button button-clear" ng-click="config.update()">Save</button>
+</div>
+<ion-content class="has-header">
+	
+	<ion-list>
+		<div class="item item-divider">
+			Server Configuration
+		</div>
+		<label class="item item-input item-stacked-label">
+			<span class="input-label">YADL Client Name</span>
+			<input type="text" ng-model="config.yadlClientName">
+		</label>
+		<label class="item item-input item-stacked-label">
+			<span class="input-label">Ohmage-omh Location</span>
+			<input type="text" ng-model="config.yadlOhmageOMHLocation">
+		</label>
+		
+		
+		<div class="item item-divider">
+			Asset Configuration
+		</div>
+		<label class="item item-input item-stacked-label">
+			<span class="input-label">YADL Configuration Location</span>
+			<input type="text" ng-model="config.yadlConfigurationLocation">
+		</label>
+	</ion-list>
+
+</ion-content>

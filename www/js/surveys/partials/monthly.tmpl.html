@@ -1,0 +1,46 @@
+<ion-content scroll="false" class="has-footer">
+	
+	<a class="button button-icon icon ion-gear-a upper-right white-icon" ui-sref="settings" style="z-index:1000;"></a>
+
+	<div style="height:55vh; background-color: #1e8cf4; position:relative; 
+             text-align:center; background-image: url({{ monthly.object.activity_image }}); 
+             background-repeat: no-repeat; background-position: 50% 50%; background-size: cover; z-index:500;">
+      	
+      	<div style="position:absolute; background-color: #1e8cf4; z-index:1000; height: 35px; width:100%; bottom:0px;">
+        	<h3 style="color:white;">{{ monthly.object.activity_name }}</h3>
+      	</div>
+
+	</div>
+
+	<div class="row">
+        <div class="col" style="text-align: center;">
+          	<h4>How hard is this activity for you on a difficult day?</h4>
+          	<small>{{ monthly.object.activity_image_index + 1 }} of {{ monthly.numberOfObjs }}</small>
+        </div>
+    </div>
+
+	<div class="row" style="min-height:100px;">
+		
+		<div class="col col-center" ng-repeat="action in monthly.config.responses">
+			<button class="button button-outline button-block button-{{ action.color }}" ng-click="monthly.rate( action.text )">
+				{{ action.text }}
+			</button>
+		</div>
+
+	</div>
+
+</ion-content>
+
+<div class="bar bar-footer bar-light">
+
+	<button class="button button-small button-clear button-positive" ng-show="monthly.object.activity_image_index != 0" ui-sref="monthly({objID: monthly.object.activity_image_index - 1})">
+		Back
+	</button>
+
+	<div class="title"></div>
+
+	<button class="button button-small button-clear button-positive" ng-show="monthly.object.activity_image_index != monthly.numberOfObjs - 1" ui-sref="monthly({objID: monthly.object.activity_image_index + 1})">
+		Skip
+	</button>
+
+</div>
