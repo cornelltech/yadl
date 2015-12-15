@@ -52,6 +52,9 @@ angular.module('yadl')
 
 function DailyController( $state, SurveysFactory, AssetFactory, UtilityFactory ){
   var vm = this;
+  vm.list = SurveysFactory.getDailyObjects();
+
+  console.log(vm.list);
   
   function init(){
     console.log("[DailyController()]: init()");

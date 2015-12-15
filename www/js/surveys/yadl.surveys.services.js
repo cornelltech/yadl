@@ -147,6 +147,10 @@ function SurveysFactory($q, $http, localStorageService, AuthFactory, AssetFactor
 			var selection = filterSelection();
 			cacheMonthlySelection( selection );
 			return postMonthlySelection( objects );
+		},
+
+		getDailyObjects: function(){
+			return localStorageService.get('monthlySelection');
 		}
 
 

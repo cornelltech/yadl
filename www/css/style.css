@@ -12,3 +12,17 @@
 	bottom: 10px;
 	left: 10px;
 }
+
+.long-header-text{
+  text-align: center;
+  font-size:17px; 
+  font-weight: 500; 
+  line-height: 20px;
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.selectedActivity{
+  border: 5px solid #4b8aee;
+}
