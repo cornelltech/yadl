@@ -1,6 +1,9 @@
 .white-icon{
 	color: white;
 }
+.white-icon:active { 
+  color:white 
+}
 
 .upper-right{
 	position: absolute;

@@ -50,7 +50,7 @@ angular.module('yadl')
 
 
 
-function DailyController( $state, SurveysFactory, AssetFactory, UtilityFactory ){
+function DailyController( $state, AuthFactory, SurveysFactory, AssetFactory, UtilityFactory ){
   var vm = this;
   vm.list = SurveysFactory.getDailyObjects();
   vm.selectedActivities = [];
@@ -92,10 +92,12 @@ function DailyController( $state, SurveysFactory, AssetFactory, UtilityFactory )
   function init(){
     console.log("[DailyController()]: init()");
 
+    AuthFactory.requireAuth();
+
   } init();
 
 }
 
-DailyController.$inject = ['$state', 'SurveysFactory', 'AssetFactory', 'UtilityFactory'];
+DailyController.$inject = ['$state', 'AuthFactory', 'SurveysFactory', 'AssetFactory', 'UtilityFactory'];
 angular.module('yadl')
   .controller('DailyController', DailyController);
