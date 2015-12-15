@@ -12,8 +12,8 @@ angular.module('yadl', ['ionic', 'ngCordova', 'LocalStorageModule'])
   "yadlConfigurationLocation": "http://yadl.image.bucket.s3-website-us-east-1.amazonaws.com"
 })
 
-.run(['$ionicPlatform', '$cordovaStatusbar', 'AssetFactory', 'DEFAULTS', 
-  function($ionicPlatform, $cordovaStatusbar, AssetFactory, DEFAULTS) {
+.run(['$ionicPlatform', '$state', '$cordovaStatusbar', 'AssetFactory', 'OpenUrlService', 'DEFAULTS', 
+  function($ionicPlatform, $state, $cordovaStatusbar, AssetFactory, OpenUrlService, DEFAULTS) {
     
     $ionicPlatform.ready(function() {
 
@@ -47,6 +47,13 @@ angular.module('yadl', ['ionic', 'ngCordova', 'LocalStorageModule'])
           }
         });
       
+      }
+
+      // listen for deep links
+      if(OpenUrlService){
+        console.log("[run] OpenURL Service!");
+        document.addEventListener('handleopenurl', OpenUrlService.handleOpenUrl, false);
+        document.addEventListener('resume', OpenUrlService.onResume, false);
       }
 
     });
@@ -114,3 +121,5 @@ function handleOpenURL (url) {
   console.log("[global] Handle Open URL is called: " + url)
   cordova.fireDocumentEvent('handleopenurl', { url: url });
 };
+
+
