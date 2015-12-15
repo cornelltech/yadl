@@ -29,12 +29,25 @@ angular.module('yadl', ['ionic', 'ngCordova', 'LocalStorageModule'])
         // a much nicer keyboard experience.
         cordova.plugins.Keyboard.disableScroll(true);
       }
-      if(window.StatusBar) {
+      if(window.cordova && window.StatusBar) {
         $cordovaStatusbar.style(1);
       }
 
       // Load up the JSON config file on load
       AssetFactory.fetchConfig();
+
+      // schedule notification 
+      if(window.cordova && window.cordova.plugins.notification){
+
+        cordova.plugins.notification.local.on("click", function(notification) {
+          if(notification.id == 1){
+            $state.go('monthly', {'objID': 0});
+          }else{
+            $state.go('daily');
+          }
+        });
+      
+      }
 
     });
 }])
