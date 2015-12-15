@@ -1,5 +1,36 @@
-function UtilityFactory($q, $ionicPopup){
+function UtilityFactory($q, $ionicPopup, $cordovaLocalNotification, localStorageService){
 	
+	var clearNotifications = function(){
+		console.log('UtilityFactory: Clearing Notifications');
+		if(window.cordova && window.cordova.plugins.notification){
+			$cordovaLocalNotification.cancelAll();
+		}
+	};
+
+	var scheduleDailyNotification = function(time){
+		console.log('UtilityFactory: Scheduling Daily Notification for ' + time);
+		if(window.cordova && window.cordova.plugins.notification){
+			$cordovaLocalNotification.schedule({
+	          	id: 2,
+	          	text: "Time to do your daily YADL survey.",
+	          	every: "day",
+	          	at: time
+	        });
+		}
+	};
+
+	var scheduleMonthlyNotification = function(time){
+		console.log('UtilityFactory: Scheduling Monthly Notification for ' + time);
+		if(window.cordova && window.cordova.plugins.notification){
+			$cordovaLocalNotification.schedule({
+	          	id: 2,
+	          	text: "Time to do your monthly YADL survey.",
+	          	every: "month",
+	          	at: time
+	        });
+		}
+	};
+
 	return {
 		guid: function() {
       		
@@ -25,13 +56,55 @@ function UtilityFactory($q, $ionicPopup){
 		     template: msg
 		   	});
 		   	return alertPopup;
+    	},
+
+    	getNotificationTime: function(){
+    		var coeff = 1000 * 60;
+  			var date = new Date();
+    		return localStorageService.get('notificationTime') || new Date(Math.round(date.getTime() / coeff) * coeff);
+    	},
+
+    	scheduleNotifications: function(){
+    		var deferred = $q.defer();
+    		// if we are scheduling new notification times, cancel the old
+    		clearNotifications();
+
+	        Date.prototype.addDays = function(days){
+	            var date = new Date(this.valueOf());
+	            date.setDate(date.getDate() + days);
+	            return date;
+	        };
+
+	        var _1_day_from_now = new Date();
+	        _1_day_from_now = _1_day_from_now.addDays(1);
+	        _1_day_from_now = new Date(_1_day_from_now.setHours(hours));
+	        _1_day_from_now = new Date(_1_day_from_now.setMinutes(mins));
+
+	        scheduleDailyNotification(_1_day_from_now);
+
+	        Date.prototype.addMonths = function(months){
+	            var date = new Date(this.valueOf());
+	            date.setMonth(date.getMonth() + months);
+	            return date;
+	        };
+
+	        var _1_month_from_now = new Date();
+	        _1_month_from_now = _1_month_from_now.addMonths(1);
+	        _1_month_from_now = new Date(_1_month_from_now.setHours(hours));
+	        _1_month_from_now = new Date(_1_month_from_now.setMinutes(mins));
+
+	        scheduleMonthlyNotification(_1_month_from_now);
+
+	        deferred.resolve();
+
+	        return deferred.promise;
     	}
 	};
 
 
 }
 
-UtilityFactory.$inject = ['$q', '$ionicPopup'];
+UtilityFactory.$inject = ['$q', '$ionicPopup', '$cordovaLocalNotification', 'localStorageService'];
 angular.module('yadl')
   .factory('UtilityFactory', UtilityFactory);
 

@@ -1,6 +1,9 @@
-function SettingsController( $window, AuthFactory, VERSION ){
+function SettingsController( $window, AuthFactory, UtilityFactory, VERSION ){
   var vm = this;
   vm.version = VERSION;
+
+  
+  vm.reminderTime = UtilityFactory.getNotificationTime();
 
   var goBack = function(){
     $window.history.back();
@@ -12,12 +15,20 @@ function SettingsController( $window, AuthFactory, VERSION ){
   };
   vm.signOut = signOut();
 
+  var schedule = function(){
+  	UtilityFactory.scheduleNotifications()
+  		.then(function(){
+  			UtilityFactory.popupSuccess('Scheduled Notifications')
+  		})
+  };
+  vm.schedule = schedule;
+
   function init(){
     console.log("[SettingsControllers()]: init()");
   } init();
 
 }
 
-SettingsController.$inject = ['$window', 'AuthFactory', 'VERSION'];
+SettingsController.$inject = ['$window', 'AuthFactory', 'UtilityFactory', 'VERSION'];
 angular.module('yadl')
   .controller('SettingsController', SettingsController);
