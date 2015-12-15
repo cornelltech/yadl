@@ -1,6 +1,6 @@
 function AuthFactory($rootScope, $q, $state, $ionicPlatform, $cordovaInAppBrowser, localStorageService, AssetFactory, UtilityFactory){
 	
-	var setOhmageToken = function( token ){
+	var setOhmageToken = function( ohmageToken ){
 		return localStorageService.set('ohmageToken', ohmageToken);
 	};
 
@@ -23,23 +23,17 @@ function AuthFactory($rootScope, $q, $state, $ionicPlatform, $cordovaInAppBrowse
 	// Listen to in-app browser events to monitor URL for 
     // succesfull oauth completion
     $rootScope.$on('$cordovaInAppBrowser:loadstop', function(e, event){
-
-      	var url = event.url.split('#')
-      
-      	if( url.length > 1 && url[0].indexOf('ohmage-omh.smalldata.io') > -1){
-
-        	var params = url[1].substr(1).split('&')
+      	var url = event.url.split('#');
+      	console.log(url)
+      	if( url.length > 1 && url[1].indexOf('access_token') > -1){
+        	var params = url[1].split('&');
         	var accessToken = params[0].split('=')[1];
-
         	if(accessToken){
-
+        		console.log('$cordovaInAppBrowser:loadstop Condition Met, storing access token');
           		setOhmageToken( accessToken );
           		$cordovaInAppBrowser.close();  
-        	
         	}
-        
       	}
-
     });
 
     $rootScope.$on('$cordovaInAppBrowser:exit', function(e, event){

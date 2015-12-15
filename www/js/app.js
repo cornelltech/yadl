@@ -17,7 +17,7 @@ angular.module('yadl', ['ionic', 'ngCordova', 'LocalStorageModule'])
     
     $ionicPlatform.ready(function() {
 
-      console.log("hi there hi there");
+      console.log('[.run()]: $ionicPlatform.ready()');
 
       if(window.cordova && window.cordova.plugins.Keyboard) {
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -81,7 +81,7 @@ angular.module('yadl', ['ionic', 'ngCordova', 'LocalStorageModule'])
         templateUrl: 'js/utilities/partials/thankyou.tmpl.html'
       })
 
-    $urlRouterProvider.otherwise('/auth');  
+    $urlRouterProvider.otherwise('/daily');  
 }])
 
 
