@@ -128,9 +128,6 @@ function SurveysFactory($q, $http, localStorageService, AuthFactory, AssetFactor
 			}
 		};
 
-		console.log("Posting Daily")
-		console.log(ohmagePackage)
-
       	$http({
       		url: AssetFactory.getOhmageOMHLocation() + '/dsu/dataPoints',
             method: 'POST',
