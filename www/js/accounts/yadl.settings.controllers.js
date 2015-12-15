@@ -1,8 +1,6 @@
 function SettingsController( $window, AuthFactory, UtilityFactory, VERSION ){
   var vm = this;
   vm.version = VERSION;
-
-  
   vm.reminderTime = UtilityFactory.getNotificationTime();
 
   var goBack = function(){
@@ -16,7 +14,7 @@ function SettingsController( $window, AuthFactory, UtilityFactory, VERSION ){
   vm.signOut = signOut();
 
   var schedule = function(){
-  	UtilityFactory.scheduleNotifications()
+  	UtilityFactory.scheduleNotifications(vm.reminderTime)
   		.then(function(){
   			UtilityFactory.popupSuccess('Scheduled Notifications')
   		})

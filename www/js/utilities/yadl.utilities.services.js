@@ -1,5 +1,9 @@
 function UtilityFactory($q, $ionicPopup, $cordovaLocalNotification, localStorageService){
 	
+	var cacheNotificationTime = function(time){
+		return localStorageService.set('notificationTime', time)
+	};
+
 	var clearNotifications = function(){
 		console.log('UtilityFactory: Clearing Notifications');
 		if(window.cordova && window.cordova.plugins.notification){
@@ -61,13 +65,17 @@ function UtilityFactory($q, $ionicPopup, $cordovaLocalNotification, localStorage
     	getNotificationTime: function(){
     		var coeff = 1000 * 60;
   			var date = new Date();
-    		return localStorageService.get('notificationTime') || new Date(Math.round(date.getTime() / coeff) * coeff);
+    		return new Date(localStorageService.get('notificationTime')) || new Date(Math.round(date.getTime() / coeff) * coeff);
     	},
 
-    	scheduleNotifications: function(){
+    	scheduleNotifications: function(time){
     		var deferred = $q.defer();
     		// if we are scheduling new notification times, cancel the old
     		clearNotifications();
+    		cacheNotificationTime(time);
+
+    		var hours = time.getHours();
+        	var mins = time.getMinutes();
 
 	        Date.prototype.addDays = function(days){
 	            var date = new Date(this.valueOf());
