@@ -11,7 +11,7 @@ function SettingsController( $window, AuthFactory, UtilityFactory, VERSION ){
   var signOut = function(){
   	AuthFactory.signOut();
   };
-  vm.signOut = signOut();
+  vm.signOut = signOut;
 
   var schedule = function(){
   	UtilityFactory.scheduleNotifications(vm.reminderTime)

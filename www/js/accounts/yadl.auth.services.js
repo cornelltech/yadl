@@ -47,7 +47,8 @@ function AuthFactory($rootScope, $q, $state, $ionicPlatform, $cordovaInAppBrowse
 		},
 
 		signOut: function(){
-
+			localStorageService.clearAll();
+			$state.go('auth');
 		},
 
 		getOhmageToken: function(){
