@@ -95,6 +95,7 @@ function SurveysFactory($q, $http, localStorageService, AuthFactory, AssetFactor
             data: ohmagePackage
           })
       	.then(function(r){
+      		console.log(r);
       		deferred.resolve();
       	})
       	.catch(function(e){
@@ -134,6 +135,7 @@ function SurveysFactory($q, $http, localStorageService, AuthFactory, AssetFactor
             data: ohmagePackage
           })
       	.then(function(r){
+      		console.log(r);
       		deferred.resolve();
       	})
       	.catch(function(e){
@@ -195,8 +197,6 @@ function SurveysFactory($q, $http, localStorageService, AuthFactory, AssetFactor
 		submitDaily: function( selection ){
 			return postDailySelection( selection );
 		}
-
-
 
 	};
 
