@@ -9,7 +9,7 @@ function MonthlyController( $state, SurveysFactory, AssetFactory, UtilityFactory
   		.then(function(r){
   			$state.go('thankyou');
   		});
-  }
+  };
 
   var rate = function(rating){
 
@@ -46,3 +46,20 @@ function MonthlyController( $state, SurveysFactory, AssetFactory, UtilityFactory
 MonthlyController.$inject = ['$state', 'SurveysFactory', 'AssetFactory', 'UtilityFactory'];
 angular.module('yadl')
   .controller('MonthlyController', MonthlyController);
+
+
+
+
+function DailyController( $state, SurveysFactory, AssetFactory, UtilityFactory ){
+  var vm = this;
+  
+  function init(){
+    console.log("[DailyController()]: init()");
+
+  } init();
+
+}
+
+DailyController.$inject = ['$state', 'SurveysFactory', 'AssetFactory', 'UtilityFactory'];
+angular.module('yadl')
+  .controller('DailyController', DailyController);

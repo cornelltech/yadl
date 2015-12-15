@@ -83,7 +83,9 @@ angular.module('yadl', ['ionic', 'ngCordova', 'LocalStorageModule'])
       })
       .state('daily', {
         url: '/daily',
-        templateUrl: 'js/surveys/partials/daily.tmpl.html'
+        templateUrl: 'js/surveys/partials/daily.tmpl.html',
+        controller: 'DailyController',
+        controllerAs: 'daily'
       })
       .state('monthly', {
         url: '/monthly/:objID',
