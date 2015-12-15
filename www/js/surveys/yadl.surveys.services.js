@@ -106,6 +106,7 @@ function SurveysFactory($q, $http, localStorageService, AuthFactory, AssetFactor
 		return deferred.promise;
 	};
 
+
 	var postDailySelection = function( selection ){
 		var deferred = $q.defer();
 		var ohmagePackage = {
@@ -126,6 +127,9 @@ function SurveysFactory($q, $http, localStorageService, AuthFactory, AssetFactor
 				"activities": selection
 			}
 		};
+
+		console.log("Posting Daily")
+		console.log(ohmagePackage)
 
       	$http({
       		url: AssetFactory.getOhmageOMHLocation() + '/dsu/dataPoints',

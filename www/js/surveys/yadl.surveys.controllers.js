@@ -69,11 +69,12 @@ function DailyController( $state, AuthFactory, SurveysFactory, AssetFactory, Uti
 
   var selectActivity = function( obj ){
     if(!isSelected(obj)){
+      obj.selected = true;
       vm.selectedActivities.push(obj);  
     }else{
-      console.log("Object is selected")
       for(var i=0; i<vm.selectedActivities.length; i++){
         if( vm.selectedActivities[i].id == obj.id){
+          vm.selectedActivities[i].selected = false;
           vm.selectedActivities.splice( i, 1 );      
         }
       }
