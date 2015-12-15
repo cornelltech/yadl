@@ -53,8 +53,41 @@ angular.module('yadl')
 function DailyController( $state, SurveysFactory, AssetFactory, UtilityFactory ){
   var vm = this;
   vm.list = SurveysFactory.getDailyObjects();
+  vm.selectedActivities = [];
 
-  console.log(vm.list);
+  var isSelected = function( obj ){
+    var results = vm.selectedActivities.filter(function(a){
+        return (obj.id == a.id);
+    });
+    if( results.length > 0){
+      return true;
+    }else{
+      return false;
+    }
+  };
+  vm.isSelected = isSelected;
+
+  var selectActivity = function( obj ){
+    if(!isSelected(obj)){
+      vm.selectedActivities.push(obj);  
+    }else{
+      console.log("Object is selected")
+      for(var i=0; i<vm.selectedActivities.length; i++){
+        if( vm.selectedActivities[i].id == obj.id){
+          vm.selectedActivities.splice( i, 1 );      
+        }
+      }
+    }
+  };
+  vm.selectActivity = selectActivity;
+
+  var submitSelection = function(){
+    SurveysFactory.submitDaily(vm.selectedActivities)
+      .then(function(r){
+        $state.go('thankyou');
+      });
+  };
+  vm.submitSelection = submitSelection;
   
   function init(){
     console.log("[DailyController()]: init()");

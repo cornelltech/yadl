@@ -100,7 +100,46 @@ function SurveysFactory($q, $http, localStorageService, AuthFactory, AssetFactor
       	.catch(function(e){
       		UtilityFactory.popupWarning('There was an issue reaching the server, try signing in again or try later.');
       		deferred.reject();
+      	});
+
+		return deferred.promise;
+	};
+
+	var postDailySelection = function( selection ){
+		var deferred = $q.defer();
+		var ohmagePackage = {
+			"header": {
+				"id": UtilityFactory.guid(),
+				"creation_date_time": new Date(),
+				"schema_id": {
+					"namespace": "omh",
+					"name": "yadl-daily-survey",
+					"version": "1.0"
+				},
+				"acquisition_provenance": {
+					"source_name": "YADL",
+					"modality": "self-reported"
+				}
+			},
+			"body": {
+				"activities": selection
+			}
+		};
+
+      	$http({
+      		url: AssetFactory.getOhmageOMHLocation() + '/dsu/dataPoints',
+            method: 'POST',
+            contentType: 'application/json',
+            headers: { 'Authorization': 'Bearer ' + AuthFactory.getOhmageToken( ) },
+            data: ohmagePackage
+          })
+      	.then(function(r){
+      		deferred.resolve();
       	})
+      	.catch(function(e){
+      		UtilityFactory.popupWarning('There was an issue reaching the server, try signing in again or try later.');
+      		deferred.reject();
+      	});
 
 		return deferred.promise;
 	};
@@ -151,6 +190,10 @@ function SurveysFactory($q, $http, localStorageService, AuthFactory, AssetFactor
 
 		getDailyObjects: function(){
 			return localStorageService.get('monthlySelection');
+		},
+
+		submitDaily: function( selection ){
+			return postDailySelection( selection );
 		}
 
 
