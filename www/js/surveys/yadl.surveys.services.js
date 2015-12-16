@@ -192,7 +192,7 @@ function SurveysFactory($q, $http, localStorageService, AuthFactory, AssetFactor
 		},
 
 		getDailyObjects: function(){
-			return localStorageService.get('monthlySelection');
+			return localStorageService.get('monthlySelection') || [];
 		},
 
 		submitDaily: function( selection ){
