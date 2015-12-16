@@ -5,6 +5,13 @@
   color:white 
 }
 
+.white-icon:hover { 
+  color:white 
+}
+.white-icon::after { 
+  color:white 
+}
+
 .upper-right{
 	position: absolute;
 	top: 12px;
