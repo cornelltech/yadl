@@ -88,6 +88,9 @@ function UtilityFactory($q, $ionicPopup, $cordovaLocalNotification, localStorage
 	        _1_day_from_now = new Date(_1_day_from_now.setHours(hours));
 	        _1_day_from_now = new Date(_1_day_from_now.setMinutes(mins));
 
+	        console.log("Scheduling Daily Notification for: ");
+	        console.log(_1_day_from_now);
+
 	        scheduleDailyNotification(_1_day_from_now);
 
 	        Date.prototype.addMonths = function(months){
@@ -100,6 +103,10 @@ function UtilityFactory($q, $ionicPopup, $cordovaLocalNotification, localStorage
 	        _1_month_from_now = _1_month_from_now.addMonths(1);
 	        _1_month_from_now = new Date(_1_month_from_now.setHours(hours));
 	        _1_month_from_now = new Date(_1_month_from_now.setMinutes(mins));
+
+
+	        console.log("Scheduling Monthly Notification for: ");
+	        console.log(_1_month_from_now);
 
 	        scheduleMonthlyNotification(_1_month_from_now);
 
