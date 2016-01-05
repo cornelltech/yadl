@@ -33,13 +33,17 @@
 
 <div class="bar bar-footer bar-light">
 
-	<button class="button button-small button-clear button-positive" ng-show="monthly.object.activity_image_index != 0" ui-sref="monthly({objID: monthly.object.activity_image_index - 1})">
+	<button class="button button-small button-clear button-positive" ng-if="monthly.object.activity_image_index != 0" ui-sref="monthly({objID: monthly.object.activity_image_index - 1})">
 		Back
 	</button>
 
 	<div class="title"></div>
 
-	<button class="button button-small button-clear button-positive" ng-show="monthly.object.activity_image_index != monthly.numberOfObjs - 1" ui-sref="monthly({objID: monthly.object.activity_image_index + 1})">
+	<button class="button button-small button-clear button-positive" ng-if="monthly.object.activity_image_index != monthly.numberOfObjs - 1" ui-sref="monthly({objID: monthly.object.activity_image_index + 1})">
+		Skip
+	</button>
+
+	<button class="button button-small button-clear button-positive" ng-if="monthly.object.activity_image_index == monthly.numberOfObjs - 1" ng-click="monthly.rate(0)">
 		Skip
 	</button>
 

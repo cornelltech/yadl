@@ -16,8 +16,11 @@ function MonthlyController( $state, SurveysFactory, AssetFactory, UtilityFactory
   	SurveysFactory.rateObject($state.params.objID, rating);
 
   	if($state.params.objID < vm.numberOfObjs - 1){
+
   		$state.go('monthly', {objID: parseInt($state.params.objID) + 1});
-  	}else{
+  	}else if(rating === 0){
+      submitResponses();
+    }else{
   		submitResponses();
   	}
   };
