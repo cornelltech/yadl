@@ -141,7 +141,10 @@ function AssetFactory($q, $http, localStorageService, UtilityFactory, DEFAULTS){
 	};
 
 	return {
-		
+		setYADLClientName: setYADLClientName,
+        setOhmageOMHLocation: setOhmageOMHLocation,
+        setYADLConfigLocation: setYADLConfigLocation,
+        
 		getYADLClientName: function( ){
 			var yadlClientName = localStorageService.get('yadlClientName');
 			if(yadlClientName){

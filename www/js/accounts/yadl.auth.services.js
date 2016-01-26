@@ -22,14 +22,15 @@ function AuthFactory($rootScope, $q, $state, $ionicPlatform, $cordovaInAppBrowse
 
 	// Listen to in-app browser events to monitor URL for 
     // succesfull oauth completion
-    $rootScope.$on('$cordovaInAppBrowser:loadstop', function(e, event){
+    $rootScope.$on('$cordovaInAppBrowser:loadstart', function(e, event){
+      	// alert(event.url)
       	var url = event.url.split('#');
       	console.log(url)
       	if( url.length > 1 && url[1].indexOf('access_token') > -1){
         	var params = url[1].split('&');
         	var accessToken = params[0].split('=')[1];
         	if(accessToken){
-        		console.log('$cordovaInAppBrowser:loadstop Condition Met, storing access token');
+        		console.log('$cordovaInAppBrowser:loadstart Condition Met, storing access token');
           		setOhmageToken( accessToken );
           		$cordovaInAppBrowser.close();  
         	}
