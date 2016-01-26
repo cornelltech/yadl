@@ -99,6 +99,7 @@ function SurveysFactory($q, $http, localStorageService, AuthFactory, AssetFactor
       		deferred.resolve();
       	})
       	.catch(function(e){
+            console.log(JSON.stringify(e));
       		UtilityFactory.popupWarning('There was an issue reaching the server, try signing in again or try later.');
       		deferred.reject();
       	});
@@ -140,6 +141,7 @@ function SurveysFactory($q, $http, localStorageService, AuthFactory, AssetFactor
       		deferred.resolve();
       	})
       	.catch(function(e){
+            console.log(JSON.stringify(e));
       		UtilityFactory.popupWarning('There was an issue reaching the server, try signing in again or try later.');
       		deferred.reject();
       	});
