@@ -32,4 +32,7 @@ $ ionic build <ios/android>
 
 ### Project Structure
 Almost everything that needs to be modified will be found in the ```./www``` directory. ```app.js``` is the entry point and all imports and routes are defined in the ```$stateProvider``` config block.
+
 More information for ```ui-router``` can be found [here](http://angular-ui.github.io/ui-router/site/#/api/ui.router)
+
+Configuring deep links in ionic was done by following [this](https://medium.com/angularjs-articles/deep-linking-in-ionic-mobile-applications-44d8b4685bb3#.y0gkcrhh6) blog post
