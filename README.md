@@ -36,3 +36,5 @@ Almost everything that needs to be modified will be found in the ```./www``` dir
 More information for ```ui-router``` can be found [here](http://angular-ui.github.io/ui-router/site/#/api/ui.router)
 
 Configuring deep links in ionic was done by following [this](https://medium.com/angularjs-articles/deep-linking-in-ionic-mobile-applications-44d8b4685bb3#.y0gkcrhh6) blog post
+
+The inapp browser is also found and documented [here](http://ngcordova.com/docs/plugins/inAppBrowser/). Refer to this page for all other doucmentation on plugin use.
