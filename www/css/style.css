@@ -36,3 +36,9 @@
 .selectedActivity{
   border: 5px solid #4b8aee;
 }
+
+
+.full-study-img{
+    width:100%;
+    height: 55vh;
+}
