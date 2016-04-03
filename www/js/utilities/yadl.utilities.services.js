@@ -105,10 +105,10 @@ function UtilityFactory($q, $ionicPopup, $cordovaLocalNotification, localStorage
 	        _1_month_from_now = new Date(_1_month_from_now.setMinutes(mins));
 
 
-	        console.log("Scheduling Monthly Notification for: ");
-	        console.log(_1_month_from_now);
+	        // console.log("Scheduling Monthly Notification for: ");
+	        // console.log(_1_month_from_now);
 
-	        scheduleMonthlyNotification(_1_month_from_now);
+	        // scheduleMonthlyNotification(_1_month_from_now);
 
 	        deferred.resolve();
 
