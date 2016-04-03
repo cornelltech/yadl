@@ -105,7 +105,7 @@ angular.module('yadl', ['ionic', 'ngCordova', 'LocalStorageModule', 'angular-spi
         templateUrl: 'js/utilities/partials/thankyou.tmpl.html'
       })
 
-    $urlRouterProvider.otherwise('/daily');  
+    $urlRouterProvider.otherwise('/monthly/0');  
 }])
 
 
