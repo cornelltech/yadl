@@ -15,7 +15,7 @@ function UtilityFactory($q, $ionicPopup, $cordovaLocalNotification, localStorage
 		console.log('UtilityFactory: Scheduling Daily Notification for ' + time);
 		if(window.cordova && window.cordova.plugins.notification){
 			$cordovaLocalNotification.schedule({
-	          	id: 2,
+	          	id: 1,
 	          	text: "Time to do your full YADL survey.",
 	          	every: "day",
 	          	at: time
