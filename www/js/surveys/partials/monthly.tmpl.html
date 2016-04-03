@@ -21,7 +21,7 @@
 	<div class="row" style="min-height:100px;">
 		
 		<div class="col col-center" ng-repeat="action in monthly.config.responses">
-			<button class="button button-outline button-block button-{{ action.color }}" ng-click="monthly.rate( action.text )">
+			<button class="button button-outline button-block button-{{ action.color }}" ng-click="monthly.rate( action.text )" style="height:86px;">
 				{{ action.text }}
 			</button>
 		</div>
@@ -43,7 +43,7 @@
 	</button>
 
 	<button class="button button-small button-clear button-positive" ng-if="monthly.object.activity_image_index == monthly.numberOfObjs - 1" ng-click="monthly.rate(0)">
-		Skip
+		Skip and Submit
 	</button>
 
 </div>

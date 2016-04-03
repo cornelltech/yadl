@@ -10,7 +10,7 @@
 					"store": false
 				},
 				{
-					"text": "somewhat Difficult",
+					"text": "Somewhat Difficult",
 					"color": "energized",
 					"store": true
 				},
@@ -60,7 +60,7 @@
 		},
 		{
 			"title": "Taking meds",
-			"file": "TakingMeds.jpg"
+			"file": "TakingMeds.jpeg"
 		},
 		{
 			"title": "Finances",
