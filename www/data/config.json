@@ -2,7 +2,7 @@
 	"assetsUrl": "/img",
 	"surveys":{
 		"monthly":{
-			"prompt": "Over the past week how difficult was this activity for you",
+			"prompt": "Over the past week how difficult was this activity for you?",
 			"responses": [
 				{
 					"text": "Not Difficult",
@@ -40,7 +40,7 @@
 		},
 		{
 			"title": "Using the toilet",
-			"file": "ionic.png"
+			"file": "Toilet.jpeg"
 		},
 		{
 			"title": "Bed to chair",
@@ -48,7 +48,7 @@
 		},
 		{
 			"title": "Shopping",
-			"file": "ionic.png"
+			"file": "Shopping.jpeg"
 		},
 		{
 			"title": "Housework",

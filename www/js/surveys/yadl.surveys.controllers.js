@@ -34,6 +34,7 @@ function MonthlyController( $state, SurveysFactory, AssetFactory, UtilityFactory
     	.then(function(config){
     		vm.numberOfObjs = config.data.length;
     		vm.config = config.surveys.monthly;
+            console.log(vm.config)
     	})
 
     console.log("[MonthlyController()]: Getting object " + $state.params.objID);
