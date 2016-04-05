@@ -7,8 +7,8 @@ angular.module('yadl', ['ionic', 'ngCordova', 'LocalStorageModule', 'angular-spi
 
 .constant('VERSION', '3.0.7')
 .constant('DEFAULTS', {
-  "yadlClientName": "yadl-client",
-  "yadlOhmageOMHLocation": "https://ohmage-omh.smalldata.io",
+  "yadlClientName": "yadl-dodson",
+  "yadlOhmageOMHLocation": "http://aws-qa.smalldata.io",
   "yadlConfigurationLocation": "/data"
 })
 
