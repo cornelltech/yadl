@@ -9,7 +9,7 @@ angular.module('yadl', ['ionic', 'ngCordova', 'LocalStorageModule', 'angular-spi
 .constant('DEFAULTS', {
   "yadlClientName": "yadl-dodson",
   "yadlOhmageOMHLocation": "http://aws-qa.smalldata.io",
-  "yadlConfigurationLocation": "/data"
+  "yadlConfigurationLocation": "data"
 })
 
 .run(['$ionicPlatform', '$state', '$cordovaStatusbar', 'AssetFactory', 'OpenUrlService', 'DEFAULTS', 

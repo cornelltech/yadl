@@ -181,9 +181,7 @@ function AssetFactory($q, $http, localStorageService, UtilityFactory, DEFAULTS){
 			var config = localStorageService.get('config');
 
 			if( config ){
-
 				deferred.resolve(config);
-
 			}else{
 
 				$http({
