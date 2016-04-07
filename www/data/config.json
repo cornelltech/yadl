@@ -7,17 +7,17 @@
 				{
 					"text": "Not Difficult",
 					"color": "balanced",
-					"store": false
+					"value": 0
 				},
 				{
 					"text": "Somewhat Difficult",
 					"color": "energized",
-					"store": true
+					"value": 1
 				},
 				{
 					"text": "Need Help",
 					"color": "assertive",
-					"store": true
+					"value": 2
 				}
 			]
 		},
