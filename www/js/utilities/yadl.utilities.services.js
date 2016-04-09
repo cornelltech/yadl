@@ -212,8 +212,6 @@ angular.module('yadl')
 
 
 
-
-
 function OpenUrlService($log, $location, $rootScope, $ionicHistory, $state) {
 
     var openUrl = function (url) {

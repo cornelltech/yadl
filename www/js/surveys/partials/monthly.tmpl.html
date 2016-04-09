@@ -3,7 +3,10 @@
 	<a class="button button-icon icon ion-gear-a upper-right white-icon" ui-sref="settings" style="z-index:1000;"></a>
 
 	<div>
-        <img style="width: 100vw; height: 55vh;" class="full-study-img" ng-src="{{ monthly.object.activity_image }}" spinkit-image-preloader="rotating-plane-spinner" />
+        <img style="width: 100vw; height: 55vh;" 
+            class="full-study-img" 
+            ng-src="{{ monthly.object.activity_image }}" 
+            spinkit-image-preloader="rotating-plane-spinner" />
       	
           <div style="background-color: #1e8cf4; z-index:1000; height: 35px; width:100%;">
         	<h3 style="color:white; text-align: center;">{{ monthly.object.activity_name }}</h3>
@@ -21,7 +24,9 @@
 	<div class="row" style="min-height:100px;">
 		
 		<div class="col col-center" ng-repeat="action in monthly.config.responses">
-			<button class="button button-outline button-block button-{{ action.color }}" ng-click="monthly.rate( action.text )" style="height:86px;">
+			<button class="button button-outline button-block button-{{ action.color }}" 
+                    ng-click="monthly.rate( action.text )" 
+                    style="height:55px; line-height:1">
 				{{ action.text }}
 			</button>
 		</div>
