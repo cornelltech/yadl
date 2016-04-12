@@ -1,21 +1,40 @@
 # yadl
 
-# Dependencies
+### Dependencies
 - npm
 - bower
 - ionic
 
-# To run on browser
+### Plugins
+- See ```./plugins.txt``` file
+
+### Running the project
+
+#### To run on browser
 ```
+$ bower install (to install dependencies)
 $ ionic serve
 ```
-
-# To run on emulator
+#### (Optional) Add/Remove a platform
+```
+$ ionic platform <add/remove> <ios/android>
+```
+#### To run on emulator
 ```
 $ ionic emulate <ios/android>
 ```
 
-# To build
+#### To build
 ```
 $ ionic build <ios/android>
 ```
+
+
+### Project Structure
+Almost everything that needs to be modified will be found in the ```./www``` directory. ```app.js``` is the entry point and all imports and routes are defined in the ```$stateProvider``` config block.
+
+More information for ```ui-router``` can be found [here](http://angular-ui.github.io/ui-router/site/#/api/ui.router)
+
+Configuring deep links in ionic was done by following [this](https://medium.com/angularjs-articles/deep-linking-in-ionic-mobile-applications-44d8b4685bb3#.y0gkcrhh6) blog post
+
+The inapp browser is also found and documented [here](http://ngcordova.com/docs/plugins/inAppBrowser/). Refer to this page for all other doucmentation on plugin use.
