@@ -1,0 +1,44 @@
+{
+    "prepare_queue": {
+        "installed": [],
+        "uninstalled": []
+    },
+    "config_munge": {
+        "files": {}
+    },
+    "installed_plugins": {
+        "cordova-plugin-device": {
+            "PACKAGE_NAME": "com.foundry.yadl"
+        },
+        "cordova-plugin-console": {
+            "PACKAGE_NAME": "com.foundry.yadl"
+        },
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "com.foundry.yadl"
+        },
+        "cordova-plugin-splashscreen": {
+            "PACKAGE_NAME": "com.foundry.yadl"
+        },
+        "cordova-plugin-statusbar": {
+            "PACKAGE_NAME": "com.foundry.yadl"
+        },
+        "ionic-plugin-keyboard": {
+            "PACKAGE_NAME": "com.foundry.yadl"
+        },
+        "cordova-plugin-inappbrowser": {
+            "PACKAGE_NAME": "com.foundry.yadl"
+        },
+        "de.appplant.cordova.plugin.local-notification": {
+            "PACKAGE_NAME": "com.foundry.yadl"
+        },
+        "cordova-plugin-customurlscheme": {
+            "URL_SCHEME": "yadl",
+            "PACKAGE_NAME": "com.foundry.yadl"
+        }
+    },
+    "dependent_plugins": {
+        "de.appplant.cordova.common.registerusernotificationsettings": {
+            "PACKAGE_NAME": "com.foundry.yadl"
+        }
+    }
+}
