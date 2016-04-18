@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 angular.module('yadl', ['ionic', 'ngCordova', 'LocalStorageModule', 'angular-spinkit'])
 
-.constant('VERSION', '3.0.7')
+.constant('VERSION', '3.1.0')
 .constant('DEFAULTS', {
   "yadlClientName": "yadl-client",
   "yadlOhmageOMHLocation": "https://ohmage-omh.smalldata.io",
