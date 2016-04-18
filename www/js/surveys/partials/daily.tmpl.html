@@ -4,29 +4,26 @@
 
 <a class="button button-icon icon ion-gear-a upper-right" ui-sref="settings" style="z-index:1000;"></a>
 
-<ion-content style="margin-top:55px; background-color:white;" class="has-footer">
+<ion-content style="margin-top:55px; background-color:#f0f0f0;" class="has-footer">
 	<!-- SRC: https://blog.nraboy.com/2015/03/make-a-gallery-like-image-grid-using-ionic-framework/ -->
 	<div class="row" ng-repeat="pic in daily.list" ng-if="$index % 3 === 0">
 
-		<div ng-click="daily.selectActivity(daily.list[$index])" class="col col-33" ng-if="$index < daily.list.length">
+		<div ng-click="daily.selectActivity(daily.list[$index])" class="col col-33 daily-container" ng-if="$index < daily.list.length"ng-class="{'selectedActivity': daily.isSelected(daily.list[$index])}">
             <img style="width: 100%;"
                 class="full-study-img" 
-                ng-src="{{ daily.list[$index].activity_image }}" 
-                ng-class="{'selectedActivity': daily.isSelected(daily.list[$index])}" 
+                ng-src="{{ daily.list[$index].activity_image }}"  
                 spinkit-image-preloader="rotating-plane-spinner" />    
 		</div>
-		<div ng-click="daily.selectActivity(daily.list[$index + 1])" class="col col-33" ng-if="$index + 1 < daily.list.length">
+		<div ng-click="daily.selectActivity(daily.list[$index + 1])" class="col col-33 daily-container" ng-if="$index + 1 < daily.list.length" ng-class="{'selectedActivity': daily.isSelected(daily.list[$index + 1])}">
             <img style="width: 100%;"
                 class="full-study-img" 
-                ng-src="{{ daily.list[$index + 1].activity_image }}" 
-                ng-class="{'selectedActivity': daily.isSelected(daily.list[$index + 1])}" 
+                ng-src="{{ daily.list[$index + 1].activity_image }}"  
                 spinkit-image-preloader="rotating-plane-spinner" />
 		</div>
-		<div ng-click="daily.selectActivity(daily.list[$index + 2])" class="col col-33" ng-if="$index + 2 < daily.list.length">    
+		<div ng-click="daily.selectActivity(daily.list[$index + 2])" class="col col-33 daily-container" ng-if="$index + 2 < daily.list.length" ng-class="{'selectedActivity': daily.isSelected(daily.list[$index + 2])}">    
             <img style="width: 100%;"
                 class="full-study-img" 
-                ng-src="{{ daily.list[$index + 2].activity_image }}" 
-                ng-class="{'selectedActivity': daily.isSelected(daily.list[$index + 2])}" 
+                ng-src="{{ daily.list[$index + 2].activity_image }}"  
                 spinkit-image-preloader="rotating-plane-spinner" />
               
 		</div>
@@ -34,6 +31,12 @@
 	</div>
     
 </ion-content>
+
+<div class="nothing-to-report-btn" ng-if="daily.selectedActivities.length==0">
+    <button class="button button-full button-energized">
+        Nothing to report
+    </button>
+</div>
 
 <div class="bar bar-footer bar-positive" ng-click="daily.submitSelection()">
 	<div class="title">Submit ( {{ daily.selectedActivities.length }} )</div>

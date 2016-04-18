@@ -34,5 +34,21 @@
 }
 
 .selectedActivity{
-  border: 5px solid #4b8aee;
+  border-radius: 5px;
+  border: 5px solid #4b8aee !important;
+}
+
+
+.daily-container{
+    background-color:white;
+    border-radius: 5px; 
+    border: 5px #f0f0f0 solid;
+}
+
+.nothing-to-report-btn{
+    position: absolute;
+    z-index: 100;
+    bottom: 35px;
+    width: 100%;
+    padding: 5px;
 }
