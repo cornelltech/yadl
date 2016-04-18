@@ -1,0 +1,45 @@
+{
+  "name": "angular-image-spinner",
+  "homepage": "https://github.com/oivoodoo/angular-image-spinner",
+  "authors": [
+    "Alexandr Korsak <alex.korsak@gmail.com>"
+  ],
+  "description": "Angular directive for showing image spinner in the container with image",
+  "main": "dist/angular-image-spinner.js",
+  "keywords": [
+    "angular",
+    "directive",
+    "image",
+    "spinner"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "Gruntfile.js",
+    ".gitignore",
+    "package.json",
+    "app",
+    "karma.conf.js"
+  ],
+  "dependencies": {
+    "spin.js": "~2.0.0",
+    "angular": "~1.2.15"
+  },
+  "devDependencies": {
+    "angular-mocks": "~1.2.15",
+    "jquery": "~2.1.0"
+  },
+  "_release": "546399d000",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "546399d000adf25e6997b72e9a1290c14b8e1552"
+  },
+  "_source": "https://github.com/oivoodoo/angular-image-spinner.git",
+  "_target": "*",
+  "_originalSource": "angular-image-spinner"
+}
