@@ -1,7 +1,11 @@
 function UtilityFactory($q, $ionicPopup, $cordovaLocalNotification, localStorageService){
 	
+    var notificationTime = function(){
+        return localStorageService.get('notificationTime');
+    }
+    
 	var cacheNotificationTime = function(time){
-		return localStorageService.set('notificationTime', time)
+		return localStorageService.set('notificationTime', time);
 	};
 
 	var clearNotifications = function(){
@@ -117,7 +121,7 @@ function UtilityFactory($q, $ionicPopup, $cordovaLocalNotification, localStorage
             var _1_day_from_now = new Date();
 	        _1_day_from_now = _1_day_from_now.addDays(1);
 	        _1_day_from_now = new Date(_1_day_from_now.setHours(hours));
-	        _1_day_from_now = new Date(_1_day_from_now.setMinutes(mins + 10));
+	        _1_day_from_now = new Date(_1_day_from_now.setMinutes( parseInt(mins) + 10));
 
 	        console.log("Scheduling Daily Snooze Notification for: ");
 	        console.log(_1_day_from_now);
