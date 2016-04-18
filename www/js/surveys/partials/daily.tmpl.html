@@ -33,7 +33,7 @@
 </ion-content>
 
 <div class="nothing-to-report-btn" ng-if="daily.selectedActivities.length==0">
-    <button class="button button-full button-energized">
+    <button class="button button-full button-energized" ng-click="daily.submitSelection()">
         Nothing to report
     </button>
 </div>
