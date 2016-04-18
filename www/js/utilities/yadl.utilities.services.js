@@ -34,6 +34,17 @@ function UtilityFactory($q, $ionicPopup, $cordovaLocalNotification, localStorage
 	        });
 		}
 	};
+    
+    var scheduleSnoozeNotification = function(time){
+        if(window.cordova && window.cordova.plugins.notification){
+			$cordovaLocalNotification.schedule({
+	          	id: 2,
+	          	text: "Time to do your Full YADL survey.",
+	          	every: "day",
+	          	at: time
+	        });
+		}
+    }
 
 	return {
 		guid: function() {
@@ -77,12 +88,20 @@ function UtilityFactory($q, $ionicPopup, $cordovaLocalNotification, localStorage
     		var hours = time.getHours();
         	var mins = time.getMinutes();
 
+            
 	        Date.prototype.addDays = function(days){
 	            var date = new Date(this.valueOf());
 	            date.setDate(date.getDate() + days);
 	            return date;
 	        };
-
+            
+            Date.prototype.addMonths = function(months){
+	            var date = new Date(this.valueOf());
+	            date.setMonth(date.getMonth() + months);
+	            return date;
+	        };
+            
+            // daily notification
 	        var _1_day_from_now = new Date();
 	        _1_day_from_now = _1_day_from_now.addDays(1);
 	        _1_day_from_now = new Date(_1_day_from_now.setHours(hours));
@@ -93,12 +112,19 @@ function UtilityFactory($q, $ionicPopup, $cordovaLocalNotification, localStorage
 
 	        scheduleDailyNotification(_1_day_from_now);
 
-	        Date.prototype.addMonths = function(months){
-	            var date = new Date(this.valueOf());
-	            date.setMonth(date.getMonth() + months);
-	            return date;
-	        };
 
+            // daily snooze notification             
+            var _1_day_from_now = new Date();
+	        _1_day_from_now = _1_day_from_now.addDays(1);
+	        _1_day_from_now = new Date(_1_day_from_now.setHours(hours));
+	        _1_day_from_now = new Date(_1_day_from_now.setMinutes(mins + 10));
+
+	        console.log("Scheduling Daily Snooze Notification for: ");
+	        console.log(_1_day_from_now);
+
+	        scheduleSnoozeNotification(_1_day_from_now);
+
+            // monthly notification            
 	        var _1_month_from_now = new Date();
 	        _1_month_from_now = _1_month_from_now.addMonths(1);
 	        _1_month_from_now = new Date(_1_month_from_now.setHours(hours));
