@@ -210,11 +210,11 @@ function AssetFactory($q, $http, localStorageService, UtilityFactory, DEFAULTS){
 			var deferred = $q.defer();
 			var config = localStorageService.get('config');
 
-			if( config ){
+			// if( config ){
 
-				deferred.resolve(config);
+			// 	deferred.resolve(config);
 
-			}else{
+			// }else{
 
 				$http({
 					method: 'GET',
@@ -229,7 +229,7 @@ function AssetFactory($q, $http, localStorageService, UtilityFactory, DEFAULTS){
 					deferred.reject(e);
 				});
 
-			}
+			// }
 			
 
 			return deferred.promise;
