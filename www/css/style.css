@@ -52,3 +52,21 @@
     width: 100%;
     padding: 5px;
 }
+
+.selected-entry{
+  z-index: 1000;
+  position: relative;
+
+  font-size: 300%;
+  text-align: center;
+  
+  background-color:white;
+  border-radius: 30px;
+  
+  width: 45px;
+  height: 45px;
+}
+
+.full-study-img{
+  position: absolute;
+}

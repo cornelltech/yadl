@@ -8,23 +8,49 @@
 	<!-- SRC: https://blog.nraboy.com/2015/03/make-a-gallery-like-image-grid-using-ionic-framework/ -->
 	<div class="row" ng-repeat="pic in daily.list" ng-if="$index % 3 === 0">
 
-		<div ng-click="daily.selectActivity(daily.list[$index])" class="col col-33 daily-container" ng-if="$index < daily.list.length"ng-class="{'selectedActivity': daily.isSelected(daily.list[$index])}">
-            <img style="width: 100%;"
-                class="full-study-img" 
+		<div ng-click="daily.selectActivity(daily.list[$index])" 
+             class="col col-33 daily-container" 
+             ng-if="$index < daily.list.length"
+             ng-class="{'selectedActivity': daily.isSelected(daily.list[$index])}"
+             style="width:{{daily.width + 15}}px; height: {{daily.width + 20}}px;">
+            <img 
+                height=" {{daily.width}} " 
+                width=" {{daily.width}} "
+                class="full-study-img"
                 ng-src="{{ daily.list[$index].activity_image }}"  
-                spinkit-image-preloader="rotating-plane-spinner" />    
+                spinkit-image-preloader="rotating-plane-spinner" />
+                
+                <div class="selected-entry" 
+                     ng-show="daily.isSelected(daily.list[$index])"
+                     style="top:{{daily.width / 3}}px; left:{{daily.width / 3 - 5}}px;">
+					<i class="ion-checkmark-round"></i>
+				</div>    
 		</div>
 		<div ng-click="daily.selectActivity(daily.list[$index + 1])" class="col col-33 daily-container" ng-if="$index + 1 < daily.list.length" ng-class="{'selectedActivity': daily.isSelected(daily.list[$index + 1])}">
-            <img style="width: 100%;"
+            <img 
+                height="100"
+                width="100"
                 class="full-study-img" 
                 ng-src="{{ daily.list[$index + 1].activity_image }}"  
                 spinkit-image-preloader="rotating-plane-spinner" />
+                
+                <div class="selected-entry" 
+                     ng-show="daily.isSelected(daily.list[$index + 1])"
+                     style="top:{{daily.width / 3}}px; left:{{daily.width / 3 - 5}}px;">
+					<i class="ion-checkmark-round"></i>
+				</div>  
 		</div>
 		<div ng-click="daily.selectActivity(daily.list[$index + 2])" class="col col-33 daily-container" ng-if="$index + 2 < daily.list.length" ng-class="{'selectedActivity': daily.isSelected(daily.list[$index + 2])}">    
-            <img style="width: 100%;"
+            <img 
+                height="100"
+                width="100"
                 class="full-study-img" 
                 ng-src="{{ daily.list[$index + 2].activity_image }}"  
                 spinkit-image-preloader="rotating-plane-spinner" />
+              
+              <div class="selected-entry" ng-show="daily.isSelected(daily.list[$index + 2])">
+					<i class="ion-checkmark-round"></i>
+				</div>  
               
 		</div>
 

@@ -54,10 +54,12 @@ angular.module('yadl')
 
 
 
-function DailyController( $state, AuthFactory, SurveysFactory, AssetFactory, UtilityFactory ){
+function DailyController( $window, $state, AuthFactory, SurveysFactory, AssetFactory, UtilityFactory ){
   var vm = this;
   vm.list = SurveysFactory.getDailyObjects();
   vm.selectedActivities = [];
+
+  vm.width = $window.innerWidth / 3 - 25; 
 
   var isSelected = function( obj ){
     var results = vm.selectedActivities.filter(function(a){
@@ -103,6 +105,6 @@ function DailyController( $state, AuthFactory, SurveysFactory, AssetFactory, Uti
 
 }
 
-DailyController.$inject = ['$state', 'AuthFactory', 'SurveysFactory', 'AssetFactory', 'UtilityFactory'];
+DailyController.$inject = ['$window', '$state', 'AuthFactory', 'SurveysFactory', 'AssetFactory', 'UtilityFactory'];
 angular.module('yadl')
   .controller('DailyController', DailyController);
