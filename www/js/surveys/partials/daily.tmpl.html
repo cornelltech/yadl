@@ -48,7 +48,9 @@
                 ng-src="{{ daily.list[$index + 2].activity_image }}"  
                 spinkit-image-preloader="rotating-plane-spinner" />
               
-              <div class="selected-entry" ng-show="daily.isSelected(daily.list[$index + 2])">
+              <div class="selected-entry" 
+                   ng-show="daily.isSelected(daily.list[$index + 2])"
+                   style="top:{{daily.width / 3}}px; left:{{daily.width / 3 - 5}}px;">
 					<i class="ion-checkmark-round"></i>
 				</div>  
               
