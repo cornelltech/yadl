@@ -1,8 +1,10 @@
-function MonthlyController( $state, SurveysFactory, AuthFactory, AssetFactory, UtilityFactory ){
+function MonthlyController( $window, $state, SurveysFactory, AssetFactory, AuthFactory, UtilityFactory ){
   var vm = this;
   vm.object = null;
   vm.numberOfObjs = null;
   vm.config = null;
+  
+  vm.height = $window.innerHeight * 0.55;
 
   var submitResponses = function( ){
   	SurveysFactory.submitMonthly( )
@@ -27,17 +29,14 @@ function MonthlyController( $state, SurveysFactory, AuthFactory, AssetFactory, U
   vm.rate = rate;
   
   function init(){
-    
-      
     console.log("[MonthlyController()]: init()");
     AuthFactory.requireAuth();
-
+    
     console.log("[MonthlyController()]: Loading monthly config");
     AssetFactory.fetchConfig()
     	.then(function(config){
     		vm.numberOfObjs = config.data.length;
     		vm.config = config.surveys.monthly;
-            console.log(vm.config)
     	})
 
     console.log("[MonthlyController()]: Getting object " + $state.params.objID);
@@ -50,9 +49,10 @@ function MonthlyController( $state, SurveysFactory, AuthFactory, AssetFactory, U
 
 }
 
-MonthlyController.$inject = ['$state', 'SurveysFactory', 'AuthFactory', 'AssetFactory', 'UtilityFactory'];
+MonthlyController.$inject = ['$window',  '$state', 'SurveysFactory', 'AssetFactory', 'AuthFactory', 'UtilityFactory'];
 angular.module('yadl')
   .controller('MonthlyController', MonthlyController);
+
 
 
 

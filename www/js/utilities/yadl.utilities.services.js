@@ -1,7 +1,11 @@
 function UtilityFactory($q, $ionicPopup, $cordovaLocalNotification, localStorageService){
 	
+    var notificationTime = function(){
+        return localStorageService.get('notificationTime');
+    }
+    
 	var cacheNotificationTime = function(time){
-		return localStorageService.set('notificationTime', time)
+		return localStorageService.set('notificationTime', time);
 	};
 
 	var clearNotifications = function(){
@@ -15,8 +19,8 @@ function UtilityFactory($q, $ionicPopup, $cordovaLocalNotification, localStorage
 		console.log('UtilityFactory: Scheduling Daily Notification for ' + time);
 		if(window.cordova && window.cordova.plugins.notification){
 			$cordovaLocalNotification.schedule({
-	          	id: 1,
-	          	text: "Time to do your full YADL survey.",
+	          	id: 0,
+	          	text: "Time to do your Spot YADL survey.",
 	          	every: "day",
 	          	at: time
 	        });
@@ -27,13 +31,24 @@ function UtilityFactory($q, $ionicPopup, $cordovaLocalNotification, localStorage
 		console.log('UtilityFactory: Scheduling Monthly Notification for ' + time);
 		if(window.cordova && window.cordova.plugins.notification){
 			$cordovaLocalNotification.schedule({
-	          	id: 2,
-	          	text: "Time to do your monthly YADL survey.",
+	          	id: 1,
+	          	text: "Time to do your Full YADL survey.",
 	          	every: "month",
 	          	at: time
 	        });
 		}
 	};
+    
+    var scheduleSnoozeNotification = function(time){
+        if(window.cordova && window.cordova.plugins.notification){
+			$cordovaLocalNotification.schedule({
+	          	id: 2,
+	          	text: "Time to do your Full YADL survey.",
+	          	every: "day",
+	          	at: time
+	        });
+		}
+    }
 
 	return {
 		guid: function() {
@@ -77,12 +92,20 @@ function UtilityFactory($q, $ionicPopup, $cordovaLocalNotification, localStorage
     		var hours = time.getHours();
         	var mins = time.getMinutes();
 
+            
 	        Date.prototype.addDays = function(days){
 	            var date = new Date(this.valueOf());
 	            date.setDate(date.getDate() + days);
 	            return date;
 	        };
-
+            
+            Date.prototype.addMonths = function(months){
+	            var date = new Date(this.valueOf());
+	            date.setMonth(date.getMonth() + months);
+	            return date;
+	        };
+            
+            // daily notification
 	        var _1_day_from_now = new Date();
 	        _1_day_from_now = _1_day_from_now.addDays(1);
 	        _1_day_from_now = new Date(_1_day_from_now.setHours(hours));
@@ -93,22 +116,29 @@ function UtilityFactory($q, $ionicPopup, $cordovaLocalNotification, localStorage
 
 	        scheduleDailyNotification(_1_day_from_now);
 
-	        Date.prototype.addMonths = function(months){
-	            var date = new Date(this.valueOf());
-	            date.setMonth(date.getMonth() + months);
-	            return date;
-	        };
 
+            // daily snooze notification             
+            var _1_day_from_now = new Date();
+	        _1_day_from_now = _1_day_from_now.addDays(1);
+	        _1_day_from_now = new Date(_1_day_from_now.setHours(hours));
+	        _1_day_from_now = new Date(_1_day_from_now.setMinutes( parseInt(mins) + 10));
+
+	        console.log("Scheduling Daily Snooze Notification for: ");
+	        console.log(_1_day_from_now);
+
+	        scheduleSnoozeNotification(_1_day_from_now);
+
+            // monthly notification            
 	        var _1_month_from_now = new Date();
 	        _1_month_from_now = _1_month_from_now.addMonths(1);
 	        _1_month_from_now = new Date(_1_month_from_now.setHours(hours));
 	        _1_month_from_now = new Date(_1_month_from_now.setMinutes(mins));
 
 
-	        // console.log("Scheduling Monthly Notification for: ");
-	        // console.log(_1_month_from_now);
+	        console.log("Scheduling Monthly Notification for: ");
+	        console.log(_1_month_from_now);
 
-	        // scheduleMonthlyNotification(_1_month_from_now);
+	        scheduleMonthlyNotification(_1_month_from_now);
 
 	        deferred.resolve();
 
@@ -180,9 +210,11 @@ function AssetFactory($q, $http, localStorageService, UtilityFactory, DEFAULTS){
 			var deferred = $q.defer();
 			var config = localStorageService.get('config');
 
-			if( config ){
-				deferred.resolve(config);
-			}else{
+			// if( config ){
+
+			// 	deferred.resolve(config);
+
+			// }else{
 
 				$http({
 					method: 'GET',
@@ -197,7 +229,7 @@ function AssetFactory($q, $http, localStorageService, UtilityFactory, DEFAULTS){
 					deferred.reject(e);
 				});
 
-			}
+			// }
 			
 
 			return deferred.promise;
@@ -209,6 +241,8 @@ function AssetFactory($q, $http, localStorageService, UtilityFactory, DEFAULTS){
 AssetFactory.$inject = ['$q', '$http', 'localStorageService', 'UtilityFactory', 'DEFAULTS'];
 angular.module('yadl')
   .factory('AssetFactory', AssetFactory);
+
+
 
 
 
