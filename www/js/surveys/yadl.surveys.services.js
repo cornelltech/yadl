@@ -67,6 +67,9 @@ function SurveysFactory($q, $http, localStorageService, AuthFactory, AssetFactor
 	};
 
 	var postMonthlySelection = function( selection ){
+		
+		console.log(selection)
+		
 		var deferred = $q.defer();
 		var ohmagePackage = {
 			"header": {
@@ -109,7 +112,7 @@ function SurveysFactory($q, $http, localStorageService, AuthFactory, AssetFactor
 
 
 	var postDailySelection = function( selection ){
-        console.log(selection)        
+     
 		var deferred = $q.defer();
 		var ohmagePackage = {
 			"header": {
