@@ -64,7 +64,6 @@ function AuthFactory($rootScope, $q, $state, $ionicPlatform, $cordovaInAppBrowse
 
 		requireAuth: function(){
 			var token = localStorageService.get('ohmageToken');
-			console.log(token);
 			if(!token){
 				$state.go('auth');
 			}

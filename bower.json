@@ -10,6 +10,7 @@
     "PACE": "pace#~1.0.2",
     "ngprogress": "~1.1.2",
     "angular-image-spinner": "*",
-    "angular-spinkit": "^0.3.4"
+    "angular-spinkit": "^0.3.4",
+    "moment": "^2.13.0"
   }
 }

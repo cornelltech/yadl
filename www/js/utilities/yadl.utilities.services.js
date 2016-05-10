@@ -1,4 +1,4 @@
-function UtilityFactory($q, $ionicPopup, $cordovaLocalNotification, localStorageService){
+function UtilityFactory($q, $ionicPopup, $cordovaLocalNotification, localStorageService, VERSION){
 	
     var notificationTime = function(){
         return localStorageService.get('notificationTime');
@@ -83,62 +83,23 @@ function UtilityFactory($q, $ionicPopup, $cordovaLocalNotification, localStorage
     		return new Date(localStorageService.get('notificationTime')) || new Date(Math.round(date.getTime() / coeff) * coeff);
     	},
 
-    	scheduleNotifications: function(time){
+    	scheduleNotifications: function( time ){
     		var deferred = $q.defer();
     		// if we are scheduling new notification times, cancel the old
     		clearNotifications();
-    		cacheNotificationTime(time);
+			
+			var time = time || new Date();
+			cacheNotificationTime( time );
+			
+			var _1_day_from_now = new Date( moment( time ).add(1, 'days') );
+			scheduleDailyNotification(_1_day_from_now);
+			
+			var _1_day_and_a_little_from_now = new Date( moment( time ).add(1, 'days').add(5, 'minutes') );
+			scheduleSnoozeNotification(_1_day_and_a_little_from_now);
 
-    		var hours = time.getHours();
-        	var mins = time.getMinutes();
-
-            
-	        Date.prototype.addDays = function(days){
-	            var date = new Date(this.valueOf());
-	            date.setDate(date.getDate() + days);
-	            return date;
-	        };
-            
-            Date.prototype.addMonths = function(months){
-	            var date = new Date(this.valueOf());
-	            date.setMonth(date.getMonth() + months);
-	            return date;
-	        };
-            
-            // daily notification
-	        var _1_day_from_now = new Date();
-	        _1_day_from_now = _1_day_from_now.addDays(1);
-	        _1_day_from_now = new Date(_1_day_from_now.setHours(hours));
-	        _1_day_from_now = new Date(_1_day_from_now.setMinutes(mins));
-
-	        console.log("Scheduling Daily Notification for: ");
-	        console.log(_1_day_from_now);
-
-	        scheduleDailyNotification(_1_day_from_now);
-
-
-            // daily snooze notification             
-            var _1_day_from_now = new Date();
-	        _1_day_from_now = _1_day_from_now.addDays(1);
-	        _1_day_from_now = new Date(_1_day_from_now.setHours(hours));
-	        _1_day_from_now = new Date(_1_day_from_now.setMinutes( parseInt(mins) + 10));
-
-	        console.log("Scheduling Daily Snooze Notification for: ");
-	        console.log(_1_day_from_now);
-
-	        scheduleSnoozeNotification(_1_day_from_now);
-
-            // monthly notification            
-	        var _1_month_from_now = new Date();
-	        _1_month_from_now = _1_month_from_now.addMonths(1);
-	        _1_month_from_now = new Date(_1_month_from_now.setHours(hours));
-	        _1_month_from_now = new Date(_1_month_from_now.setMinutes(mins));
-
-
-	        console.log("Scheduling Monthly Notification for: ");
-	        console.log(_1_month_from_now);
-
-	        scheduleMonthlyNotification(_1_month_from_now);
+			var _1_month_from_now = new Date( moment( time ).add(1, 'months') );
+			scheduleSnoozeNotification(_1_day_and_a_little_from_now);
+    		scheduleMonthlyNotification(_1_month_from_now)
 
 	        deferred.resolve();
 
