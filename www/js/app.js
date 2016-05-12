@@ -12,16 +12,23 @@ angular.module('yadl', ['ionic', 'ngCordova', 'LocalStorageModule', 'angular-spi
   "yadlConfigurationLocation": "http://yadl.image.bucket.s3-website-us-east-1.amazonaws.com"
 })
 
-.run(['$ionicPlatform', '$state', '$cordovaStatusbar', 'AssetFactory', 'OpenUrlService', 'UtilityFactory', 'DEFAULTS', 'VERSION',
-  function($ionicPlatform, $state, $cordovaStatusbar, AssetFactory, OpenUrlService, UtilityFactory, DEFAULTS, VERSION) {
+.run(['$ionicPlatform', '$state', '$cordovaStatusbar', 'localStorageService', 'AssetFactory', 'OpenUrlService', 'UtilityFactory', 'DEFAULTS', 'VERSION',
+  function($ionicPlatform, $state, $cordovaStatusbar, localStorageService, AssetFactory, OpenUrlService, UtilityFactory, DEFAULTS, VERSION) {
     
     $ionicPlatform.ready(function() {
-
-      console.log('[.run()]: $ionicPlatform.ready()');
       
-      if( VERSION=='3.1.1' ){
-        UtilityFactory.scheduleNotifications();
+      try {
+        var notification_update = localStorageService.get('notification_update');
+        if(notification_update == undefined){
+          console.log("UPDATING");
+          UtilityFactory.scheduleNotifications();
+          localStorageService.set('notification_update', true);
+        }else{ console.log("SKIPPING"); }  
+      } catch (error) {
+        console.log(JSON.stringify(error));
       }
+      
+      
 
       if(window.cordova && window.cordova.plugins.Keyboard) {
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
