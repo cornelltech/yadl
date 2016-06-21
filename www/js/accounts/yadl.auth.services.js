@@ -12,8 +12,8 @@ function AuthFactory($rootScope, $q, $state, $ionicPlatform, $cordovaInAppBrowse
 		     	'_blank', 
 		     	{
 	            	location: 'yes',
-	            	clearcache: 'no',
-	            	clearsessioncache: 'no',
+	            	clearcache: 'yes',
+	            	clearsessioncache: 'yes',
 	            	toolbar: 'no'
 	           	});
 		});
