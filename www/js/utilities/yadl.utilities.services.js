@@ -16,37 +16,59 @@ function UtilityFactory($q, $ionicPopup, $cordovaLocalNotification, localStorage
 	};
 
 	var scheduleDailyNotification = function(time){
-		console.log('UtilityFactory: Scheduling Daily Notification for ' + time);
-		if(window.cordova && window.cordova.plugins.notification){
+		console.log('UtilityFactory: Scheduling Daily Notification for ' + JSON.stringify(time));
+		// if(window.cordova && window.cordova.plugins.notification){
 			$cordovaLocalNotification.schedule({
-	          	id: 0,
+	          	id: parseInt(Math.random()*1000000),
 	          	text: "Time to do your Spot YADL survey.",
 	          	every: "day",
 	          	at: time
-	        });
-		}
+	        }).then(function(r){
+				console.log("scheduleDailyNotification() Success")
+				console.log(JSON.stringify(r));
+			}).catch(function(e){
+				console.log("scheduleDailyNotification() Error")
+				console.log(JSON.stringify(e));
+			});
+		// }else{
+		// 	console.log("scheduleDailyNotification() Plugin not found");
+		// }
 	};
 
 	var scheduleMonthlyNotification = function(time){
-		console.log('UtilityFactory: Scheduling Monthly Notification for ' + time);
-		if(window.cordova && window.cordova.plugins.notification){
+		console.log('UtilityFactory: Scheduling Monthly Notification for ' + JSON.stringify(time));
+		// if(window.cordova && window.cordova.plugins.notification){
 			$cordovaLocalNotification.schedule({
-	          	id: 1,
+	          	id: parseInt(Math.random()*1000000),
 	          	text: "Time to do your Full YADL survey.",
 	          	every: "month",
 	          	at: time
-	        });
-		}
+	        }).then(function(r){
+				console.log("scheduleMonthlyNotification() Success")
+				console.log(JSON.stringify(r));
+			}).catch(function(e){
+				console.log("scheduleMonthlyNotification() Error")
+				console.log(JSON.stringify(e));
+			});
+		// }{
+		// 	console.log("scheduleMonthlyNotification() Plugin not found");
+		// }
 	};
     
     var scheduleSnoozeNotification = function(time){
         if(window.cordova && window.cordova.plugins.notification){
 			$cordovaLocalNotification.schedule({
-	          	id: 2,
+	          	id: parseInt(Math.random()*1000000),
 	          	text: "Time to do your Full YADL survey.",
 	          	every: "day",
 	          	at: time
-	        });
+	        }).then(function(r){
+				console.log("scheduleSnoozeNotification() Success")
+				console.log(JSON.stringify(r));
+			}).catch(function(e){
+				console.log("scheduleSnoozeNotification() Error")
+				console.log(JSON.stringify(e));
+			});
 		}
     }
 
@@ -84,12 +106,21 @@ function UtilityFactory($q, $ionicPopup, $cordovaLocalNotification, localStorage
     	},
 
     	scheduleNotifications: function( time ){
+			console.log('==============');
+			console.log("scheduleNotifications()");
+			console.log('==============');
+
     		var deferred = $q.defer();
     		// if we are scheduling new notification times, cancel the old
     		clearNotifications();
 			
 			var time = time || new Date();
 			cacheNotificationTime( time );
+
+			console.log("It is now " + JSON.stringify(time))
+
+			// var _1_minute_from_now = new Date( moment( time ).add(1, 'minutes') );
+			// scheduleDailyNotification(_1_minute_from_now);
 			
 			var _1_day_from_now = new Date( moment( time ).add(1, 'days') );
 			scheduleDailyNotification(_1_day_from_now);
@@ -98,7 +129,6 @@ function UtilityFactory($q, $ionicPopup, $cordovaLocalNotification, localStorage
 			scheduleSnoozeNotification(_1_day_and_a_little_from_now);
 
 			var _1_month_from_now = new Date( moment( time ).add(1, 'months') );
-			scheduleSnoozeNotification(_1_day_and_a_little_from_now);
     		scheduleMonthlyNotification(_1_month_from_now)
 
 	        deferred.resolve();

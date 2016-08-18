@@ -28,16 +28,16 @@
         "cordova-plugin-inappbrowser": {
             "PACKAGE_NAME": "com.foundry.yadl"
         },
-        "de.appplant.cordova.plugin.local-notification": {
-            "PACKAGE_NAME": "com.foundry.yadl"
-        },
         "cordova-plugin-customurlscheme": {
             "URL_SCHEME": "yadl",
+            "PACKAGE_NAME": "com.foundry.yadl"
+        },
+        "de.appplant.cordova.plugin.local-notification": {
             "PACKAGE_NAME": "com.foundry.yadl"
         }
     },
     "dependent_plugins": {
-        "de.appplant.cordova.common.registerusernotificationsettings": {
+        "cordova-plugin-app-event": {
             "PACKAGE_NAME": "com.foundry.yadl"
         }
     }

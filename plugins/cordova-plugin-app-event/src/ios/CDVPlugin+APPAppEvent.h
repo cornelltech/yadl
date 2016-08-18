@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013-2015 by appPlant UG. All rights reserved.
+ * Copyright (c) 2013-2016 by appPlant UG. All rights reserved.
  *
  * @APPPLANT_LICENSE_HEADER_START@
  *
@@ -20,23 +20,9 @@
  *
  * @APPPLANT_LICENSE_HEADER_END@
  */
- 
-#import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
 
-@interface APPLocalNotificationOptions : NSObject
+#import "Cordova/CDVPlugin.h"
 
-- (id) initWithDict:(NSDictionary*)dict;
-
-@property (readonly, getter=id) NSNumber* id;
-@property (readonly, getter=badgeNumber) NSInteger badgeNumber;
-@property (readonly, getter=alertBody) NSString* alertBody;
-@property (readonly, getter=soundName) NSString* soundName;
-@property (readonly, getter=fireDate) NSDate* fireDate;
-@property (readonly, getter=repeatInterval) NSCalendarUnit repeatInterval;
-@property (readonly, getter=userInfo) NSDictionary* userInfo;
-
-// If it's a repeating notification
-- (BOOL) isRepeating;
+@interface CDVPlugin (APPAppEvent)
 
 @end
