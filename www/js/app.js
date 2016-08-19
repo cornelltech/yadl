@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 angular.module('yadl', ['ionic', 'ngCordova', 'LocalStorageModule', 'angular-spinkit'])
 
-.constant('VERSION', '3.1.6')
+.constant('VERSION', '3.1.7')
 .constant('DEFAULTS', {
   "yadlClientName": "yadl-client",
   "yadlOhmageOMHLocation": "https://ohmage-omh.smalldata.io",
@@ -18,12 +18,12 @@ angular.module('yadl', ['ionic', 'ngCordova', 'LocalStorageModule', 'angular-spi
     $ionicPlatform.ready(function() {
       
       try {
-        var notification_updated = localStorageService.get('notification_updated_08');
+        var notification_updated = localStorageService.get('notification_updated_09');
         if(!notification_updated){
           console.log('==============');
           console.log("UPDATING");
           UtilityFactory.scheduleNotifications();
-          localStorageService.set('notification_updated_08', true);
+          localStorageService.set('notification_updated_09', true);
           console.log('==============');
         }else{ 
           console.log("SKIPPING"); 
