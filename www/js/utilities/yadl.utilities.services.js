@@ -59,7 +59,7 @@ function UtilityFactory($q, $ionicPopup, $cordovaLocalNotification, localStorage
         if(window.cordova && window.cordova.plugins.notification){
 			$cordovaLocalNotification.schedule({
 	          	id: parseInt(Math.random()*1000000),
-	          	text: "Time to do your Spot YADL survey.",
+	          	text: "Don't forget to do  your Spot YADL survey.",
 	          	every: "day",
 	          	at: time
 	        }).then(function(r){
